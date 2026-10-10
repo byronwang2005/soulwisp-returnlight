@@ -24,7 +24,7 @@ export function createApi(options: ApiOptions) {
   app.on(['GET', 'POST'], '/api/auth/*', c => auth.handler(c.req.raw));
   app.get('/api/health', async c => {
     await pool.query('SELECT 1');
-    return c.json({ ok: true, database: 'ready', voice: Boolean(options.voiceService) });
+    return c.json({ ok: true, database: 'ready', revision: process.env.RELEASE_SHA ?? null, voice: Boolean(options.voiceService) });
   });
   app.get('/api/voice/lobby', async c => {
     c.header('Cache-Control', 'no-store');

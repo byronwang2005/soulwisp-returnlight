@@ -37,6 +37,6 @@ jobs:
       - name: Check types
         run: npm run check
       - name: Test game rules
-        run: npm exec vitest run tests/rules.test.ts
+        run: npm exec vitest run tests/rules.test.ts tests/deployment.test.ts tests/room-voice-gate.test.ts
       - name: Build production packages
         run: npm run build

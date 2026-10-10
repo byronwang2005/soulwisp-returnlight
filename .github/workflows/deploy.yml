@@ -1,0 +1,94 @@
+name: Deploy production
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: production
+      url: https://gaming.byron.wang
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPOSITORY: ${{ github.repository }}
+      CANDIDATE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+      DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+      DEPLOY_ROOT: ${{ vars.DEPLOY_ROOT || '/opt/wangxu' }}
+    steps:
+      - name: Require current main and successful CI for this exact commit
+        id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$CANDIDATE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          current=$(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq .object.sha)
+          if [[ "$current" != "$CANDIDATE_SHA" ]]; then
+            echo 'A newer main exists; skipping this deployment.'
+            echo 'deploy=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          gh api "repos/$REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$CANDIDATE_SHA&event=push&status=success" \
+            --jq '.workflow_runs | any(.head_branch == "main" and .conclusion == "success")' | grep -qx true
+          echo 'deploy=true' >> "$GITHUB_OUTPUT"
+      - name: Check out the verified revision
+        if: steps.gate.outputs.deploy == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
+          persist-credentials: false
+      - name: Prepare pinned SSH identity
+        if: steps.gate.outputs.deploy == 'true'
+        env:
+          PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$DEPLOY_HOST" =~ ^[a-zA-Z0-9.-]+$ && "$DEPLOY_USER" =~ ^[a-zA-Z0-9_-]+$ ]]
+          [[ "$DEPLOY_PORT" =~ ^[0-9]+$ && "$DEPLOY_ROOT" =~ ^/[a-zA-Z0-9/_-]+$ ]]
+          [[ -n "$PRIVATE_KEY" && -n "$KNOWN_HOSTS" ]]
+          umask 077
+          mkdir -p "$RUNNER_TEMP/ssh"
+          printf '%s\n' "$PRIVATE_KEY" > "$RUNNER_TEMP/ssh/key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/ssh/known_hosts"
+      - name: Transfer tracked source and deploy
+        if: steps.gate.outputs.deploy == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          ssh_options=(-i "$RUNNER_TEMP/ssh/key" -o BatchMode=yes -o StrictHostKeyChecking=yes -o "UserKnownHostsFile=$RUNNER_TEMP/ssh/known_hosts" -o ServerAliveInterval=15 -o ServerAliveCountMax=4)
+          target="$DEPLOY_USER@$DEPLOY_HOST"
+          # Recheck after checkout: queued older releases must not replace newer main.
+          [[ $(gh api "repos/$REPOSITORY/git/ref/heads/main" --jq .object.sha) == "$CANDIDATE_SHA" ]]
+          git archive --format=tar.gz --output="$RUNNER_TEMP/source.tar.gz" "$CANDIDATE_SHA"
+          digest=$(sha256sum "$RUNNER_TEMP/source.tar.gz" | cut -d ' ' -f 1)
+          ssh "${ssh_options[@]}" -p "$DEPLOY_PORT" "$target" "mkdir -p '$DEPLOY_ROOT/releases/$CANDIDATE_SHA'"
+          scp "${ssh_options[@]}" -P "$DEPLOY_PORT" "$RUNNER_TEMP/source.tar.gz" "$target:$DEPLOY_ROOT/releases/$CANDIDATE_SHA/source.tar.gz"
+          ssh "${ssh_options[@]}" -p "$DEPLOY_PORT" "$target" \
+            "set -eu; cd '$DEPLOY_ROOT/releases/$CANDIDATE_SHA'; printf '%s  source.tar.gz\n' '$digest' | sha256sum -c -; tar -xzf source.tar.gz; bash deploy/release.sh '$DEPLOY_ROOT' '$CANDIDATE_SHA'"
+          echo "Deployed commit $CANDIDATE_SHA to production." >> "$GITHUB_STEP_SUMMARY"
+      - name: Remove temporary SSH material
+        if: always()
+        shell: bash
+        run: rm -rf "$RUNNER_TEMP/ssh"

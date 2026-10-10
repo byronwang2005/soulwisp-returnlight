@@ -9,3 +9,10 @@ test-results/
 playwright-report/
 apps/web/test-output/
 .DS_Store
+
+# VPS deployment state (runtime image overrides and release records)
+deploy/runtime-image.yaml
+deploy/current-revision
+deploy/release.lock
+deploy/.release-*.yaml
+releases/
