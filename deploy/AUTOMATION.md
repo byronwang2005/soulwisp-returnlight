@@ -60,4 +60,4 @@ docker compose --env-file deploy/.env -f deploy/compose.yaml -f deploy/runtime-i
 
 ## 当前验证边界
 
-本地测试覆盖内部监听、维护开关、构建失败、旧服务器拒绝部署、房间未清空、备份失败、切换失败及健康检查失败的回滚。发布脚本测试使用模拟 Docker 命令；尚未配置 GitHub production secrets，也未运行真实 VPS 自动发布。首次启用后需要一次真实成功发布和受控失败回滚验收。
+本地测试覆盖内部监听、维护开关、构建失败、旧服务器拒绝部署、房间未清空、备份失败、切换失败及健康检查失败的回滚。发布脚本测试使用模拟 Docker 命令；GitHub production 环境已配置两项 SSH secrets、四项服务器 variables 及 main 分支限制；服务器已完成首次维护接口更新。真实自动发布结果在 [Deploy production](https://github.com/byronwang2005/soulwisp-returnlight/actions/workflows/deploy.yml) 查看。受控失败回滚仍需单独实测。

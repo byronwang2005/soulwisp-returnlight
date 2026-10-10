@@ -33,8 +33,9 @@ services:
       db: { condition: service_healthy }
     ports: ["127.0.0.1:3000:3000", "127.0.0.1:2567:2567"]
     volumes: ["webdist:/exports"]
-    command: ["sh", "-c", "cp -r apps/web/dist/. /exports/ && npm run start --workspace @wangxu/server"]
+    command: ["sh", "-c", "cp -r apps/web/dist/. /exports/ && exec node --import tsx apps/server/src/index.ts"]
     restart: unless-stopped
+    stop_grace_period: 45s
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 10s

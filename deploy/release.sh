@@ -18,13 +18,13 @@ docker image tag "$previous" "$rollback_image"
 config="$root/deploy/.release-$revision.yaml"
 compose=("${base[@]}" -f "$config")
 write_config() {
-  printf 'services:\n  app:\n    image: "%s"\n    environment:\n      RELEASE_SHA: "%s"\n' "$1" "$2" > "$config"
+  printf 'services:\n  app:\n    image: "%s"\n    command: ["sh", "-c", "cp -r apps/web/dist/. /exports/ && exec node --import tsx apps/server/src/index.ts"]\n    stop_grace_period: 45s\n    environment:\n      RELEASE_SHA: "%s"\n' "$1" "$2" > "$config"
 }
 admin() {
   "${base[@]}" exec -T app node -e '
     fetch("http://127.0.0.1:3001/"+process.argv[1],{method:process.argv[2]||"GET"})
       .then(async r=>{if(!r.ok)throw Error("Deployment admin unavailable");console.log(await r.text())})
-      .catch(e=>{console.error(e.message);process.exit(1)})' "$@"
+      .catch(e=>{console.error(e.message);process.exit(1)})' "$@" </dev/null
 }
 wait_health() {
   "${compose[@]}" up -d --no-deps --no-build --wait --wait-timeout 120 app
@@ -72,7 +72,7 @@ while :; do
   (( SECONDS < deadline )) || { echo 'Rooms remain active; deployment cancelled.' >&2; exit 1; }
   sleep 10
 done
-"${base[@]}" exec -T backup sh /scripts/backup.sh
+"${base[@]}" exec -T backup sh /scripts/backup.sh </dev/null
 write_config "soulwisp-app:$revision" "$revision"
 switched=1
 wait_health
