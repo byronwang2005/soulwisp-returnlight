@@ -7,7 +7,7 @@ test('character follows authoritative movement, turns in all directions and reta
   const pose=()=>page.evaluate(()=>{const canvas=document.querySelector('canvas') as HTMLCanvasElement&{__soulwisp?:{scene:{getObjectByName:(name:string)=>{position:{x:number;z:number};rotation:{y:number}}|undefined}}};const player=canvas?.__soulwisp?.scene.getObjectByName('player:trainee');return player?{x:player.position.x,z:player.position.z,yaw:player.rotation.y}:null;});
   await expect.poll(async()=>!!await pose()).toBe(true);
   for(const [key,expectedYaw,axis,sign]of [['d',Math.PI/2,'x',1],['a',-Math.PI/2,'x',-1],['s',0,'z',1],['w',Math.PI,'z',-1]] as const){
-    const before=(await pose())!;await page.keyboard.down(key);try{await expect.poll(async()=>{const current=await pose();return current?(current[axis]-before[axis])*sign:0;}).toBeGreaterThan(.7);}finally{await page.keyboard.up(key);}
+    const before=(await pose())!;await page.keyboard.down(key);try{await expect.poll(async()=>{const current=await pose();return current?(current[axis]-before[axis])*sign:0;},{intervals:[50]}).toBeGreaterThan(.7);}finally{await page.keyboard.up(key);}
     await expect.poll(async()=>{const after=await pose();return after?Math.abs(Math.atan2(Math.sin(after.yaw-expectedYaw),Math.cos(after.yaw-expectedYaw))):10;}).toBeLessThan(.2);
     const after=(await pose())!;expect((after[axis]-before[axis])*sign).toBeGreaterThan(.5);
     await page.waitForTimeout(350);const resting=(await pose())!;expect(Math.abs(Math.atan2(Math.sin(resting.yaw-after.yaw),Math.cos(resting.yaw-after.yaw)))).toBeLessThan(.2);

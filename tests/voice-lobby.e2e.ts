@@ -51,6 +51,8 @@ test('public homepage, two real microphones, responsive layout and navigation cl
   await Promise.all([a, b].map(page => page.getByRole('button', { name: '加入语音大厅' }).click()));
   await Promise.all([a, b].map(page => expect(page.getByRole('button', { name: '开启麦克风', exact: true })).toBeVisible()));
   await expect(a.locator('.voice-lobby-members li')).toHaveCount(2);
+  await expect(a.locator('.app')).toHaveAttribute('data-music-ducked','true');
+  await expect.poll(async()=>a.evaluate(async()=>{const {sceneMusic}=await import('/src/music.ts' as string);return (sceneMusic as any).current?.sound.volume()??1;})).toBeLessThan(.09);
   const roomName = (await admin.listRooms()).find(room => room.name.startsWith('public-lobby-'))!.name;
   expect((await admin.listParticipants(roomName)).every(participant => participant.tracks.length === 0)).toBe(true);
   await Promise.all([a, b].map(page => page.getByRole('button', { name: '开启麦克风', exact: true }).click()));

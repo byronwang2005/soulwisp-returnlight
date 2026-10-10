@@ -39,6 +39,6 @@ jobs:
       - name: Test game rules
         env:
           AUTH_SECRET: ci-test-only-placeholder-not-a-production-secret
-        run: npm exec vitest run tests/rules.test.ts tests/deployment.test.ts tests/room-voice-gate.test.ts tests/voice-lobby-service.test.ts
+        run: npm exec vitest run tests/rules.test.ts tests/deployment.test.ts tests/room-voice-gate.test.ts tests/voice-lobby-service.test.ts tests/music.test.ts
       - name: Build production packages
         run: npm run build

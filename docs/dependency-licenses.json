@@ -2088,6 +2088,18 @@
       "version": "5.0.15",
       "license": "MIT",
       "source": "https://registry.npmjs.org/zustand/-/zustand-5.0.15.tgz"
+    },
+    {
+      "name": "howler",
+      "version": "2.2.4",
+      "license": "MIT",
+      "source": "https://registry.npmmirror.com/howler/-/howler-2.2.4.tgz"
+    },
+    {
+      "name": "@types/howler",
+      "version": "2.2.13",
+      "license": "MIT",
+      "source": "https://registry.npmmirror.com/@types/howler/-/howler-2.2.13.tgz"
     }
   ]
 }

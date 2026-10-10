@@ -1,0 +1,217 @@
+{
+  "project": "Soulwisp: Returnlight",
+  "license": "CC0-1.0",
+  "origin": "Original procedural compositions rendered by scripts/generate-music.py; no sampled third-party recordings.",
+  "costRmb": 0,
+  "tracks": [
+    {
+      "scene": "welcome",
+      "title": "余灯未眠",
+      "bpm": 68,
+      "durationSeconds": 56.471,
+      "file": "/audio/welcome.mp3",
+      "bytes": 523973,
+      "sha256": "8d01136c8a7e77ae2be2eb1870a11ced1ee3fa0ec9ae8fb4a642c411987c2118",
+      "peak": 0.84,
+      "rms": 0.167
+    },
+    {
+      "scene": "camp",
+      "title": "织絮的市集",
+      "bpm": 84,
+      "durationSeconds": 45.714,
+      "file": "/audio/camp.mp3",
+      "bytes": 501800,
+      "sha256": "a8318caaf2168cbf93df2dd991c0b1002d72b859cd7a3bf2c97268bc804439db",
+      "peak": 0.8151,
+      "rms": 0.18
+    },
+    {
+      "scene": "craft",
+      "title": "记忆的织机",
+      "bpm": 92,
+      "durationSeconds": 41.739,
+      "file": "/audio/craft.mp3",
+      "bytes": 469064,
+      "sha256": "4c2b152aec2bad5350faeae0f89b2b5204381605716ef64a7ef3ccc65f63b6d1",
+      "peak": 0.84,
+      "rms": 0.1724
+    },
+    {
+      "scene": "research",
+      "title": "银絮的秘闻",
+      "bpm": 62,
+      "durationSeconds": 61.935,
+      "file": "/audio/research.mp3",
+      "bytes": 481280,
+      "sha256": "9f681b24f875f70e1c7762be662e2cbb9f56591eae497f448ea5c352327732eb",
+      "peak": 0.84,
+      "rms": 0.1521
+    },
+    {
+      "scene": "rooms",
+      "title": "召灯的信号",
+      "bpm": 80,
+      "durationSeconds": 48.0,
+      "file": "/audio/rooms.mp3",
+      "bytes": 507584,
+      "sha256": "bfd1bf43a4ea0766a9dd448220420d7e8c70bc9b297b7e93158221310cdde376",
+      "peak": 0.84,
+      "rms": 0.1639
+    },
+    {
+      "scene": "lobby",
+      "title": "同行的脚步",
+      "bpm": 96,
+      "durationSeconds": 40.0,
+      "file": "/audio/lobby.mp3",
+      "bytes": 478928,
+      "sha256": "eff65cfc0766c59cdd00ba9f7e2b1a57dccfb43bee893fc7c7f32dbcac351711",
+      "peak": 0.8042,
+      "rms": 0.18
+    },
+    {
+      "scene": "tutorial",
+      "title": "艾琳的记忆",
+      "bpm": 72,
+      "durationSeconds": 53.333,
+      "file": "/audio/tutorial.mp3",
+      "bytes": 492704,
+      "sha256": "8558ae375d861cd11cba5cfcf166683f14ef9800e41c6653f5fe23ba013205ed",
+      "peak": 0.84,
+      "rms": 0.1623
+    },
+    {
+      "scene": "engineering",
+      "title": "点灯之手",
+      "bpm": 88,
+      "durationSeconds": 43.636,
+      "file": "/audio/engineering.mp3",
+      "bytes": 496013,
+      "sha256": "285a5200812722edf0c8c68b48443226166ec1cc49550bb3be312b4be2e554cf",
+      "peak": 0.84,
+      "rms": 0.1783
+    },
+    {
+      "scene": "combat",
+      "title": "石城试炼",
+      "bpm": 112,
+      "durationSeconds": 34.286,
+      "file": "/audio/combat.mp3",
+      "bytes": 425813,
+      "sha256": "0296ba8702be8bef0635af4df36ef35b0c5f212c1b8b176139f31b974f3ff532",
+      "peak": 0.8182,
+      "rms": 0.18
+    },
+    {
+      "scene": "prep",
+      "title": "最后的暖光",
+      "bpm": 86,
+      "durationSeconds": 44.651,
+      "file": "/audio/prep.mp3",
+      "bytes": 501752,
+      "sha256": "568b2b5f35f05fdbfd08a45df2f5c931af57664d89610d0060bef17c5491298c",
+      "peak": 0.8355,
+      "rms": 0.18
+    },
+    {
+      "scene": "explore",
+      "title": "灰月石城",
+      "bpm": 98,
+      "durationSeconds": 39.184,
+      "file": "/audio/explore.mp3",
+      "bytes": 437933,
+      "sha256": "d43995635a1ddf2623875410713cb1ac07fd3a68099742c3873a1d65b2cfe9ab",
+      "peak": 0.8277,
+      "rms": 0.18
+    },
+    {
+      "scene": "discuss",
+      "title": "灯下的证词",
+      "bpm": 60,
+      "durationSeconds": 64.0,
+      "file": "/audio/discuss.mp3",
+      "bytes": 591176,
+      "sha256": "ead2b6d9d3f57835d7202878a13b5099680332eaf429034d71c81be957605af5",
+      "peak": 0.84,
+      "rms": 0.1708
+    },
+    {
+      "scene": "vote",
+      "title": "悬而未决",
+      "bpm": 104,
+      "durationSeconds": 36.923,
+      "file": "/audio/vote.mp3",
+      "bytes": 426941,
+      "sha256": "0871c813854048fa2e2f88fd419ba9e7cf7610ab19a542debb0d4e5c6ffedad4",
+      "peak": 0.84,
+      "rms": 0.1644
+    },
+    {
+      "scene": "draft",
+      "title": "编织余灯",
+      "bpm": 94,
+      "durationSeconds": 40.851,
+      "file": "/audio/draft.mp3",
+      "bytes": 428213,
+      "sha256": "0bc650a09921f029e1b75650d5b83ec6d562a5e4ae5a76d02123f82fe15d96d2",
+      "peak": 0.84,
+      "rms": 0.164
+    },
+    {
+      "scene": "extract",
+      "title": "归途终钟",
+      "bpm": 132,
+      "durationSeconds": 29.091,
+      "file": "/audio/extract.mp3",
+      "bytes": 365021,
+      "sha256": "2857da784dabd945a528c6dc327aab997b0f4a0698047e4e9bf559f8b395a288",
+      "peak": 0.8234,
+      "rms": 0.18
+    },
+    {
+      "scene": "victory",
+      "title": "灯火归来",
+      "bpm": 104,
+      "durationSeconds": 36.923,
+      "file": "/audio/victory.mp3",
+      "bytes": 430997,
+      "sha256": "b450d2837648374797d8c30129106b4d9c87473e20ecbcaf0e34fa7b56aa1e45",
+      "peak": 0.84,
+      "rms": 0.1683
+    },
+    {
+      "scene": "defeat",
+      "title": "月蚀之后",
+      "bpm": 56,
+      "durationSeconds": 68.571,
+      "file": "/audio/defeat.mp3",
+      "bytes": 591437,
+      "sha256": "6b348bb1a6473bb37bc762af603ded27213ea1ce3d36bb3b67352f9e658fe55a",
+      "peak": 0.84,
+      "rms": 0.1596
+    },
+    {
+      "scene": "connecting",
+      "title": "远处的回声",
+      "bpm": 64,
+      "durationSeconds": 60.0,
+      "file": "/audio/connecting.mp3",
+      "bytes": 440792,
+      "sha256": "1a6f2b8b26b871fc67fa6bfc0ba02d1382b11517e4f18dac7c8e83a803ade2ec",
+      "peak": 0.84,
+      "rms": 0.167
+    },
+    {
+      "scene": "auth",
+      "title": "留下归灯之名",
+      "bpm": 70,
+      "durationSeconds": 54.857,
+      "file": "/audio/auth.mp3",
+      "bytes": 569411,
+      "sha256": "89e9ef9fcae7896a96a516fc595e9d2a7c07ec2eda2efa71776a34c0902b3129",
+      "peak": 0.84,
+      "rms": 0.1616
+    }
+  ]
+}

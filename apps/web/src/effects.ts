@@ -1,10 +1,9 @@
 import {useCallback,useEffect,useRef,useState} from 'react';
 import type {FeedbackEvent,GameCommand,GameView} from '@wangxu/shared';
+import {useFeedbackSettings} from './settings';
+export type {EffectSettings} from './settings';
 
-export interface EffectSettings {volume:number;muted:boolean;haptics:boolean;motion:boolean}
 export interface VisualFeedback extends FeedbackEvent {receivedAt:number}
-const storage='soulwisp-effects';
-function initialSettings():EffectSettings {const defaults={volume:.65,muted:false,haptics:true,motion:!matchMedia('(prefers-reduced-motion: reduce)').matches};try{const saved=JSON.parse(localStorage.getItem(storage)||'{}'),volume=Number(saved.volume??defaults.volume);return {volume:Number.isFinite(volume)?Math.max(0,Math.min(1,volume)):defaults.volume,muted:typeof saved.muted==='boolean'?saved.muted:defaults.muted,haptics:typeof saved.haptics==='boolean'?saved.haptics:defaults.haptics,motion:typeof saved.motion==='boolean'?saved.motion:defaults.motion};}catch{return defaults;}}
 let context:AudioContext|undefined;
 function unlock(){try{context??=new AudioContext();if(context.state==='suspended')void context.resume().catch(()=>{});}catch{}}
 function output(volume:number,pan=0){if(!context||context.state!=='running'||volume<=0)return;const gain=context.createGain();gain.gain.value=volume*.32;const stereo=context.createStereoPanner();stereo.pan.value=Math.max(-.8,Math.min(.8,pan));gain.connect(stereo);stereo.connect(context.destination);setTimeout(()=>{gain.disconnect();stereo.disconnect();},1500);return{audio:context,gain};}
@@ -27,8 +26,7 @@ export function playFeedback(kind:FeedbackEvent['kind']|'swing'|'footstep',volum
   }
 }
 const patterns:Record<FeedbackEvent['kind'],number|number[]>={hit:24,hurt:[25,20,35],block:[10,15,10],push:18,collision:8,pickup:8,complete:[12,25,18],down:[45,30,70],rescue:[12,18,12],cast:12,dodge:8};
-export function useGameEffects(view?:GameView){const [settings,setSettings]=useState<EffectSettings>(initialSettings),[events,setEvents]=useState<VisualFeedback[]>([]);const settingsRef=useRef(settings);settingsRef.current=settings;const last=useRef({room:'',player:'',elapsed:0,id:-1}),step=useRef({x:0,y:0,at:0}),impactAt=useRef(0);
-  const updateSettings=useCallback((change:Partial<EffectSettings>)=>setSettings(current=>{const next={...current,...change};next.volume=Math.max(0,Math.min(1,next.volume));localStorage.setItem(storage,JSON.stringify(next));return next;}),[]);
+export function useGameEffects(view?:GameView){const {settings,updateSettings}=useFeedbackSettings();const [events,setEvents]=useState<VisualFeedback[]>([]);const settingsRef=useRef(settings);settingsRef.current=settings;const last=useRef({room:'',player:'',elapsed:0,id:-1}),step=useRef({x:0,y:0,at:0}),impactAt=useRef(0);
   useEffect(()=>{const prime=()=>unlock();window.addEventListener('pointerdown',prime,{passive:true});window.addEventListener('keydown',prime);return()=>{window.removeEventListener('pointerdown',prime);window.removeEventListener('keydown',prime);};},[]);
   useEffect(()=>{if(!view)return;const feedback=view.self.feedback||[],now=performance.now();const reset=last.current.room!==view.roomId||last.current.player!==view.self.id||view.elapsed<last.current.elapsed;
     if(reset){last.current={room:view.roomId,player:view.self.id,elapsed:view.elapsed,id:Math.max(-1,...feedback.map(e=>e.id))};setEvents([]);return;}

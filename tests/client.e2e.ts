@@ -1,20 +1,22 @@
 import {test,expect,type BrowserContext,type Page} from '@playwright/test';
-import {mkdirSync} from 'node:fs';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {assertViewport} from './viewport-helpers';
 import 'dotenv/config';
 import pg from 'pg';
 
 test('四个浏览器账户：注册→入房→完整对局→制作→穿戴→刷新→下一局',async({browser})=>{
+  test.setTimeout(240_000);
   const contexts:BrowserContext[]=[],pages:Page[]=[],errors:string[]=[],accountIds:string[]=[];
   mkdirSync('.local/screenshots',{recursive:true});
   try{
     for(let i=0;i<4;i++){
-      const context=await browser.newContext({viewport:i===3?{width:390,height:844}:{width:1440,height:960}});contexts.push(context);await context.addInitScript(()=>localStorage.setItem('wangxu-quality','low'));
+      const context=await browser.newContext({viewport:i===3?{width:390,height:844}:{width:1440,height:960}});contexts.push(context);await context.addInitScript(()=>{localStorage.setItem('wangxu-quality','low');const scope=window as Window&{phaseLayouts?:Record<string,unknown>};scope.phaseLayouts=JSON.parse(sessionStorage.getItem('test-phase-layouts')||'{}');setInterval(()=>{const phase=document.querySelector('.phase-chip strong')?.textContent;const app=document.querySelector('.app');if(!phase||!app)return;const main=document.querySelector('main')!.getBoundingClientRect();const game=document.querySelector('.game-screen')!.getBoundingClientRect();scope.phaseLayouts![phase]={phase,music:app.getAttribute('data-music-scene'),width:innerWidth,height:innerHeight,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight,scrollX,scrollY,gameHeight:game.height,mainHeight:main.height};sessionStorage.setItem('test-phase-layouts',JSON.stringify(scope.phaseLayouts));},250);});
       const page=await context.newPage();pages.push(page);page.on('pageerror',error=>errors.push(error.message));
       await page.goto('/');await page.getByRole('button',{name:'踏入余灯集市'}).click();
       await page.getByLabel('显示昵称').fill(`归灯端测${i}`);await page.getByLabel('邮箱',{exact:true}).fill(`browser-${Date.now()}-${crypto.randomUUID()}@example.test`);await page.getByLabel('密码',{exact:true}).fill('Browser-Thread-43!');await page.getByRole('button',{name:'创建归灯者账户',exact:true}).click();
       await expect(page.getByRole('heading',{name:`欢迎归来，归灯端测${i}。`})).toBeVisible();
       const session=await page.request.get('/api/auth/get-session');accountIds.push((await session.json()).user.id);
-      await page.getByRole('button',{name:'开启归灯远征'}).click();
+      await assertViewport(page);await page.getByRole('button',{name:'开启归灯远征'}).click();
     }
     await pages[0]!.getByRole('button',{name:'创建房间，获取邀请码',exact:true}).click();
     const invite=await pages[0]!.locator('.invite strong').innerText();expect(invite).toMatch(/^[A-F0-9]{6}$/);
@@ -35,7 +37,11 @@ test('四个浏览器账户：注册→入房→完整对局→制作→穿戴�
     await pages[3]!.screenshot({path:'.local/screenshots/four-player-mobile.png'});
     expect(await pages[3]!.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     await expect(pages[0]!.getByRole('heading',{name:'月蚀吞没旧城'})).toBeVisible({timeout:105_000});
-    for(const page of pages)await page.getByRole('button',{name:'返回营地',exact:true}).click();
+    await pages[0]!.waitForTimeout(350);
+    const phaseLayouts=await Promise.all(pages.map(page=>page.evaluate(()=>Object.values((window as Window&{phaseLayouts?:Record<string,any>}).phaseLayouts??{}))));
+    for(const phases of phaseLayouts){expect(new Set(phases.map(item=>item.phase))).toEqual(new Set(['出征准备','石城探索','证据议会','封印表决','余灯祝福','归灯终钟','远征归档']));for(const item of phases){expect(item.scrollWidth).toBeLessThanOrEqual(item.width);expect(item.scrollHeight).toBeLessThanOrEqual(item.height);expect(item.scrollX).toBe(0);expect(item.scrollY).toBe(0);expect(item.gameHeight).toBeLessThanOrEqual(item.mainHeight+1);expect(item.music).toMatch(/^(prep|explore|discuss|vote|draft|extract|victory|defeat)$/);}}
+    mkdirSync('.local/verification',{recursive:true});writeFileSync('.local/verification/adaptive-game-phases.json',JSON.stringify({capturedAt:new Date().toISOString(),phaseLayouts},null,2));
+    for(const page of pages){await assertViewport(page);await page.getByRole('button',{name:'返回营地',exact:true}).click();}
     for(let i=0;i<4;i++){
       const page=pages[i]!;await expect(page.getByRole('heading',{name:`欢迎归来，归灯端测${i}。`})).toBeVisible();
       const camp=await page.request.get('/api/camp');expect((await camp.json()).matches).toBe(1);

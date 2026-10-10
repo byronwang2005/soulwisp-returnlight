@@ -1,0 +1,509 @@
+{
+  "date": "2026-10-11",
+  "runtime": "Node.js 24.19.0",
+  "typecheck": "passed",
+  "productionBuild": "passed",
+  "unitTests": 119,
+  "browserTests": {
+    "passed": 9,
+    "details": "Eight cases passed in the combined run; character movement passed separately after using 50ms input polling to avoid walking past the sample distance into a map boundary."
+  },
+  "music": {
+    "capturedAt": "2026-10-10T23:46:13.020Z",
+    "sizes": [
+      {
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "width": 1280,
+        "height": 720
+      },
+      {
+        "width": 390,
+        "height": 844
+      },
+      {
+        "width": 320,
+        "height": 568
+      },
+      {
+        "width": 844,
+        "height": 390
+      }
+    ],
+    "playback": {
+      "playing": true,
+      "state": "loaded",
+      "duration": 56.47058333333333,
+      "loop": true
+    },
+    "decoded": [
+      {
+        "scene": "welcome",
+        "duration": 56.47058333333333,
+        "channels": 2,
+        "energy": 317.14589676603185
+      },
+      {
+        "scene": "camp",
+        "duration": 45.71429166666667,
+        "channels": 2,
+        "energy": 300.19105781074774
+      },
+      {
+        "scene": "craft",
+        "duration": 41.739125,
+        "channels": 2,
+        "energy": 239.57993708800893
+      },
+      {
+        "scene": "research",
+        "duration": 61.9355,
+        "channels": 2,
+        "energy": 284.47551421472554
+      },
+      {
+        "scene": "rooms",
+        "duration": 48,
+        "channels": 2,
+        "energy": 246.86510490722065
+      },
+      {
+        "scene": "lobby",
+        "duration": 40,
+        "channels": 2,
+        "energy": 262.51243897638204
+      },
+      {
+        "scene": "tutorial",
+        "duration": 53.333333333333336,
+        "channels": 2,
+        "energy": 280.0546450451699
+      },
+      {
+        "scene": "engineering",
+        "duration": 43.636375,
+        "channels": 2,
+        "energy": 269.11436215868497
+      },
+      {
+        "scene": "combat",
+        "duration": 34.28570833333333,
+        "channels": 2,
+        "energy": 216.02062036721995
+      },
+      {
+        "scene": "prep",
+        "duration": 44.65116666666667,
+        "channels": 2,
+        "energy": 287.0493942394253
+      },
+      {
+        "scene": "explore",
+        "duration": 39.18366666666667,
+        "channels": 2,
+        "energy": 248.94141273518963
+      },
+      {
+        "scene": "discuss",
+        "duration": 64,
+        "channels": 2,
+        "energy": 361.5983154437614
+      },
+      {
+        "scene": "vote",
+        "duration": 36.92308333333333,
+        "channels": 2,
+        "energy": 186.45558221228484
+      },
+      {
+        "scene": "draft",
+        "duration": 40.851083333333335,
+        "channels": 2,
+        "energy": 214.14550727299545
+      },
+      {
+        "scene": "extract",
+        "duration": 29.090916666666665,
+        "channels": 2,
+        "energy": 188.7751833676177
+      },
+      {
+        "scene": "victory",
+        "duration": 36.92308333333333,
+        "channels": 2,
+        "energy": 204.9879189350666
+      },
+      {
+        "scene": "defeat",
+        "duration": 68.57141666666666,
+        "channels": 2,
+        "energy": 360.2236720915528
+      },
+      {
+        "scene": "connecting",
+        "duration": 60,
+        "channels": 2,
+        "energy": 336.97983181940685
+      },
+      {
+        "scene": "auth",
+        "duration": 54.857125,
+        "channels": 2,
+        "energy": 287.32284430186536
+      }
+    ],
+    "errors": []
+  },
+  "game": {
+    "capturedAt": "2026-10-10T23:44:35.460Z",
+    "phaseLayouts": [
+      [
+        {
+          "phase": "出征准备",
+          "music": "prep",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "石城探索",
+          "music": "explore",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "余灯祝福",
+          "music": "draft",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "证据议会",
+          "music": "discuss",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "封印表决",
+          "music": "vote",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "归灯终钟",
+          "music": "extract",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "远征归档",
+          "music": "defeat",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        }
+      ],
+      [
+        {
+          "phase": "出征准备",
+          "music": "prep",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "石城探索",
+          "music": "explore",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "证据议会",
+          "music": "discuss",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "封印表决",
+          "music": "vote",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "余灯祝福",
+          "music": "draft",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "归灯终钟",
+          "music": "extract",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "远征归档",
+          "music": "defeat",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        }
+      ],
+      [
+        {
+          "phase": "出征准备",
+          "music": "prep",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "石城探索",
+          "music": "explore",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "证据议会",
+          "music": "discuss",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "封印表决",
+          "music": "vote",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "余灯祝福",
+          "music": "draft",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "归灯终钟",
+          "music": "extract",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        },
+        {
+          "phase": "远征归档",
+          "music": "defeat",
+          "width": 1440,
+          "height": 960,
+          "scrollWidth": 1440,
+          "scrollHeight": 960,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 874,
+          "mainHeight": 874
+        }
+      ],
+      [
+        {
+          "phase": "出征准备",
+          "music": "prep",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        },
+        {
+          "phase": "石城探索",
+          "music": "explore",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        },
+        {
+          "phase": "证据议会",
+          "music": "discuss",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        },
+        {
+          "phase": "封印表决",
+          "music": "vote",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        },
+        {
+          "phase": "余灯祝福",
+          "music": "draft",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        },
+        {
+          "phase": "归灯终钟",
+          "music": "extract",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        },
+        {
+          "phase": "远征归档",
+          "music": "victory",
+          "width": 390,
+          "height": 844,
+          "scrollWidth": 390,
+          "scrollHeight": 844,
+          "scrollX": 0,
+          "scrollY": 0,
+          "gameHeight": 768,
+          "mainHeight": 768
+        }
+      ]
+    ]
+  },
+  "scope": "Headless Chromium, actual local accounts, PostgreSQL, game sockets and LiveKit. Physical phone keyboard behavior is not included."
+}

@@ -1,0 +1,6 @@
+Soulwisp: Returnlight original procedural score
+
+All MP3 compositions in this folder are dedicated to the public domain under CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Generated from the included deterministic score; no third-party recordings or samples.
