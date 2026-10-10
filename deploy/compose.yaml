@@ -1,0 +1,84 @@
+services:
+  db:
+    image: postgres:15.19-bookworm
+    environment:
+      POSTGRES_USER: wangxu
+      POSTGRES_DB: wangxu
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set a database password}
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wangxu -d wangxu"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        VITE_GAME_URL: wss://game.${DOMAIN:?set your domain}
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://wangxu:${POSTGRES_PASSWORD}@db:5432/wangxu
+      AUTH_SECRET: ${AUTH_SECRET:?set a random auth secret}
+      AUTH_BASE_URL: https://${DOMAIN}
+      ALLOWED_ORIGINS: https://${DOMAIN}
+      LIVEKIT_URL: http://host.docker.internal:7880
+      LIVEKIT_PUBLIC_URL: wss://voice.${DOMAIN}
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:?set a LiveKit key}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:?set a LiveKit secret}
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    depends_on:
+      db: { condition: service_healthy }
+    ports: ["127.0.0.1:3000:3000", "127.0.0.1:2567:2567"]
+    volumes: ["webdist:/exports"]
+    command: ["sh", "-c", "cp -r apps/web/dist/. /exports/ && npm run start --workspace @wangxu/server"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+  livekit:
+    image: livekit/livekit-server:v1.13.9
+    network_mode: host
+    command: ["--config", "/etc/livekit.yaml"]
+    volumes: ["./livekit.yaml:/etc/livekit.yaml:ro"]
+    restart: unless-stopped
+  caddy:
+    build:
+      context: .
+      dockerfile: Caddy.Dockerfile
+    network_mode: host
+    command: ["caddy", "run", "--config", "/etc/caddy/caddy.json"]
+    volumes: ["./caddy.json:/etc/caddy/caddy.json:ro", "webdist:/srv:ro", "caddydata:/data", "caddyconfig:/config"]
+    depends_on:
+      app: { condition: service_healthy }
+    restart: unless-stopped
+  backup:
+    image: postgres:15.19-bookworm
+    environment:
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: wangxu
+      PGDATABASE: wangxu
+      PGPASSWORD: ${POSTGRES_PASSWORD:?set a database password}
+      BACKUP_DIR: /backups
+      BACKUP_INTERVAL_SECONDS: "86400"
+    entrypoint: ["/bin/sh", "/scripts/backup-loop.sh"]
+    volumes: ["./backup.sh:/scripts/backup.sh:ro", "./backup-loop.sh:/scripts/backup-loop.sh:ro", "./backups:/backups"]
+    depends_on:
+      db: { condition: service_healthy }
+    restart: unless-stopped
+volumes:
+  pgdata:
+  webdist:
+  caddydata:
+  caddyconfig:
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: wangxu0

@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-10T22:20:59Z",
+  "runtime": "Node.js 24.19.0",
+  "command": "npm run test:e2e",
+  "result": "passed",
+  "tests": 2,
+  "reportedDuration": "2.8m",
+  "cases": [
+    {"file": "tests/client.e2e.ts", "reportedDuration": "2.6m", "coverage": "Four independent accounts: registration, room, reconnect and movement, settlement, crafting, equipment, persisted presets, reload, next room and mobile layout"},
+    {"file": "tests/render.e2e.ts", "reportedDuration": "9.2s", "coverage": "Authoritative movement, four cardinal directions, retained facing at rest, draw-call budget and page errors"}
+  ],
+  "environment": "Local services, isolated browser clients, software WebGL, accelerated test clock"
+}

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-10T21:39:45.267Z",
+  "runtime": {
+    "node": "v24.19.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1 Pro",
+    "logicalCpus": 8
+  },
+  "workload": {
+    "players": 10,
+    "seed": "ten-player-cpu-baseline-v1",
+    "ruleVersion": "wangxu-0.1.0",
+    "secondsRequested": 60,
+    "wallSeconds": 60.04170625,
+    "simulatedSeconds": 60,
+    "ticks": 1200,
+    "targetHz": 20,
+    "observedHz": 19.986107573350317,
+    "viewFrames": 600,
+    "payloads": 6000,
+    "phaseAtEnd": "EXPLORE",
+    "commands": {
+      "skill": {
+        "attempted": 140,
+        "accepted": 23
+      },
+      "attack": {
+        "attempted": 606,
+        "accepted": 214
+      },
+      "move": {
+        "attempted": 9545,
+        "accepted": 8769
+      },
+      "transform": {
+        "attempted": 10,
+        "accepted": 3
+      },
+      "interact": {
+        "attempted": 72,
+        "accepted": 67
+      }
+    }
+  },
+  "tickMs": {
+    "samples": 1200,
+    "mean": 0.049391883333256746,
+    "p50": 0.035583999999744265,
+    "p95": 0.11300000000483124,
+    "p99": 0.21833299999707378,
+    "max": 0.5384169999997539
+  },
+  "completeLoopMs": {
+    "samples": 1200,
+    "mean": 0.5982195508333958,
+    "p50": 0.6183750000000146,
+    "p95": 1.4674589999995078,
+    "p99": 2.502749999999878,
+    "max": 14.168084000000817
+  },
+  "allTenViewsAndJsonMs": {
+    "samples": 600,
+    "mean": 0.9658939650000885,
+    "p50": 0.8439579999976559,
+    "p95": 1.770874999994703,
+    "p99": 2.8371249999981956,
+    "max": 14.051958000000013
+  },
+  "schedule": {
+    "scheduler": "@colyseus/core 0.18.18 Room.setFixedTimestep",
+    "first1200TicksWallSeconds": 60.041540917,
+    "wallMinusSimulatedMs": 41.706249999995634,
+    "intervalMs": {
+      "samples": 1200,
+      "mean": 50.03371697916667,
+      "p50": 51.11425000000236,
+      "p95": 52.26008299999921,
+      "p99": 54.00904199999786,
+      "max": 66.3680419999946
+    },
+    "cumulativeDriftMs": {
+      "samples": 1200,
+      "mean": 25.430999176665605,
+      "p50": 25.58866699999635,
+      "p95": 47.95229199999994,
+      "p99": 50.51841699999932,
+      "max": 56.016999999999825
+    },
+    "intervalsOver50Ms": 1140,
+    "intervalsOver55Ms": 8,
+    "ticksOver50Ms": 0,
+    "loopsOver50Ms": 0
+  },
+  "memory": {
+    "rssStartBytes": 109723648,
+    "rssEndBytes": 131383296,
+    "rssPeakBytes": 131383296
+  },
+  "payload": {
+    "averageBytes": 15854.2315,
+    "totalEncodedBytes": 95125389,
+    "uncompressedEncodedBytesPerWallSecond": 1584321.8812589957
+  },
+  "interpretation": "Local Node authority CPU, scheduling, memory and JSON baseline only. No browser GPU/FPS, socket delivery, database, voice, WAN latency or multi-room capacity was measured."
+}

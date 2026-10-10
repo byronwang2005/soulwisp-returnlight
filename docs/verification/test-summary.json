@@ -1,0 +1,647 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-10T21:54:17.468Z",
+  "runtime": {
+    "node": "v24.19.0"
+  },
+  "installation": {
+    "command": "npm ci",
+    "passed": true,
+    "auditedPackages": 302,
+    "reportedVulnerabilities": 0
+  },
+  "typecheck": {
+    "command": "npm run check",
+    "passed": true
+  },
+  "productionBuild": {
+    "command": "npm run build",
+    "passed": true
+  },
+  "automated": {
+    "command": "npm run test",
+    "startTime": "2026-10-10T21:44:05.850Z",
+    "durationMs": 363396.7158203125,
+    "passed": 133,
+    "failed": 0,
+    "skipped": 0,
+    "files": [
+      {
+        "file": "accounts.integration.test.ts",
+        "status": "passed",
+        "passed": 11,
+        "tests": [
+          {
+            "title": "persistent PostgreSQL accounts and transactions persists a Chinese display name, zero materials, and a password-backed session",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions settles a wolf win atomically, including sealed humans, and survives simultaneous retries",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions stores map seed zero and rejects values outside uint32 before creating a settlement",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions grants no currency, progress, or loot redemption for an invalid match",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions rolls back the whole match when one physical loot ID is redeemed twice",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions serializes concurrent spending and makes retried requests charge once",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions charges research and unlocks its skin, while free standard forms remain available",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions persists up to five account presets through the API and refreshed camp reads",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions rejects malformed preset names, count, unavailable cosmetics and incompatible skills without changing storage",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions completes six ordered tutorial stages once, without minting money",
+            "status": "passed"
+          },
+          {
+            "title": "persistent PostgreSQL accounts and transactions rejects forged/expired tickets and gates voice by actual room membership and phase",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "accounts.production.integration.test.ts",
+        "status": "passed",
+        "passed": 1,
+        "tests": [
+          {
+            "title": "production authentication for ten players sharing one network accepts ten registrations and logins, then returns real 429 responses beyond each configured threshold",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "gameplay.integration.test.ts",
+        "status": "passed",
+        "passed": 2,
+        "tests": [
+          {
+            "title": "live SDK intents, authoritative objectives and PostgreSQL rewards four players recover from a mistaken seal and complete the entire common expedition",
+            "status": "passed"
+          },
+          {
+            "title": "live SDK intents, authoritative objectives and PostgreSQL rewards ten players complete physical objectives with no wolf contribution or profession requirement",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "realtime.integration.test.ts",
+        "status": "passed",
+        "passed": 8,
+        "tests": [
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 4人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 5人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 6人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 7人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 8人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 9人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 10人独立账户完整阶段、私密载荷与幂等奖励",
+            "status": "passed"
+          },
+          {
+            "title": "真实 Colyseus / Hono / PostgreSQL 连接 未知邀请码不能创建新房，未登录不能拿房间凭证",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "room-lifecycle.integration.test.ts",
+        "status": "passed",
+        "passed": 5,
+        "tests": [
+          {
+            "title": "real room lifecycle and account seat ownership does not let a rejected simultaneous join disconnect or remove the accepted seat",
+            "status": "passed"
+          },
+          {
+            "title": "real room lifecycle and account seat ownership holds the account lock during a dropped connection and restores the original session",
+            "status": "passed"
+          },
+          {
+            "title": "real room lifecycle and account seat ownership releases a lobby seat after a voluntary departure",
+            "status": "passed"
+          },
+          {
+            "title": "real room lifecycle and account seat ownership keeps an active departed account out of a second expedition until the old room is disposed",
+            "status": "passed"
+          },
+          {
+            "title": "real room lifecycle and account seat ownership reopens a completed expedition with a real empty seat after one participant leaves",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "room-voice-gate.test.ts",
+        "status": "passed",
+        "passed": 2,
+        "tests": [
+          {
+            "title": "council close confirmation phase barrier waits for close confirmation even when creation has not exposed an epoch",
+            "status": "passed"
+          },
+          {
+            "title": "council close confirmation phase barrier invalidates after five seconds of failed close confirmation",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "rules.test.ts",
+        "status": "passed",
+        "passed": 99,
+        "tests": [
+          {
+            "title": "versioned configurations and fixed two-loop maps uses E5 for four players and rejects unsupported counts",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 4 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 5 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 6 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 7 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 8 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 9 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "versioned configurations and fixed two-loop maps 10 players: all three layouts connect and conserve chapter supply",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks confirms actual local hit/block/hurt effects without sharing another player feedback or hidden attacker identity",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks confirms pickup and collision from the authoritative result, with bounded and throttled feedback",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks retains a dropped lobby seat for reconnect, then releases it at 60 seconds without invalidating a match",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 4 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 5 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 6 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 7 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 8 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 9 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks 10 players: assignment is seeded, exact and private; complete phase clock",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks changes the wolf seat across seeds while keeping profession independent",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks persists the initial map seed through random draws and settlement without publishing it in a live view",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks rejects spectators, nonfinite input, stale sequence and remote interactions",
+            "status": "passed"
+          },
+          {
+            "title": "authority, faction assignment and clocks freezes shield, month transformation, down and skill timers throughout council and draft",
+            "status": "passed"
+          },
+          {
+            "title": "resource accounting, inventory and transactions recovers carried, dropped and untouched current supply once, without releasing future chapters",
+            "status": "passed"
+          },
+          {
+            "title": "resource accounting, inventory and transactions consumed supply does not reappear at chapter boundaries",
+            "status": "passed"
+          },
+          {
+            "title": "resource accounting, inventory and transactions segmented excavation has distinct item instances; repeated drop/pickup preserves one instance",
+            "status": "passed"
+          },
+          {
+            "title": "resource accounting, inventory and transactions counts equipment, supplies and resource stacks in the same four slots",
+            "status": "passed"
+          },
+          {
+            "title": "resource accounting, inventory and transactions requires bilateral trade; escrow locks an item and transfers once after confirmation",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits 6 players: all finishers share one chapter charge and preserve council seal capacity",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits 7 players: all finishers share one chapter charge and preserve council seal capacity",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits 8 players: all finishers share one chapter charge and preserve council seal capacity",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits 9 players: all finishers share one chapter charge and preserve council seal capacity",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits 10 players: all finishers share one chapter charge and preserve council seal capacity",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits shares budget and corruption cooldown across mutually aware wolves",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits interrupted corruption spends nothing and enforces the retry delay",
+            "status": "passed"
+          },
+          {
+            "title": "wolf team budgets, interruptions and removal limits prohibits micro finishers and applies the shared global limit to larger rooms",
+            "status": "passed"
+          },
+          {
+            "title": "council and secret information uses opaque evidence, message, drop and ward IDs without hiding provenance from the verifier",
+            "status": "passed"
+          },
+          {
+            "title": "council and secret information publishes only device state remotely; witness identity stays private until its owner publishes",
+            "status": "passed"
+          },
+          {
+            "title": "council and secret information requires strict majority, permits first-chapter monitoring only, and consumes one ghost vote",
+            "status": "passed"
+          },
+          {
+            "title": "council and secret information first-chapter three votes monitor without revealing faction or removing a player",
+            "status": "passed"
+          },
+          {
+            "title": "council and secret information scout reports stay regional and never copy an unseen actor name",
+            "status": "passed"
+          },
+          {
+            "title": "council and secret information only permits publishing owned evidence and gives sealed players no new observation or wolf budget",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries consented departure after settlement releases that slot for the next lobby",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries reset retains a dropped player connection state and frees only its expired reservation",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries requires the same human for eight seconds; relaying two humans cannot win",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries a continuous human escort wins; public progress does not reveal wolf-only presence",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries processes completing corruption before the final winner check",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries does not reveal all-wolf sealing or settle before the fixed final moment",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries uses real 60-second disconnect time and repeated disconnect does not extend it",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries accepts 59.999-second reconnect and delays only final settlement during a pending reconnect",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries pending final outcome turns invalid at 60 seconds without leaking its private reason",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries delivers each settlement once and uses a different match key after restart",
+            "status": "passed"
+          },
+          {
+            "title": "terminal escort, rewards and reconnect boundaries contains asynchronous persistence errors instead of rejecting the tick",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 4 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 4 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 4 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 5 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 5 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 5 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 6 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 6 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 6 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 7 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 7 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 7 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 8 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 8 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 8 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 9 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 9 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 9 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 10 players: common commands finish an expedition without any wolf or profession help",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 10 players: a mistaken council seal leaves the common expedition reachable",
+            "status": "passed"
+          },
+          {
+            "title": "complete command routes for every supported room size 10 players: every wolf can be sealed through strict-majority councils, with outcome delayed",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human warden: thick shield follows its recipient and respects the recipient boon",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human warden: fixed thin shield grants once, without refilling each server tick",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human scout form 0: obtains a coarse local trace without an unseen identity",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human scout form 1: obtains a coarse local trace without an unseen identity",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human scavenger form 0: excavation differs in depth and duration",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human scavenger form 1: excavation differs in depth and duration",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human broker form 0: skill creates an executable consensual transfer",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human broker form 1: skill creates an executable consensual transfer",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human medic: quickly restores a downed body without changing alignment",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human engineer: accelerates another profession's common engineering channel",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human forensic: checks only owned or published provenance, without a faction oracle",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human bellkeeper: postpones actual guardian damage for four gameplay seconds",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction human ranger: its route increases a nearby carrier's actual movement for a short period",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf warden: thick shield follows its recipient and respects the recipient boon",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf warden: fixed thin shield grants once, without refilling each server tick",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf scout form 0: obtains a coarse local trace without an unseen identity",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf scout form 1: obtains a coarse local trace without an unseen identity",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf scavenger form 0: excavation differs in depth and duration",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf scavenger form 1: excavation differs in depth and duration",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf broker form 0: skill creates an executable consensual transfer",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf broker form 1: skill creates an executable consensual transfer",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf medic: quickly restores a downed body without changing alignment",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf engineer: accelerates another profession's common engineering channel",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf forensic: checks only owned or published provenance, without a faction oracle",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf bellkeeper: postpones actual guardian damage for four gameplay seconds",
+            "status": "passed"
+          },
+          {
+            "title": "public profession tools function on either secret faction wolf ranger: its route increases a nearby carrier's actual movement for a short period",
+            "status": "passed"
+          }
+        ]
+      },
+      {
+        "file": "voice.integration.test.ts",
+        "status": "passed",
+        "passed": 5,
+        "tests": [
+          {
+            "title": "real self-hosted LiveKit council permissions creates a council, admits three independent clients muted, and grants only the current speaker",
+            "status": "passed"
+          },
+          {
+            "title": "real self-hosted LiveKit council permissions updates SFU permissions when the speaking turn changes and never grants a ghost a microphone",
+            "status": "passed"
+          },
+          {
+            "title": "real self-hosted LiveKit council permissions deletes an old epoch, rejects its token instead of auto-creating a room, and rotates the next chapter",
+            "status": "passed"
+          },
+          {
+            "title": "real self-hosted LiveKit council permissions retries its own failed deletion at shutdown without removing a foreign SFU room",
+            "status": "passed"
+          },
+          {
+            "title": "real self-hosted LiveKit council permissions delivers the current microphone to nine receivers in a ten-seat council and rotates the speaker",
+            "status": "passed"
+          }
+        ]
+      }
+    ]
+  },
+  "browser": {
+    "command": "npm run test:e2e",
+    "startTime": "2026-10-10T21:44:04.128Z",
+    "duration": 151314.654,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0,
+    "scenarios": [
+      {
+        "title": "四个浏览器账户：注册→入房→完整对局→制作→穿戴→刷新→下一局",
+        "passed": true
+      }
+    ]
+  },
+  "coverageNotes": [
+    "4–10 player configs: authority rules, hidden information, phases and real database settlement.",
+    "4 and 10 independent SDK clients: physical objectives with ordinary player commands, human expedition wins and PostgreSQL rewards; 4-player mistaken human seal covered.",
+    "4 independent browser accounts: signup, invite, refresh reconnect and movement, full clock, settlement, crafting, equip, persistent preset, refresh and next room.",
+    "10 independent audio browser contexts: permission handoff, subscribed tracks and real inbound RTP for 9 receivers in each of 2 speaker rounds.",
+    "Human-directed full lore tutorial, optional wolf lesson, 390px phone viewport, quality/settings and preset persistence recorded with screenshots."
+  ],
+  "notYetAccepted": [
+    "20–30 real human balance games per player count",
+    "Multiple physical devices on LAN and physical vibration/FPS measurements",
+    "Docker image build and full compose startup",
+    "Target VPS, public domain/HTTPS and forced TURN relay verification"
+  ]
+}

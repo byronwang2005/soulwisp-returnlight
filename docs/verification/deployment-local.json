@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-10T21:38:58.036Z",
+  "static": {
+    "compose": "docker-compose config --quiet: passed",
+    "renderer": "JSON + RTC/TURN expected fields + mode 0600: passed",
+    "caddy": "built-in HTTP/TLS validated; L4 custom container not built",
+    "shell": "sh -n all three scripts: passed",
+    "localDocumentLinks": 14
+  },
+  "postgres": {
+    "source": "native localhost PostgreSQL 15.19; consistent exported snapshot",
+    "rows": {
+      "auth_user": 109,
+      "auth_session": 109,
+      "auth_account": 109,
+      "auth_verification": 0,
+      "camps": 107,
+      "camp_requests": 1,
+      "matches": 14,
+      "match_rewards": 98,
+      "redeemed_loot": 0
+    },
+    "balances": {
+      "fragments": 1500,
+      "secrets": 124,
+      "matches": 98,
+      "wins": 26
+    },
+    "exactRowHashes": "all nine tables match after new empty database restore",
+    "rootBackup": "valid custom dump",
+    "rootRestore": "empty target succeeds; active + nonempty targets rejected",
+    "rotation": "nine old fixture files + one actual daily dump → latest seven retained",
+    "archiveMode": "0600",
+    "temporaryDatabases": "all self-created verification databases deleted",
+    "persistedFields": {
+      "nonemptyPresetAccounts": 1,
+      "countedMatches": 14,
+      "seededHistoricalMatches": 0,
+      "seedTests": "0 and uint32 maximum persisted in isolated account integration tests; test rows cleaned"
+    }
+  },
+  "pending": [
+    "Docker image build and compose startup: no running daemon",
+    "public DNS/TLS certificate issuance",
+    "real network forced TURN/TLS relay",
+    "single room ten participant audio + game load on target VPS"
+  ],
+  "lifecycle": {
+    "runtime": "Node 24.19.0",
+    "realPostgresColyseus": "5/5 passed",
+    "phaseBarrier": "2/2 passed; isolated test, separate real SFU suite remains media proof",
+    "regression": "result departure and restart empty-seat case failed before rule fix, passed afterward",
+    "cleanup": "independent server ports3022/2582 stopped; isolated test accounts/matches removed"
+  },
+  "accounts": {
+    "runtime": "Node 24.19.0",
+    "realPostgres": "11/11 passed",
+    "presets": "API save, refreshed GET, exact SQL JSONB, ownership/forms/count/name validation, request idempotency",
+    "settlements": "map_seed uint32 and player_count persisted atomically; inconsistent retry rejected"
+  },
+  "voice": {
+    "runtime": "Node 24.19.0",
+    "realSFU": "5/5 passed",
+    "tenParticipants": "10 independent audio browser contexts, two speaker rounds, each round all 9 receivers with subscribed tracks and incoming RTP packets/bytes",
+    "shutdown": "failed own DeleteRoom retried, persistent failure logged, later recovery cleaned own room, foreign room preserved"
+  }
+}

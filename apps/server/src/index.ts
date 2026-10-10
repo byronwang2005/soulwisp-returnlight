@@ -1,0 +1,19 @@
+import 'dotenv/config';
+import { serve } from '@hono/node-server';
+import { Server } from '@colyseus/core';
+import { WebSocketTransport } from '@colyseus/ws-transport';
+import { createApi } from './api.js';
+import { migrateDatabase, pool } from './db/index.js';
+import { ExpeditionRoom, rooms, setVoiceService } from './rooms.js';
+import { createVoiceService } from './voice.js';
+if(!process.env.AUTH_SECRET||process.env.AUTH_SECRET.length<32)throw new Error('AUTH_SECRET must contain at least 32 characters. Run npm run setup.');
+await migrateDatabase();
+const voice=createVoiceService();if(voice)setVoiceService(voice);
+const app=createApi({getRoom:id=>{const room=rooms.get(id);return room?.allowsVoiceAdmission()?room:undefined;},voiceService:voice});
+const httpServer=serve({fetch:app.fetch,port:Number(process.env.API_PORT??3000),hostname:'0.0.0.0'});
+const game=new Server({transport:new WebSocketTransport({maxPayload:16*1024}),gracefullyShutdown:false,auth:false,express:app=>{app.get('/health',(_req:{},res:{json:(value:unknown)=>void})=>res.json({ok:true,rooms:rooms.size}));}});
+game.define('expedition',ExpeditionRoom).filterBy(['invite']);
+await game.listen(Number(process.env.GAME_PORT??2567),'0.0.0.0');
+console.log('《亡絮：归灯》 API and authoritative game server ready.');
+let stopping=false;async function stop(){if(stopping)return;stopping=true;await game.gracefullyShutdown(false);await voice?.dispose();httpServer.close();await pool.end();process.exit(0);}
+process.on('SIGTERM',()=>void stop());process.on('SIGINT',()=>void stop());

@@ -1,0 +1,5 @@
+.env
+caddy.json
+livekit.yaml
+backups/
+verification/

@@ -1,0 +1,5 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'./tests',testMatch:'*.e2e.ts',fullyParallel:false,workers:1,timeout:160_000,expect:{timeout:20_000},reporter:[['list'],['html',{open:'never'}]],use:{baseURL:'http://127.0.0.1:5175',headless:true,trace:'retain-on-failure',screenshot:'only-on-failure',launchOptions:{args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows']}},webServer:[
+  {command:'node --import tsx apps/server/src/index.ts',url:'http://127.0.0.1:3012/api/health',reuseExistingServer:false,timeout:30_000,env:{NODE_ENV:'test',GAME_TIME_SCALE:'10',API_PORT:'3012',GAME_PORT:'2572',AUTH_BASE_URL:'http://127.0.0.1:5175',ALLOWED_ORIGINS:'http://127.0.0.1:5175'}},
+  {command:'node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5175 --strictPort --config apps/web/vite.config.ts apps/web',url:'http://127.0.0.1:5175',reuseExistingServer:false,timeout:30_000,env:{BROWSER_TEST:'1',API_PORT:'3012',VITE_GAME_URL:'ws://127.0.0.1:2572'}}
+]});

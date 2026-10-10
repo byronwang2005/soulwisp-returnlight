@@ -1,0 +1,9 @@
+import {root,local,fs,path,run,binary} from './lib.mjs';
+import {createHash} from 'node:crypto';
+fs.mkdirSync(path.join(local,'bin'),{recursive:true});fs.mkdirSync(path.join(local,'sources'),{recursive:true});
+async function download(url,file,sha){const r=await fetch(url);if(!r.ok)throw new Error(`Download failed ${r.status}: ${url}`);const bytes=Buffer.from(await r.arrayBuffer());const digest=createHash('sha256').update(bytes).digest('hex');if(sha&&sha!==digest)throw new Error('Release checksum mismatch');fs.writeFileSync(file,bytes);return digest;}
+if(process.platform==='darwin'&&process.arch==='arm64'){
+ if(!fs.existsSync(path.join(local,'bin/caddy'))){const archive=path.join(local,'sources/caddy.tar.gz');await download('https://github.com/caddyserver/caddy/releases/download/v2.11.7/caddy_2.11.7_mac_arm64.tar.gz',archive,'cda3030e5d5b13eb9f0b6fb541037f633bddd958c070c5f561d7a5cccb581665');run('tar',['-xzf',archive,'-C',path.join(local,'bin'),'caddy']);}
+ if(!fs.existsSync(path.join(local,'bin/livekit-server'))){const archive=path.join(local,'sources/livekit.tar.gz');await download('https://codeload.github.com/livekit/livekit/tar.gz/refs/tags/v1.13.9',archive);run('tar',['-xzf',archive,'-C',path.join(local,'sources')]);console.log('Building official LiveKit v1.13.9 for macOS; dependency downloads may take a few minutes.');run(binary('go'),['build','-o',path.join(local,'bin/livekit-server'),'./cmd/server'],{cwd:path.join(local,'sources/livekit-1.13.9'),env:{...process.env,GOMODCACHE:path.join(local,'go-mod'),GOCACHE:path.join(local,'go-build'),GOPROXY:'https://proxy.golang.org,direct'}});}
+}else{throw new Error('This local installer targets Apple Silicon. Linux deployment uses pinned official Docker images; other local platforms can install Caddy and LiveKit with their official installers.');}
+console.log('Local Caddy and LiveKit binaries are ready in .local/bin.');

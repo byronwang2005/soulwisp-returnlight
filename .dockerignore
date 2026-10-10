@@ -1,0 +1,13 @@
+node_modules
+deploy/.env
+deploy/caddy.json
+deploy/livekit.yaml
+deploy/backups
+deploy/verification
+.local
+.env
+.env.*
+test-results
+playwright-report
+**/dist
+.git

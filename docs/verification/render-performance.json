@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "scene": "1440x900 four-player story tutorial, high quality",
+  "softwareBefore": {
+    "measuredAt": "2026-10-10T22:04:39.207Z",
+    "width": 1440,
+    "height": 814,
+    "devicePixelRatio": 1,
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "renderedFrames": 43,
+    "observedRenderHz": 7.200288011520461,
+    "frameP50Ms": 133.39999999999964,
+    "frameP95Ms": 150.10000000000036,
+    "meanDrawCalls": 515,
+    "maxDrawCalls": 515,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+  },
+  "softwareAfter": {
+    "measuredAt": "2026-10-10T22:09:18.251Z",
+    "width": 1440,
+    "height": 814,
+    "devicePixelRatio": 1,
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver)",
+    "renderedFrames": 50,
+    "observedRenderHz": 8.328942224337512,
+    "frameP50Ms": 116.70000000000073,
+    "frameP95Ms": 133.39999999999782,
+    "meanDrawCalls": 215,
+    "maxDrawCalls": 215,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+  },
+  "nativeAfter": {
+    "measuredAt": "2026-10-10T22:12:15.411Z",
+    "width": 1440,
+    "height": 814,
+    "devicePixelRatio": 1,
+    "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M1 Pro, Unspecified Version)",
+    "renderedFrames": 360,
+    "observedRenderHz": 60.00334280461307,
+    "frameP50Ms": 16.69999999999891,
+    "frameP95Ms": 16.700000000000728,
+    "meanDrawCalls": 142.33333333333334,
+    "maxDrawCalls": 215,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36"
+  },
+  "drawCallReductionPercent": 58.3,
+  "scope": "Six-second local native Apple M1 Pro Metal browser sample. Software before/after use SwiftShader; physical mobile and sustained ten-player performance remain separate acceptance checks."
+}
