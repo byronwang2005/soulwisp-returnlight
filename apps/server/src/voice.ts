@@ -156,9 +156,13 @@ export class VoiceService {
   async shutdown() { await this.dispose(); }
 }
 export function createVoiceService(): VoiceService | undefined {
+  const config = getVoiceConfig();
+  return config ? new VoiceService(config) : undefined;
+}
+export function getVoiceConfig(): VoiceConfig | undefined {
   const apiKey = process.env.LIVEKIT_API_KEY, apiSecret = process.env.LIVEKIT_API_SECRET;
   const publicUrl = process.env.LIVEKIT_PUBLIC_URL ?? process.env.LIVEKIT_URL;
   if (!apiKey || !apiSecret || !publicUrl) return undefined;
   const serverUrl = process.env.LIVEKIT_SERVER_URL ?? process.env.LIVEKIT_URL ?? publicUrl.replace(/^ws:/, 'http:').replace(/^wss:/, 'https:');
-  return new VoiceService({ apiKey, apiSecret, publicUrl, serverUrl });
+  return { apiKey, apiSecret, publicUrl, serverUrl };
 }

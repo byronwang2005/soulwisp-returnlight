@@ -4,9 +4,13 @@ import type { CampData, GameCommand, Settlement } from '@wangxu/shared';
 import { randomInt } from 'node:crypto';
 import { verifyGameTicket, getCamp, settleMatch } from './accounts.js';
 import type { VoiceService } from './voice.js';
+import type { VoiceLobbyService } from './voice-lobby.js';
 
 export const rooms=new Map<string,ExpeditionRoom>();
 const activeUsers=new Map<string,string>();
+export function hasActiveExpedition(id:string){return activeUsers.has(id);}
+let voiceLobby:VoiceLobbyService|undefined;
+export function setVoiceLobby(service:VoiceLobbyService){voiceLobby=service;}
 export let voiceService:VoiceService|undefined;
 export function setVoiceService(service:VoiceService){voiceService=service;}
 type Auth={userId:string;name:string;cosmetics:string[];equipment:CampData['equipment']};
@@ -25,7 +29,7 @@ export class ExpeditionRoom extends Room {
   this.setFixedTimestep(()=>this.step(),20);
  }
  async onAuth(client:Client,options:{ticket?:string}){if(typeof options.ticket!=='string')throw new Error('请先登录');const ticket=await verifyGameTicket(options.ticket);const existing=activeUsers.get(ticket.userId);if(existing)throw new Error('此账户已有远征席位，请恢复原连接');const camp=await getCamp(ticket.userId);return {...ticket,cosmetics:camp.cosmetics,equipment:camp.equipment};}
- onJoin(client:Client){const auth=client.auth as Auth;if(activeUsers.has(auth.userId))throw new Error('此账户已有远征席位，请恢复原连接');this.engine.addPlayer({id:auth.userId,name:auth.name});const equipment=auth.equipment;this.engine.command(auth.userId,{type:'choose',profession:equipment.profession,form:equipment.form});const player=this.engine.players.get(auth.userId)!;const cosmetic=equipment.cosmeticId;player.cosmetic=(cosmetic.startsWith('outfit-')||cosmetic.startsWith('silver-'))&&!cosmetic.endsWith(player.profession)?'base':cosmetic;activeUsers.set(auth.userId,this.roomId);this.joinedSessions.add(client.sessionId);this.sendViews();}
+ onJoin(client:Client){const auth=client.auth as Auth;if(activeUsers.has(auth.userId))throw new Error('此账户已有远征席位，请恢复原连接');this.engine.addPlayer({id:auth.userId,name:auth.name});const equipment=auth.equipment;this.engine.command(auth.userId,{type:'choose',profession:equipment.profession,form:equipment.form});const player=this.engine.players.get(auth.userId)!;const cosmetic=equipment.cosmeticId;player.cosmetic=(cosmetic.startsWith('outfit-')||cosmetic.startsWith('silver-'))&&!cosmetic.endsWith(player.profession)?'base':cosmetic;activeUsers.set(auth.userId,this.roomId);void voiceLobby?.removeParticipant(auth.userId);this.joinedSessions.add(client.sessionId);this.sendViews();}
  async onDrop(client:Client){if(!this.joinedSessions.has(client.sessionId))return;const auth=client.auth as Auth;this.engine.disconnect(auth.userId);this.sendViews();try{await this.allowReconnection(client,60);}catch{this.joinedSessions.delete(client.sessionId);if(activeUsers.get(auth.userId)===this.roomId)activeUsers.delete(auth.userId);}}
  onReconnect(client:Client){if(!this.joinedSessions.has(client.sessionId))throw new Error('远征席位已失效');this.engine.reconnect((client.auth as Auth).userId);this.sendViews();}
  onLeave(client:Client){if(!this.joinedSessions.delete(client.sessionId))return;const id=(client.auth as Auth)?.userId;if(id){this.engine.removePlayer(id);if((this.engine.phase==='LOBBY'||!!this.engine.result)&&activeUsers.get(id)===this.roomId)activeUsers.delete(id);}this.lastInputs.delete(client.sessionId);}

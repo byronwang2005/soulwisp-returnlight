@@ -33,3 +33,5 @@ export const RECIPES:Recipe[]=[
  {id:'camp-lantern',name:'余灯集市·记忆灯',description:'营地中的永久灯饰。',fragments:30,secrets:0,kind:'decoration',grants:'camp-lantern'},
  {id:'first-thread',name:'第一缕·絮灯饰',description:'第一局后即可制作的银白灯饰。',fragments:10,secrets:0,kind:'cosmetic',grants:'first-thread'}
 ];
+export interface VoiceLobbyInfo { available: boolean; online: number; capacity: 10; url: string | null }
+export interface VoiceLobbyTicket { token: string; url: string; epoch: string }

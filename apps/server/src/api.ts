@@ -3,9 +3,10 @@ import { AccountError, advanceTutorial, auth, craft, getCamp, getSession, issueG
 import { VoiceError, type VoiceService, type VoiceState } from './voice.js';
 import type { CampData, CampPreset } from '@wangxu/shared';
 import { pool } from './db/index.js';
+import { LobbyVoiceError, type VoiceLobbyService } from './voice-lobby.js';
 
 export interface ApiEngine { getVoiceState(): VoiceState }
-export interface ApiOptions { getRoom: (id: string) => { engine: ApiEngine } | ApiEngine | undefined; voiceService?: VoiceService }
+export interface ApiOptions { getRoom: (id: string) => { engine: ApiEngine } | ApiEngine | undefined; voiceService?: VoiceService; voiceLobby?: VoiceLobbyService }
 type Variables = { account: { id: string; name: string } };
 const origins = () => [...new Set([process.env.AUTH_BASE_URL ?? process.env.AUTH_URL ?? process.env.BETTER_AUTH_URL ?? process.env.PUBLIC_APP_URL ?? 'http://localhost:5180',
   ...(process.env.ALLOWED_ORIGINS ?? process.env.TRUSTED_ORIGINS ?? '').split(',').map(origin => origin.trim()).filter(Boolean)])];
@@ -13,6 +14,7 @@ const origins = () => [...new Set([process.env.AUTH_BASE_URL ?? process.env.AUTH
 export function createApi(options: ApiOptions) {
   const app = new Hono<{ Variables: Variables }>();
   app.onError((error, c) => {
+    if (error instanceof LobbyVoiceError) return c.json({ error: error.code, message: error.message }, error.status);
     if (error instanceof AccountError) return c.json({ error: error.code, message: error.message }, error.status);
     if (error instanceof VoiceError) return c.json({ error: 'VOICE_UNAVAILABLE', message: error.message }, error.status);
     if (error instanceof SyntaxError) return c.json({ error: 'BAD_JSON', message: '请求数据格式无效' }, 400);
@@ -23,6 +25,10 @@ export function createApi(options: ApiOptions) {
   app.get('/api/health', async c => {
     await pool.query('SELECT 1');
     return c.json({ ok: true, database: 'ready', voice: Boolean(options.voiceService) });
+  });
+  app.get('/api/voice/lobby', async c => {
+    c.header('Cache-Control', 'no-store');
+    return c.json(options.voiceLobby ? await options.voiceLobby.status() : { available: false, online: 0, capacity: 10, url: null });
   });
   app.use('/api/*', async (c, next) => {
     c.header('Cache-Control', 'no-store');
@@ -38,6 +44,10 @@ export function createApi(options: ApiOptions) {
     await next();
   });
   app.get('/api/camp', async c => c.json(await getCamp(c.get('account').id)));
+  app.post('/api/voice/lobby/token', async c => {
+    if (!options.voiceLobby) throw new LobbyVoiceError(503, 'LOBBY_UNAVAILABLE', '语音大厅暂时离线，请稍后重试。');
+    return c.json(await options.voiceLobby.issueToken(c.get('account')));
+  });
   app.post('/api/craft', async c => {
     const body = await c.req.json<{ recipeId: string; requestId: string }>();
     if (typeof body.recipeId !== 'string' || typeof body.requestId !== 'string') throw new AccountError('BAD_CRAFT', '蓝图和请求编号必填');

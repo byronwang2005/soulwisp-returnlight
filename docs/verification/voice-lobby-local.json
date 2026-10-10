@@ -1,0 +1,109 @@
+{
+  "capturedAt": "2026-10-10T23:07:39.744Z",
+  "runtime": "v24.19.0",
+  "environment": "Local self-hosted LiveKit 1.13.9, Chromium, injected audio, direct UDP",
+  "mediaCases": [
+    {
+      "participants": 2,
+      "simultaneousPublishers": 2,
+      "verifiedReceiverTracks": 2,
+      "connectP50Ms": 418,
+      "connectP95Ms": 419.3,
+      "paths": [
+        "udp/direct"
+      ]
+    },
+    {
+      "participants": 4,
+      "simultaneousPublishers": 4,
+      "verifiedReceiverTracks": 12,
+      "connectP50Ms": 133.3,
+      "connectP95Ms": 141.7,
+      "paths": [
+        "udp/direct"
+      ]
+    },
+    {
+      "participants": 10,
+      "simultaneousPublishers": 10,
+      "verifiedReceiverTracks": 90,
+      "connectP50Ms": 171.3,
+      "connectP95Ms": 227.3,
+      "paths": [
+        "udp/direct"
+      ]
+    }
+  ],
+  "connectMeasurement": "SDK connect completion after prepareConnection; excludes token-fetch time and is not join-to-first-audible-sample",
+  "audioMarkers": {
+    "method": "12 tone onsets; source-reference and decoded-receiver AudioWorklets mapped through AudioContext.getOutputTimestamp and performance.timeOrigin on the same host",
+    "includes": "browser encode, SFU, decode and audio output clock scheduling",
+    "excludes": "physical microphone, speaker, Bluetooth and external network",
+    "samplesMs": [
+      66.610107421875,
+      66.611328125,
+      66.62158203125,
+      66.63134765625,
+      66.648193359375,
+      66.653564453125,
+      66.655517578125,
+      66.661376953125,
+      66.723876953125,
+      66.730224609375,
+      66.73291015625,
+      66.741455078125
+    ],
+    "p50Ms": 66.653564453125,
+    "p95Ms": 66.741455078125
+  },
+  "serverLoad": {
+    "method": "owned local LiveKit ps snapshot during 10 simultaneous microphone publications",
+    "cpuPercent": 30.2,
+    "residentKiB": 130864
+  },
+  "browserLifecycle": {
+    "tracks": [
+      "ended"
+    ],
+    "audioElements": 0,
+    "reconnectStates": [
+      "reconnecting",
+      "connected",
+      "connected"
+    ]
+  },
+  "checks": {
+    "typeCheck": "passed",
+    "productionBuild": "passed",
+    "diagnosticsAndServiceAndCouncilBarrier": {
+      "tests": 9,
+      "status": "passed"
+    },
+    "realSfuAndCouncil": {
+      "tests": 12,
+      "status": "passed"
+    },
+    "browserLobby": {
+      "tests": 4,
+      "status": "passed"
+    },
+    "authoritativeRoomsAndLifecycle": {
+      "tests": 13,
+      "status": "passed"
+    },
+    "homePreviewDemandRendering": "passed: at most 2 rendered frames over 350 ms during a voice call"
+  },
+  "pendingAcceptance": [
+    "UK/Europe physical microphones and output devices",
+    "Wi-Fi and mobile networks",
+    "TURN/TLS 443 relay",
+    "join-to-first-audible-sample P95 on target networks"
+  ],
+  "targets": {
+    "maxRttToSfuMsPerClient": 50,
+    "maxLossPercent": 1,
+    "joinToPlayableP95Ms": 2000,
+    "physicalAudioP50Ms": 150,
+    "physicalAudioP95Ms": 250
+  }
+}
