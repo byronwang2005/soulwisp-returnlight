@@ -64,7 +64,18 @@ The hook uses Git and native Node.js without an additional npm dependency. Each 
 ```sh
 node scripts/check-commit.mjs --self-test
 node scripts/check-commit.mjs /absolute/path/commit-message.txt
+node scripts/check-commit-history.mjs --self-test
+node scripts/check-commit-history.mjs --range ROOT HEAD
+node scripts/check-commit-history.mjs --range <base-commit> <head-commit>
 ```
+
+## CI commit enforcement
+
+CI fetches complete Git history and runs the same message validator against actual introduced commits, including their complete subject, body, and footers. On a push it checks commits reachable from the event's `after` SHA and absent from its `before` SHA. An initial push or a new branch has an all-zero `before` SHA, so CI checks that new ref's complete ancestry; deletion events have no commits to check. Force updates use the same ancestry difference and do not require the old tip to be an ancestor of the new tip.
+
+On a pull request CI checks the event's actual head commits that are absent from its base history. It does not validate GitHub's synthetic test-merge message; build and rule checks still use the checked-out merge result. See [GitHub's pull request event and merge-ref behavior](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request). A merge commit authored on the contributor's branch remains part of the checked history and must follow the repository format. Missing base/head objects fail with a history-fetch diagnostic, rather than silently skipping commits. No local hooks, history rewrites, or extra npm dependencies are needed for this CI check.
+
+Failures identify the commit SHA, subject, and each violated rule. Self-tests exercise native temporary Git histories, non-English subjects and bodies, ordinary and force-update ranges, zero-SHA new refs, deletion, and synthetic-merge exclusion. The checker only reads the project repository; test fixtures are created in and removed from a separate temporary directory.
 
 ## Validation
 
@@ -74,4 +85,4 @@ npm exec vitest run tests/rules.test.ts
 npm run build
 ```
 
-The GitHub workflow runs these checks and the commit validator's self-test on Node.js 24. `npm run test` also includes PostgreSQL and LiveKit integration tests; `npm run test:e2e` covers browser flows. Run those locally when the change affects their behavior, with the services described in the local development guide. Report the commands and results in the commit body or pull request.
+The GitHub workflow runs these checks, the validator and history-checker self-tests, and actual push/PR commit enforcement on Node.js 24. `npm run test` also includes PostgreSQL and LiveKit integration tests; `npm run test:e2e` covers browser flows. Run those locally when the change affects their behavior, with the services described in the local development guide. Report the commands and results in the commit body or pull request.
