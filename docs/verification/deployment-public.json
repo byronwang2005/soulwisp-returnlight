@@ -1,0 +1,590 @@
+{
+  "project": "Soulwisp: Returnlight",
+  "capturedAt": "2026-10-10T23:11:14.833Z",
+  "source": {
+    "initialGitRevision": "a19398cd8673113ebd5e11d535e7d9533e7e6b7f",
+    "productionCodeRevision": "b292d2a99ce188cf5f002f189f4cb4d57ac4c145",
+    "archive": "soulwisp-returnlight-0.1.0.tar.gz",
+    "sha256": "a0e674e748c3e1235490dcfcfd50d984f0dcec264417ea7cd60599e00c112620",
+    "remoteArchiveChecksumVerified": true,
+    "privateFilesExcluded": true
+  },
+  "server": {
+    "capturedAt": "2026-10-10T22:33:07.540618Z",
+    "os": "Ubuntu 24.04.5 LTS",
+    "kernel": "6.8.0-45-generic",
+    "architecture": "x86_64",
+    "vcpus": 2,
+    "memoryMiB": 7893,
+    "swapMiB": 1024,
+    "diskGiB": 77,
+    "diskAvailableGiB": 68
+  },
+  "runtime": {
+    "dockerEngine": "29.9.0",
+    "dockerCompose": "5.6.0",
+    "node": "24.19.0",
+    "postgresql": "15.19",
+    "livekit": "1.13.9",
+    "caddy": "2.11.7",
+    "caddyL4Revision": "42db5690dea199f930a6f08005fe2e4aab10dcc9",
+    "nodeEnv": "production",
+    "simulationHz": 20,
+    "pushHz": 10,
+    "simulation": "Colyseus native setFixedTimestep; normal production timing"
+  },
+  "services": {
+    "app": "running, healthy",
+    "database": "running, healthy",
+    "livekit": "running",
+    "caddy": "running",
+    "dailyBackup": "running"
+  },
+  "migration": {
+    "capturedAt": "2026-10-10T22:24:47.048Z",
+    "targetConfirmedEmptyBeforeRestore": true,
+    "restore": "Full PostgreSQL custom dump, single transaction, before application startup",
+    "canonicalization": "UTC timezone; to_jsonb row text ordered with COLLATE C",
+    "fingerprintSha256": "f8ca74167f5dd003fbb69b15be8b1caa3756210c848d01012c6c45d5c75a3e1d",
+    "allTenTablesMatched": true,
+    "tables": [
+      {
+        "table": "auth_account",
+        "rows": 111,
+        "digest": "fbcb4a0fb90860127fe49f777551084a",
+        "sourceRows": 111,
+        "sourceDigest": "fbcb4a0fb90860127fe49f777551084a",
+        "sourceMatched": true
+      },
+      {
+        "table": "auth_session",
+        "rows": 111,
+        "digest": "22d4b363757cf88d953d51f736e67db6",
+        "sourceRows": 111,
+        "sourceDigest": "22d4b363757cf88d953d51f736e67db6",
+        "sourceMatched": true
+      },
+      {
+        "table": "auth_user",
+        "rows": 111,
+        "digest": "a29dece6d41ba3a17828c60bc525bfaf",
+        "sourceRows": 111,
+        "sourceDigest": "a29dece6d41ba3a17828c60bc525bfaf",
+        "sourceMatched": true
+      },
+      {
+        "table": "auth_verification",
+        "rows": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e",
+        "sourceRows": 0,
+        "sourceDigest": "d41d8cd98f00b204e9800998ecf8427e",
+        "sourceMatched": true
+      },
+      {
+        "table": "camp_requests",
+        "rows": 1,
+        "digest": "bdf1c3f90b203b89ee42bfb7918dadfc",
+        "sourceRows": 1,
+        "sourceDigest": "bdf1c3f90b203b89ee42bfb7918dadfc",
+        "sourceMatched": true
+      },
+      {
+        "table": "camps",
+        "rows": 109,
+        "digest": "fd1ed9e0ce7db786588a19479c60fd4a",
+        "sourceRows": 109,
+        "sourceDigest": "fd1ed9e0ce7db786588a19479c60fd4a",
+        "sourceMatched": true
+      },
+      {
+        "table": "match_rewards",
+        "rows": 98,
+        "digest": "4b0d9432cceeb04ea9aa5f4c1c52ad57",
+        "sourceRows": 98,
+        "sourceDigest": "4b0d9432cceeb04ea9aa5f4c1c52ad57",
+        "sourceMatched": true
+      },
+      {
+        "table": "matches",
+        "rows": 14,
+        "digest": "98b54de225ac733b8fb1ffd07be70700",
+        "sourceRows": 14,
+        "sourceDigest": "98b54de225ac733b8fb1ffd07be70700",
+        "sourceMatched": true
+      },
+      {
+        "table": "redeemed_loot",
+        "rows": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e",
+        "sourceRows": 0,
+        "sourceDigest": "d41d8cd98f00b204e9800998ecf8427e",
+        "sourceMatched": true
+      },
+      {
+        "table": "wangxu_migrations",
+        "rows": 3,
+        "digest": "e9f6c6cc4d1051123e47b30118d4f03f",
+        "sourceRows": 3,
+        "sourceDigest": "e9f6c6cc4d1051123e47b30118d4f03f",
+        "sourceMatched": true
+      }
+    ]
+  },
+  "https": {
+    "capturedAt": "2026-10-10T22:33:26.069Z",
+    "checks": [
+      {
+        "name": "website",
+        "url": "https://gaming.byron.wang",
+        "status": 200
+      },
+      {
+        "name": "api",
+        "url": "https://gaming.byron.wang/api/health",
+        "status": 200,
+        "body": {
+          "ok": true,
+          "database": "ready",
+          "voice": true
+        }
+      },
+      {
+        "name": "game",
+        "url": "https://game.gaming.byron.wang/health",
+        "status": 200,
+        "body": {
+          "ok": true,
+          "rooms": 1
+        }
+      },
+      {
+        "name": "voice",
+        "url": "https://voice.gaming.byron.wang",
+        "status": 200
+      }
+    ],
+    "certificates": "Four public domains issued successfully by Caddy ACME"
+  },
+  "authenticationAndWss": {
+    "at": "2026-10-10T22:30:29.648Z",
+    "origin": "https://gaming.byron.wang",
+    "production": true,
+    "registration": 200,
+    "secureHttpOnlyCookie": true,
+    "session": 200,
+    "persistentCamp": 200,
+    "gameTicket": 200,
+    "wss": "real Colyseus create / authoritative lobby view / leave",
+    "voiceOutsideCouncil": 403,
+    "testAccountRemoved": true
+  },
+  "turnAndMedia": {
+    "capturedAt": "2026-10-10T22:22:24.401Z",
+    "participants": 10,
+    "client": "Ten independent Chromium audio contexts with generated microphone audio",
+    "ice": "Relay policy; only turns ICE servers retained in constructor and setConfiguration",
+    "selectedCandidate": {
+      "candidateType": "relay",
+      "relayProtocol": "tls",
+      "url": "turns:turn.gaming.byron.wang:443?transport=tcp"
+    },
+    "rounds": [
+      {
+        "speaker": "relay-0",
+        "receivers": 9,
+        "subscribedWithIncomingRtp": 9,
+        "incomingPackets": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          1,
+          6,
+          1,
+          2
+        ],
+        "incomingBytes": [
+          115,
+          115,
+          115,
+          115,
+          230,
+          115,
+          686,
+          115,
+          230
+        ],
+        "allSelectedTurnTls": true
+      },
+      {
+        "speaker": "relay-1",
+        "receivers": 9,
+        "subscribedWithIncomingRtp": 9,
+        "incomingPackets": [
+          2,
+          2,
+          3,
+          3,
+          3,
+          2,
+          3,
+          3,
+          2
+        ],
+        "incomingBytes": [
+          22,
+          22,
+          33,
+          33,
+          33,
+          22,
+          33,
+          33,
+          22
+        ],
+        "allSelectedTurnTls": true
+      }
+    ],
+    "serverPermission": "Exactly one canPublish participant verified in both speaker rounds",
+    "testRoomDeletion": "confirmed"
+  },
+  "backup": {
+    "capturedAt": "2026-10-10T22:28:18.216Z",
+    "archive": "wangxu-2026-10-10.dump",
+    "format": "PostgreSQL custom",
+    "fileMode": "0600",
+    "scheduleSeconds": 86400,
+    "failureRetrySeconds": 60,
+    "retainedSuccessfulDailyArchives": 7,
+    "actualCloudArchivesAtVerification": 1,
+    "isolatedEmptyDatabaseRestore": "All ten canonical table counts and digests matched the frozen source",
+    "restoreMatched": true,
+    "activeAndNonemptyTargetsRejected": true,
+    "temporaryDatabaseDeleted": true,
+    "exportedToLocalPrivateDirectory": true
+  },
+  "restart": {
+    "completedBeforePublicLongMatches": true,
+    "operation": "Recreated application container after final source rebuild",
+    "readinessRestored": true,
+    "subsequentAuthenticatedWssSmoke": "2026-10-10T22:30:29.648Z",
+    "existingDatabaseVolumeRetained": true,
+    "liveGameRecovery": "Current in-memory matches do not resume after an application restart"
+  },
+  "network": {
+    "sameOriginApi": true,
+    "appPublishedAddresses": [
+      "127.0.0.1:3000",
+      "127.0.0.1:2567"
+    ],
+    "databasePublicPort": false,
+    "livekitApiPublicPort": false,
+    "caddyListener": "Native layer4 listener wrapper intercepts TURN SNI; other HTTPS connections retain client address",
+    "privateBridge": "wangxu0",
+    "publicTcpPorts": [
+      22,
+      80,
+      443,
+      7881
+    ],
+    "publicUdpPorts": [
+      "3478",
+      "50000-50100",
+      "50101-50200"
+    ]
+  },
+  "verificationScope": {
+    "normalSpeedPublicGameTests": "Recorded separately after the stable public-ready signal",
+    "media": "Actual RTP received through public TURN/TLS; this short synthetic-audio probe is not a human microphone quality study",
+    "deviceNetworkMatrix": "Physical phone/Wi-Fi and a second client network are not included in this deployment report"
+  },
+  "publicMiddlePlayerLobbies": {
+    "startedAt": "2026-10-10T22:35:19.544Z",
+    "origin": "https://gaming.byron.wang",
+    "modes": [
+      {
+        "capacity": 5,
+        "connectedClients": 5,
+        "publicProfessions": [
+          "warden",
+          "scout",
+          "scavenger",
+          "broker",
+          "medic"
+        ],
+        "mapNodes": 6,
+        "expectedMapNodes": 6,
+        "unauthorizedJoinRejected": true,
+        "readySent": false,
+        "phase": "LOBBY",
+        "allClientsLeftCleanly": true,
+        "checkedAt": "2026-10-10T22:35:22.812Z"
+      },
+      {
+        "capacity": 6,
+        "connectedClients": 6,
+        "publicProfessions": [
+          "warden",
+          "scout",
+          "scavenger",
+          "broker",
+          "medic",
+          "engineer"
+        ],
+        "mapNodes": 7,
+        "expectedMapNodes": 7,
+        "unauthorizedJoinRejected": true,
+        "readySent": false,
+        "phase": "LOBBY",
+        "allClientsLeftCleanly": true,
+        "checkedAt": "2026-10-10T22:35:25.190Z"
+      },
+      {
+        "capacity": 7,
+        "connectedClients": 7,
+        "publicProfessions": [
+          "warden",
+          "scout",
+          "scavenger",
+          "broker",
+          "medic",
+          "engineer",
+          "forensic"
+        ],
+        "mapNodes": 8,
+        "expectedMapNodes": 8,
+        "unauthorizedJoinRejected": true,
+        "readySent": false,
+        "phase": "LOBBY",
+        "allClientsLeftCleanly": true,
+        "checkedAt": "2026-10-10T22:35:27.553Z"
+      },
+      {
+        "capacity": 8,
+        "connectedClients": 8,
+        "publicProfessions": [
+          "warden",
+          "scout",
+          "scavenger",
+          "broker",
+          "medic",
+          "engineer",
+          "forensic",
+          "bellkeeper"
+        ],
+        "mapNodes": 9,
+        "expectedMapNodes": 9,
+        "unauthorizedJoinRejected": true,
+        "readySent": false,
+        "phase": "LOBBY",
+        "allClientsLeftCleanly": true,
+        "checkedAt": "2026-10-10T22:35:30.300Z"
+      },
+      {
+        "capacity": 9,
+        "connectedClients": 9,
+        "publicProfessions": [
+          "warden",
+          "scout",
+          "scavenger",
+          "broker",
+          "medic",
+          "engineer",
+          "forensic",
+          "bellkeeper",
+          "ranger"
+        ],
+        "mapNodes": 10,
+        "expectedMapNodes": 10,
+        "unauthorizedJoinRejected": true,
+        "readySent": false,
+        "phase": "LOBBY",
+        "allClientsLeftCleanly": true,
+        "checkedAt": "2026-10-10T22:35:33.121Z"
+      }
+    ],
+    "accountCount": 9,
+    "completedAt": "2026-10-10T22:35:34.057Z",
+    "accountsStoredPrivately": true,
+    "postCleanupGameHealth": {
+      "ok": true,
+      "rooms": 2
+    },
+    "scope": "Filled and checked actual HTTPS/WSS lobbies; no ready command or match start; 4/10 normal matches ran separately"
+  },
+  "actualGameCouncilMedia": {
+    "status": "passed",
+    "startedAt": "2026-10-10T22:41:20.082Z",
+    "participants": 10,
+    "source": "Actual game-issued /api/voice/token, active normal-speed ten-player council",
+    "gameCommandsSent": 0,
+    "accountWrites": 0,
+    "rounds": [
+      {
+        "speakerSlot": 3,
+        "serverCanPublishCount": 1,
+        "previousSpeakerRevoked": null,
+        "receivers": 9,
+        "receiversWithActualRtp": 9,
+        "incomingBytes": [
+          574,
+          460,
+          574,
+          574,
+          574,
+          574,
+          574,
+          574,
+          574
+        ],
+        "incomingPackets": [
+          5,
+          4,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "observedAt": "2026-10-10T22:43:52.948Z"
+      },
+      {
+        "speakerSlot": 4,
+        "serverCanPublishCount": 1,
+        "previousSpeakerRevoked": true,
+        "receivers": 9,
+        "receiversWithActualRtp": 9,
+        "incomingBytes": [
+          61,
+          61,
+          176,
+          176,
+          980,
+          176,
+          61,
+          61,
+          61
+        ],
+        "incomingPackets": [
+          1,
+          1,
+          2,
+          2,
+          9,
+          2,
+          1,
+          1,
+          1
+        ],
+        "observedAt": "2026-10-10T22:43:59.179Z"
+      }
+    ],
+    "chapter": 2,
+    "councilStartedAt": "2026-10-10T22:43:26.574Z",
+    "tokenAdmission": {
+      "successful": 10,
+      "sameEpoch": true,
+      "initialCanPublish": false,
+      "canSubscribe": true
+    },
+    "finalTokenIssuedAt": "2026-10-10T22:45:13.176Z",
+    "closure": {
+      "allTenDisconnected": true,
+      "sfuRoomDeleted": true,
+      "outsideCouncilTokenStatus": 403,
+      "oldTokenReconnectRejected": true,
+      "oldTokenCouldNotRecreateRoom": true,
+      "tokenStillUnexpiredAfterRejectedReconnect": true,
+      "observedAt": "2026-10-10T22:45:17.017Z"
+    },
+    "completedAt": "2026-10-10T22:45:17.017Z"
+  },
+  "productionArchivePreserved": {
+    "checkedAt": "2026-10-10T22:46:19.125887Z",
+    "serverArchive": "soulwisp-returnlight-0.1.0.tar.gz",
+    "sha256": "a0e674e748c3e1235490dcfcfd50d984f0dcec264417ea7cd60599e00c112620",
+    "bytes": 10087103,
+    "sourceAvailableForRollback": true
+  },
+  "runtimeDuringPublicMatches": {
+    "checkedAt": "2026-10-10T22:47:43.153652Z",
+    "logsSince": "2026-10-10T22:33:00Z",
+    "logStreams": "stdout and stderr",
+    "containerRestartCounts": {
+      "app": 0,
+      "backup": 0,
+      "caddy": 0,
+      "database": 0,
+      "livekit": 0
+    },
+    "applicationHealthy": true,
+    "databaseHealthy": true,
+    "panicFatalUncaughtCount": 0,
+    "settlementRetryCount": 0,
+    "voiceUnavailableCount": 0,
+    "expectedDiagnostics": {
+      "invalidGameTicketRejections": 5,
+      "livekitMissingRoomWarningsAfterOldTokenProbe": 2
+    },
+    "postgresErrorCount": 0
+  },
+  "finalBackup": {
+    "capturedAt": "2026-10-10T23:10:12.173Z",
+    "rootPreciseCleanupConfirmed": true,
+    "roomsAtStart": 0,
+    "councilsAtStart": 0,
+    "archive": "wangxu-2026-10-10.dump",
+    "sha256": "5766df2dcf40a17b4479d4ccc10c84f022f7a38e492551a0d7d902a181388ee0",
+    "bytes": 64243,
+    "fileMode": "0600",
+    "exportedToLocalPrivateDirectory": true,
+    "cloudAndLocalChecksumsMatch": true,
+    "afterExactOwnedTestCleanup": true,
+    "retainedDatabaseCounts": {
+      "accounts": 113,
+      "matches": 14,
+      "camps": 111,
+      "matchRewards": 98
+    }
+  },
+  "finalHealth": {
+    "capturedAt": "2026-10-10T23:10:55.042Z",
+    "checks": [
+      {
+        "name": "website",
+        "url": "https://gaming.byron.wang",
+        "status": 200
+      },
+      {
+        "name": "api",
+        "url": "https://gaming.byron.wang/api/health",
+        "status": 200,
+        "body": {
+          "ok": true,
+          "database": "ready",
+          "voice": true
+        }
+      },
+      {
+        "name": "game",
+        "url": "https://game.gaming.byron.wang/health",
+        "status": 200,
+        "body": {
+          "ok": true,
+          "rooms": 0
+        }
+      },
+      {
+        "name": "voice",
+        "url": "https://voice.gaming.byron.wang",
+        "status": 200
+      }
+    ],
+    "readinessPassed": true,
+    "sfuCouncilsAtBackupStart": 0,
+    "noServiceRestartOrRebuildPerformed": true
+  }
+}

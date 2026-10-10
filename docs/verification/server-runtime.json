@@ -1,0 +1,1744 @@
+{
+  "status": "complete",
+  "measuredAt": "2026-10-10T22:59:49.384Z",
+  "method": "Read-only Docker working-set and CPU samples during normal-speed public 4-10-player SDK matches; 100% Docker CPU denotes one core. The configured 30-second sleep excludes Docker command latency.",
+  "vcpus": 2,
+  "intervalSeconds": 30,
+  "samples": 42,
+  "appCpuPercent": {
+    "maximum": 38.34,
+    "mean": 18.735714285714284
+  },
+  "observations": [
+    {
+      "at": "2026-10-10T22:36:43.100Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 12.76,
+          "workingSet": "159MiB / 7.708GiB",
+          "networkBytes": "2.12MB / 92.3MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 0.83,
+          "workingSet": "45.25MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.01MiB / 7.708GiB",
+          "networkBytes": "280kB / 1.11MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.14,
+          "workingSet": "41.86MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:37:15.880Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 6.42,
+          "workingSet": "160MiB / 7.708GiB",
+          "networkBytes": "2.44MB / 111MB",
+          "pids": 43
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.05,
+          "workingSet": "45.24MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 7.06,
+          "workingSet": "49.01MiB / 7.708GiB",
+          "networkBytes": "281kB / 1.11MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.06,
+          "workingSet": "41.86MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:37:49.086Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 8.63,
+          "workingSet": "173.2MiB / 7.708GiB",
+          "networkBytes": "2.91MB / 131MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.07,
+          "workingSet": "42.33MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.01MiB / 7.708GiB",
+          "networkBytes": "285kB / 1.11MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 2.06,
+          "workingSet": "45.38MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:38:21.936Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 8.99,
+          "workingSet": "199.4MiB / 7.708GiB",
+          "networkBytes": "3.49MB / 152MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.14,
+          "workingSet": "42.48MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 4.11,
+          "workingSet": "50.29MiB / 7.708GiB",
+          "networkBytes": "285kB / 1.11MB",
+          "pids": 9
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.7,
+          "workingSet": "48.55MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:38:55.088Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 7.67,
+          "workingSet": "199.6MiB / 7.708GiB",
+          "networkBytes": "3.94MB / 173MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.4,
+          "workingSet": "42.5MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.01MiB / 7.708GiB",
+          "networkBytes": "286kB / 1.11MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.81,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:39:27.851Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 10.2,
+          "workingSet": "200.1MiB / 7.708GiB",
+          "networkBytes": "6.9MB / 195MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.47,
+          "workingSet": "43.1MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "56.29MiB / 7.708GiB",
+          "networkBytes": "310kB / 1.15MB",
+          "pids": 11
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 6.6,
+          "workingSet": "74.87MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:40:01.154Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 3.22,
+          "workingSet": "205.6MiB / 7.708GiB",
+          "networkBytes": "10.4MB / 216MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.25,
+          "workingSet": "39.36MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.01MiB / 7.708GiB",
+          "networkBytes": "311kB / 1.15MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.07,
+          "workingSet": "74.17MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:40:33.909Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 3.86,
+          "workingSet": "205.9MiB / 7.708GiB",
+          "networkBytes": "10.8MB / 238MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.13,
+          "workingSet": "39.58MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.02,
+          "workingSet": "49.06MiB / 7.708GiB",
+          "networkBytes": "352kB / 1.19MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.05,
+          "workingSet": "74.17MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:41:07.112Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 3.73,
+          "workingSet": "206.2MiB / 7.708GiB",
+          "networkBytes": "11.1MB / 259MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.19,
+          "workingSet": "39.35MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.06MiB / 7.708GiB",
+          "networkBytes": "352kB / 1.19MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.09,
+          "workingSet": "74.18MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:41:39.928Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 18.87,
+          "workingSet": "210.7MiB / 7.708GiB",
+          "networkBytes": "11.5MB / 281MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.12,
+          "workingSet": "43.54MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.01,
+          "workingSet": "49.06MiB / 7.708GiB",
+          "networkBytes": "366kB / 1.21MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.6,
+          "workingSet": "63.88MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:42:13.279Z",
+      "rooms": 2,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 11.78,
+          "workingSet": "210.9MiB / 7.708GiB",
+          "networkBytes": "12MB / 304MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "860kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 2.4,
+          "workingSet": "43.64MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 1.1,
+          "workingSet": "49.07MiB / 7.708GiB",
+          "networkBytes": "385kB / 1.23MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.85,
+          "workingSet": "63.9MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:42:46.177Z",
+      "rooms": 5,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 15.99,
+          "workingSet": "211.3MiB / 7.708GiB",
+          "networkBytes": "13MB / 343MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 2.34,
+          "workingSet": "43.91MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.29,
+          "workingSet": "49.07MiB / 7.708GiB",
+          "networkBytes": "510kB / 1.36MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.08,
+          "workingSet": "52.39MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:43:19.260Z",
+      "rooms": 5,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 5.7,
+          "workingSet": "211.3MiB / 7.708GiB",
+          "networkBytes": "13.7MB / 385MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 2.17,
+          "workingSet": "43.67MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 7.41,
+          "workingSet": "49.07MiB / 7.708GiB",
+          "networkBytes": "510kB / 1.36MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.07,
+          "workingSet": "52.39MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:43:52.252Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 22.46,
+          "workingSet": "214.2MiB / 7.708GiB",
+          "networkBytes": "14.8MB / 437MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 6.38,
+          "workingSet": "44.11MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 1.97,
+          "workingSet": "54.33MiB / 7.708GiB",
+          "networkBytes": "578kB / 1.43MB",
+          "pids": 10
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.77,
+          "workingSet": "52.4MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 8
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:44:25.492Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 13.68,
+          "workingSet": "218.3MiB / 7.708GiB",
+          "networkBytes": "21.2MB / 492MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.32,
+          "workingSet": "44.14MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.19,
+          "workingSet": "48.75MiB / 7.708GiB",
+          "networkBytes": "579kB / 1.43MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 2.96,
+          "workingSet": "70.36MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:44:58.318Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 20.67,
+          "workingSet": "218.8MiB / 7.708GiB",
+          "networkBytes": "27.4MB / 554MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.14,
+          "workingSet": "31.55MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.01,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "627kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 3.8,
+          "workingSet": "70.35MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:45:31.527Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 22.86,
+          "workingSet": "219.9MiB / 7.708GiB",
+          "networkBytes": "31.4MB / 619MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.56,
+          "workingSet": "31.42MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 7.95,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "629kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.76,
+          "workingSet": "70.22MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:46:04.439Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 32.7,
+          "workingSet": "227.8MiB / 7.708GiB",
+          "networkBytes": "32.9MB / 691MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.79,
+          "workingSet": "31.41MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "629kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 5.14,
+          "workingSet": "64.54MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:46:37.887Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 18.61,
+          "workingSet": "242.5MiB / 7.708GiB",
+          "networkBytes": "34.6MB / 765MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.63,
+          "workingSet": "31.52MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "630kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 4.02,
+          "workingSet": "58.75MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:47:10.762Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 14.53,
+          "workingSet": "242.7MiB / 7.708GiB",
+          "networkBytes": "36MB / 834MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 4.04,
+          "workingSet": "25.09MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "630kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.79,
+          "workingSet": "59.22MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:47:44.045Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 25.8,
+          "workingSet": "244.3MiB / 7.708GiB",
+          "networkBytes": "37.3MB / 907MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.83,
+          "workingSet": "25.07MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 9.59,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "630kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 2.01,
+          "workingSet": "59.09MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:48:17.066Z",
+      "rooms": 7,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 24.69,
+          "workingSet": "244.4MiB / 7.708GiB",
+          "networkBytes": "38.6MB / 983MB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.81,
+          "workingSet": "25.12MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.05MiB / 7.708GiB",
+          "networkBytes": "631kB / 1.48MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.9,
+          "workingSet": "59.09MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:48:50.585Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 22.03,
+          "workingSet": "244.6MiB / 7.708GiB",
+          "networkBytes": "39.9MB / 1.06GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.01,
+          "workingSet": "24.09MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 9.77,
+          "workingSet": "49.21MiB / 7.708GiB",
+          "networkBytes": "656kB / 1.5MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.6,
+          "workingSet": "58.53MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:49:23.457Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 18.38,
+          "workingSet": "244.8MiB / 7.708GiB",
+          "networkBytes": "41.3MB / 1.13GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.13,
+          "workingSet": "37.62MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.28,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "700kB / 1.55MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 2.98,
+          "workingSet": "58.54MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:49:56.642Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 16.29,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "42.6MB / 1.2GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.07,
+          "workingSet": "37.82MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 6.71,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "702kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 3.16,
+          "workingSet": "58.54MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:50:29.427Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 15.55,
+          "workingSet": "247.4MiB / 7.708GiB",
+          "networkBytes": "43.9MB / 1.27GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.52,
+          "workingSet": "37.84MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "703kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 3.53,
+          "workingSet": "58.55MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:51:02.725Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 30.78,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "45.4MB / 1.34GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.81,
+          "workingSet": "37.88MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 6.93,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "703kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 4.02,
+          "workingSet": "58.55MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:51:35.529Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 29.55,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "46.8MB / 1.42GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.78,
+          "workingSet": "38.08MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "704kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 3.3,
+          "workingSet": "58.56MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:52:08.962Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 25.31,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "48MB / 1.49GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.4,
+          "workingSet": "37.85MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "704kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.69,
+          "workingSet": "58.55MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:52:41.918Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 28.7,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "49.2MB / 1.57GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.4,
+          "workingSet": "37.75MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.01,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "705kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.92,
+          "workingSet": "57.8MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:53:15.588Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 14.08,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "50.4MB / 1.65GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.85,
+          "workingSet": "26.21MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 7.68,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "707kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.78,
+          "workingSet": "57.8MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:53:48.494Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 19.37,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "51.5MB / 1.72GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.73,
+          "workingSet": "26.65MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "707kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.83,
+          "workingSet": "57.8MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:54:21.777Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 17.5,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "52.7MB / 1.8GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.85,
+          "workingSet": "26.27MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "708kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.63,
+          "workingSet": "57.8MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:54:54.643Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 38.34,
+          "workingSet": "247.5MiB / 7.708GiB",
+          "networkBytes": "54.1MB / 1.88GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.89,
+          "workingSet": "26.26MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.03,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "708kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 4.92,
+          "workingSet": "57.81MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:55:28.072Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 34.01,
+          "workingSet": "247.6MiB / 7.708GiB",
+          "networkBytes": "55.6MB / 1.96GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.37,
+          "workingSet": "23.25MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "709kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 5.73,
+          "workingSet": "57.81MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:56:00.945Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 30.19,
+          "workingSet": "248.9MiB / 7.708GiB",
+          "networkBytes": "57.2MB / 2.05GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.88,
+          "workingSet": "35.98MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.25MiB / 7.708GiB",
+          "networkBytes": "709kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 4.06,
+          "workingSet": "57.82MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:56:34.231Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 14.18,
+          "workingSet": "249MiB / 7.708GiB",
+          "networkBytes": "58.5MB / 2.13GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.48,
+          "workingSet": "37.74MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "710kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.74,
+          "workingSet": "57.81MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:57:07.183Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 36.29,
+          "workingSet": "249MiB / 7.708GiB",
+          "networkBytes": "59.7MB / 2.21GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.33,
+          "workingSet": "37.73MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.03,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "710kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 0.14,
+          "workingSet": "57.81MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:57:40.466Z",
+      "rooms": 6,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 24.33,
+          "workingSet": "249MiB / 7.708GiB",
+          "networkBytes": "60.8MB / 2.29GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 3.41,
+          "workingSet": "39.53MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0,
+          "workingSet": "49.24MiB / 7.708GiB",
+          "networkBytes": "711kB / 1.56MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.83,
+          "workingSet": "57.82MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:58:13.291Z",
+      "rooms": 5,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 11.28,
+          "workingSet": "249.6MiB / 7.708GiB",
+          "networkBytes": "62MB / 2.38GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 2.72,
+          "workingSet": "39.54MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.02,
+          "workingSet": "49.25MiB / 7.708GiB",
+          "networkBytes": "740kB / 1.59MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.69,
+          "workingSet": "57.69MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:58:46.519Z",
+      "rooms": 4,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 14.99,
+          "workingSet": "249.6MiB / 7.708GiB",
+          "networkBytes": "62.9MB / 2.44GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 2.09,
+          "workingSet": "39.57MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 0.02,
+          "workingSet": "49.29MiB / 7.708GiB",
+          "networkBytes": "794kB / 1.64MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.67,
+          "workingSet": "57.7MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    },
+    {
+      "at": "2026-10-10T22:59:19.382Z",
+      "rooms": 4,
+      "containers": [
+        {
+          "name": "deploy-app-1",
+          "cpuPercent": 31.93,
+          "workingSet": "249.6MiB / 7.708GiB",
+          "networkBytes": "63.7MB / 2.49GB",
+          "pids": 42
+        },
+        {
+          "name": "deploy-backup-1",
+          "cpuPercent": 0,
+          "workingSet": "856KiB / 7.708GiB",
+          "networkBytes": "861kB / 30.8kB",
+          "pids": 2
+        },
+        {
+          "name": "deploy-caddy-1",
+          "cpuPercent": 1.94,
+          "workingSet": "39.61MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 10
+        },
+        {
+          "name": "deploy-db-1",
+          "cpuPercent": 3.93,
+          "workingSet": "49.29MiB / 7.708GiB",
+          "networkBytes": "795kB / 1.64MB",
+          "pids": 7
+        },
+        {
+          "name": "deploy-livekit-1",
+          "cpuPercent": 1.67,
+          "workingSet": "57.69MiB / 7.708GiB",
+          "networkBytes": "0B / 0B",
+          "pids": 9
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "concurrency": {
+    "maximumRooms": 7,
+    "maximumCoordinatedGameClients": 49,
+    "clientSource": "Seven separately authenticated SDK rooms with 4+5+6+7+8+9+10 clients at peak; clients left after their own settlement checks."
+  },
+  "appPeakWorkingSetMiB": 249.6,
+  "scope": "Coordinated clients verified inputs, private payloads, reconnect, phases and settlement; objectives were intentionally incomplete. This is not a sustained human combat, phone rendering or concurrency capacity bound."
+}

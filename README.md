@@ -1,6 +1,8 @@
 # 亡絮：归灯 / Soulwisp: Returnlight
 
-浏览器实时探索、阶段议会与撤离养成游戏。四人优先完成，随后在本地逐档实现4–10人，全部验收后统一迁移单台服务器。
+浏览器实时探索、阶段议会与撤离养成游戏，支持4–10人独立账户联机。
+
+**在线游戏：[gaming.byron.wang](https://gaming.byron.wang/)**。正式版本使用一台Linux VPS承载网页、账户、数据库、权威房间和议会语音；Cloudflare负责DNS。验收记录见[开发状态](docs/development-status.md)。
 
 ## 本地启动
 
@@ -39,8 +41,10 @@ npm run backup
 - `apps/server`：Hono/BetterAuth账户、Colyseus权威房间、PostgreSQL/Drizzle持久化、LiveKit议会控制。
 - `packages/rules`：共享可测试规则、人数配置、地图与内容。
 - `packages/shared`：命令、授权视图、营地和结算协议。
-- `deploy`：单机Linux部署模板；本地验收后实际使用。
+- `deploy`：单机Linux部署、HTTPS、语音媒体、防火墙、每日备份与恢复工具。
 
 操作步骤与实际截图见[玩家手册](docs/player-guide.md)，运行和局域网证书见[本地开发](docs/local-development.md)，背景见[故事](docs/story.md)，验收记录见[开发状态](docs/development-status.md)。运行模型来自KayKit官方免费CC0资源；完整来源、固定版本、动画与文件哈希见`apps/web/public/assets/manifest.json`。素材采购支出为0元。
 
 `npm run package`生成包含源码、运行资产、迁移、启动工具与操作手册的版本包及SHA256校验文件；数据库使用`npm run backup`独立导出。
+
+提交使用全英文Conventional Commits；克隆后运行`git config --local core.hooksPath .githooks`启用校验。具体格式见[贡献规范](CONTRIBUTING.md)。

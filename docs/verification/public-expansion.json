@@ -1,0 +1,995 @@
+{
+  "runId": "ba9ee90c-4ce1-40ae-9c71-52d692fd1458",
+  "status": "passed",
+  "startedAt": "2026-10-10T22:42:12.919Z",
+  "finishedAt": "2026-10-10T23:08:16.235Z",
+  "updatedAt": "2026-10-10T23:08:16.235Z",
+  "targets": {
+    "api": "https://gaming.byron.wang",
+    "socket": "wss://game.gaming.byron.wang",
+    "origin": "https://gaming.byron.wang"
+  },
+  "method": {
+    "normalProductionTiming": true,
+    "timeScaleOverride": false,
+    "localServerSpawned": false,
+    "databaseMutation": false,
+    "signupBatches": [
+      10,
+      10,
+      7
+    ],
+    "reusedAccounts": 8,
+    "newAccounts": 27,
+    "signupGapSeconds": 65,
+    "winScenario": "Objectives intentionally left incomplete; normal final wolf victory.",
+    "scope": "Public HTTPS/WSS SDK gameplay pipeline and account persistence; excludes browser rendering and live audio media.",
+    "completeConfigSnapshotsVerified": true,
+    "authoritativeConfigSnapshotModes": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "deploymentRevisionAsConfirmedByOperator": "b292d2a"
+  },
+  "accountsCreated": 27,
+  "accountsReused": 8,
+  "accountsProvisioned": 35,
+  "rooms": [
+    {
+      "players": 5,
+      "status": "passed",
+      "expectedSeconds": 945,
+      "phases": [
+        {
+          "phase": "LOBBY",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:42:13.542Z",
+          "gameElapsed": 0,
+          "remaining": 0
+        },
+        {
+          "phase": "PREP",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:42:14.733Z",
+          "gameElapsed": 0.05,
+          "remaining": 44.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:42:59.778Z",
+          "gameElapsed": 45.04999999999958,
+          "remaining": 164.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:45:44.739Z",
+          "gameElapsed": 210.05000000001024,
+          "remaining": 69.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:46:54.804Z",
+          "gameElapsed": 280.05000000002616,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:47:14.781Z",
+          "gameElapsed": 300.05000000003054,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:47:29.796Z",
+          "gameElapsed": 315.05000000003383,
+          "remaining": 164.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:50:14.791Z",
+          "gameElapsed": 480.05000000006805,
+          "remaining": 69.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:51:24.832Z",
+          "gameElapsed": 550.0500000000407,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:51:44.841Z",
+          "gameElapsed": 570.0500000000224,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:51:59.931Z",
+          "gameElapsed": 585.0500000000087,
+          "remaining": 164.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:54:44.854Z",
+          "gameElapsed": 750.0499999998555,
+          "remaining": 69.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:55:54.925Z",
+          "gameElapsed": 820.0499999997918,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:56:14.899Z",
+          "gameElapsed": 840.0499999997735,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXTRACT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:56:29.947Z",
+          "gameElapsed": 855.0499999997598,
+          "remaining": 89.95
+        },
+        {
+          "phase": "RESULT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:57:59.896Z",
+          "gameElapsed": 944.999999999678,
+          "remaining": 0
+        }
+      ],
+      "privateViewChecks": 47363,
+      "privateViewFailures": 0,
+      "hiddenCoordinatesObserved": 13006,
+      "commandErrors": 0,
+      "abstentionCommands": 15,
+      "abstentionAcknowledgements": 15,
+      "draftCommands": 15,
+      "draftAcknowledgements": 15,
+      "statementCommands": 3,
+      "settlementAcknowledgements": 5,
+      "movement": {
+        "authoritative": true,
+        "distance": 244.47788388774242,
+        "sequenceAcknowledged": true,
+        "hiddenFromRemotePeers": true
+      },
+      "reconnect": {
+        "originalRoomPreserved": true,
+        "originalSessionPreserved": true,
+        "privateIdentityPreserved": true,
+        "serverSequencePreserved": true,
+        "postReconnectMoveAccepted": true,
+        "elapsedMilliseconds": 1314
+      },
+      "persistence": {
+        "accountsVerified": 5,
+        "matchIncrement": 1,
+        "rewardDeltasMatchResult": true,
+        "repeatedReadsStable": true,
+        "newSessionPersistence": true,
+        "rewardTotals": {
+          "fragments": 70,
+          "secrets": 6
+        }
+      },
+      "current": {
+        "phase": "RESULT",
+        "chapter": 3,
+        "remaining": 0,
+        "gameElapsed": 944.999999999678
+      },
+      "startedAt": "2026-10-10T22:42:14.733Z",
+      "finishedAt": "2026-10-10T22:58:00.794Z",
+      "actualWallSeconds": 945.251,
+      "actualEngineSeconds": 944.999999999678,
+      "winner": "wolf",
+      "reason": "终钟响起，归灯远征未完成",
+      "phaseSequenceVerified": true
+    },
+    {
+      "players": 6,
+      "status": "passed",
+      "expectedSeconds": 1255,
+      "phases": [
+        {
+          "phase": "LOBBY",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:42:14.771Z",
+          "gameElapsed": 0,
+          "remaining": 0
+        },
+        {
+          "phase": "PREP",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:42:16.300Z",
+          "gameElapsed": 0.05,
+          "remaining": 44.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:43:01.353Z",
+          "gameElapsed": 45.04999999999958,
+          "remaining": 169.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:45:51.307Z",
+          "gameElapsed": 215.05000000001024,
+          "remaining": 74.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:47:06.385Z",
+          "gameElapsed": 290.0500000000273,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:47:26.422Z",
+          "gameElapsed": 310.0500000000317,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:47:41.413Z",
+          "gameElapsed": 325.05000000003497,
+          "remaining": 169.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:50:31.411Z",
+          "gameElapsed": 495.0500000000692,
+          "remaining": 74.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:51:46.456Z",
+          "gameElapsed": 570.0500000000202,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:52:06.462Z",
+          "gameElapsed": 590.0500000000019,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:52:21.445Z",
+          "gameElapsed": 605.0499999999882,
+          "remaining": 169.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:55:11.463Z",
+          "gameElapsed": 775.0499999998293,
+          "remaining": 74.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:56:26.509Z",
+          "gameElapsed": 850.0499999997611,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:56:46.533Z",
+          "gameElapsed": 870.0499999997428,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T22:57:01.498Z",
+          "gameElapsed": 885.0499999997292,
+          "remaining": 169.95
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 4,
+          "observedAt": "2026-10-10T22:59:51.521Z",
+          "gameElapsed": 1055.0499999995702,
+          "remaining": 74.95
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:01:06.540Z",
+          "gameElapsed": 1130.049999999502,
+          "remaining": 19.95
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:01:26.570Z",
+          "gameElapsed": 1150.0499999994838,
+          "remaining": 14.95
+        },
+        {
+          "phase": "EXTRACT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:01:41.539Z",
+          "gameElapsed": 1165.0499999994702,
+          "remaining": 89.95
+        },
+        {
+          "phase": "RESULT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:03:11.570Z",
+          "gameElapsed": 1254.9999999993884,
+          "remaining": 0
+        }
+      ],
+      "privateViewChecks": 75470,
+      "privateViewFailures": 0,
+      "hiddenCoordinatesObserved": 16745,
+      "commandErrors": 0,
+      "abstentionCommands": 24,
+      "abstentionAcknowledgements": 24,
+      "draftCommands": 24,
+      "draftAcknowledgements": 24,
+      "statementCommands": 4,
+      "settlementAcknowledgements": 6,
+      "movement": {
+        "authoritative": true,
+        "distance": 221.6710291078947,
+        "sequenceAcknowledged": true,
+        "hiddenFromRemotePeers": true
+      },
+      "reconnect": {
+        "originalRoomPreserved": true,
+        "originalSessionPreserved": true,
+        "privateIdentityPreserved": true,
+        "serverSequencePreserved": true,
+        "postReconnectMoveAccepted": true,
+        "elapsedMilliseconds": 1226
+      },
+      "persistence": {
+        "accountsVerified": 6,
+        "matchIncrement": 1,
+        "rewardDeltasMatchResult": true,
+        "repeatedReadsStable": true,
+        "newSessionPersistence": true,
+        "rewardTotals": {
+          "fragments": 100,
+          "secrets": 8
+        }
+      },
+      "current": {
+        "phase": "RESULT",
+        "chapter": 4,
+        "remaining": 0,
+        "gameElapsed": 1254.9999999993884
+      },
+      "startedAt": "2026-10-10T22:42:16.300Z",
+      "finishedAt": "2026-10-10T23:03:12.595Z",
+      "actualWallSeconds": 1255.334,
+      "actualEngineSeconds": 1254.9999999993884,
+      "winner": "wolf",
+      "reason": "终钟响起，归灯远征未完成",
+      "phaseSequenceVerified": true
+    },
+    {
+      "players": 7,
+      "status": "passed",
+      "expectedSeconds": 1295,
+      "phases": [
+        {
+          "phase": "LOBBY",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:42:18.210Z",
+          "gameElapsed": 0,
+          "remaining": 0
+        },
+        {
+          "phase": "PREP",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:42:20.200Z",
+          "gameElapsed": 0.1,
+          "remaining": 44.900000000000006
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:43:05.104Z",
+          "gameElapsed": 44.99999999999958,
+          "remaining": 175
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:46:00.142Z",
+          "gameElapsed": 220.00000000001023,
+          "remaining": 80
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:47:20.180Z",
+          "gameElapsed": 300.0000000000284,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:47:40.172Z",
+          "gameElapsed": 320.0000000000328,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:47:55.162Z",
+          "gameElapsed": 335.0000000000361,
+          "remaining": 175
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:50:50.151Z",
+          "gameElapsed": 510.0000000000703,
+          "remaining": 80
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:52:10.214Z",
+          "gameElapsed": 589.9999999999998,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:52:30.192Z",
+          "gameElapsed": 609.9999999999815,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:52:45.238Z",
+          "gameElapsed": 624.9999999999678,
+          "remaining": 175
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:55:40.227Z",
+          "gameElapsed": 799.9999999998032,
+          "remaining": 80
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:57:00.243Z",
+          "gameElapsed": 879.9999999997304,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:57:20.295Z",
+          "gameElapsed": 899.9999999997121,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T22:57:35.284Z",
+          "gameElapsed": 914.9999999996985,
+          "remaining": 175
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:00:30.274Z",
+          "gameElapsed": 1089.9999999995339,
+          "remaining": 80
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:01:50.325Z",
+          "gameElapsed": 1169.9999999994611,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:02:10.307Z",
+          "gameElapsed": 1189.999999999443,
+          "remaining": 15
+        },
+        {
+          "phase": "EXTRACT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:02:25.294Z",
+          "gameElapsed": 1204.9999999994293,
+          "remaining": 90
+        },
+        {
+          "phase": "RESULT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:03:55.316Z",
+          "gameElapsed": 1294.9999999993474,
+          "remaining": 0
+        }
+      ],
+      "privateViewChecks": 90846,
+      "privateViewFailures": 0,
+      "hiddenCoordinatesObserved": 20730,
+      "commandErrors": 0,
+      "abstentionCommands": 28,
+      "abstentionAcknowledgements": 28,
+      "draftCommands": 28,
+      "draftAcknowledgements": 28,
+      "statementCommands": 4,
+      "settlementAcknowledgements": 7,
+      "movement": {
+        "authoritative": true,
+        "distance": 228.68615541071367,
+        "sequenceAcknowledged": true,
+        "hiddenFromRemotePeers": true
+      },
+      "reconnect": {
+        "originalRoomPreserved": true,
+        "originalSessionPreserved": true,
+        "privateIdentityPreserved": true,
+        "serverSequencePreserved": true,
+        "postReconnectMoveAccepted": true,
+        "elapsedMilliseconds": 1238
+      },
+      "persistence": {
+        "accountsVerified": 7,
+        "matchIncrement": 1,
+        "rewardDeltasMatchResult": true,
+        "repeatedReadsStable": true,
+        "newSessionPersistence": true,
+        "rewardTotals": {
+          "fragments": 110,
+          "secrets": 9
+        }
+      },
+      "current": {
+        "phase": "RESULT",
+        "chapter": 4,
+        "remaining": 0,
+        "gameElapsed": 1294.9999999993474
+      },
+      "startedAt": "2026-10-10T22:42:20.200Z",
+      "finishedAt": "2026-10-10T23:03:56.190Z",
+      "actualWallSeconds": 1295.169,
+      "actualEngineSeconds": 1294.9999999993474,
+      "winner": "wolf",
+      "reason": "终钟响起，归灯远征未完成",
+      "phaseSequenceVerified": true
+    },
+    {
+      "players": 8,
+      "status": "passed",
+      "expectedSeconds": 1355,
+      "phases": [
+        {
+          "phase": "LOBBY",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:43:27.471Z",
+          "gameElapsed": 0,
+          "remaining": 0
+        },
+        {
+          "phase": "PREP",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:43:29.779Z",
+          "gameElapsed": 0.1,
+          "remaining": 44.900000000000006
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:44:14.752Z",
+          "gameElapsed": 44.99999999999958,
+          "remaining": 180
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:47:14.672Z",
+          "gameElapsed": 225.00000000001023,
+          "remaining": 90
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:48:44.763Z",
+          "gameElapsed": 315.0000000000307,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:49:04.746Z",
+          "gameElapsed": 335.0000000000351,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:49:19.755Z",
+          "gameElapsed": 350.00000000003837,
+          "remaining": 180
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:52:19.722Z",
+          "gameElapsed": 530.0000000000522,
+          "remaining": 90
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:53:49.769Z",
+          "gameElapsed": 619.9999999999703,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:54:09.785Z",
+          "gameElapsed": 639.999999999952,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:54:24.776Z",
+          "gameElapsed": 654.9999999999384,
+          "remaining": 180
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:57:24.778Z",
+          "gameElapsed": 834.9999999997681,
+          "remaining": 90
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:58:54.830Z",
+          "gameElapsed": 924.9999999996862,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:59:14.815Z",
+          "gameElapsed": 944.9999999996679,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T22:59:29.810Z",
+          "gameElapsed": 959.9999999996543,
+          "remaining": 180
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:02:29.825Z",
+          "gameElapsed": 1139.999999999484,
+          "remaining": 90
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:03:59.865Z",
+          "gameElapsed": 1229.9999999994022,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:04:19.866Z",
+          "gameElapsed": 1249.999999999384,
+          "remaining": 15
+        },
+        {
+          "phase": "EXTRACT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:04:34.907Z",
+          "gameElapsed": 1264.9999999993704,
+          "remaining": 90
+        },
+        {
+          "phase": "RESULT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:06:04.856Z",
+          "gameElapsed": 1354.9999999992885,
+          "remaining": 0
+        }
+      ],
+      "privateViewChecks": 108655,
+      "privateViewFailures": 0,
+      "hiddenCoordinatesObserved": 24864,
+      "commandErrors": 0,
+      "abstentionCommands": 32,
+      "abstentionAcknowledgements": 32,
+      "draftCommands": 32,
+      "draftAcknowledgements": 32,
+      "statementCommands": 4,
+      "settlementAcknowledgements": 8,
+      "movement": {
+        "authoritative": true,
+        "distance": 224.4765144961759,
+        "sequenceAcknowledged": true,
+        "hiddenFromRemotePeers": true
+      },
+      "reconnect": {
+        "originalRoomPreserved": true,
+        "originalSessionPreserved": true,
+        "privateIdentityPreserved": true,
+        "serverSequencePreserved": true,
+        "postReconnectMoveAccepted": true,
+        "elapsedMilliseconds": 1103
+      },
+      "persistence": {
+        "accountsVerified": 8,
+        "matchIncrement": 1,
+        "rewardDeltasMatchResult": true,
+        "repeatedReadsStable": true,
+        "newSessionPersistence": true,
+        "rewardTotals": {
+          "fragments": 120,
+          "secrets": 10
+        }
+      },
+      "current": {
+        "phase": "RESULT",
+        "chapter": 4,
+        "remaining": 0,
+        "gameElapsed": 1354.9999999992885
+      },
+      "startedAt": "2026-10-10T22:43:29.780Z",
+      "finishedAt": "2026-10-10T23:06:05.878Z",
+      "actualWallSeconds": 1355.127,
+      "actualEngineSeconds": 1354.9999999992885,
+      "winner": "wolf",
+      "reason": "终钟响起，归灯远征未完成",
+      "phaseSequenceVerified": true
+    },
+    {
+      "players": 9,
+      "status": "passed",
+      "expectedSeconds": 1415,
+      "phases": [
+        {
+          "phase": "LOBBY",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:44:37.325Z",
+          "gameElapsed": 0,
+          "remaining": 0
+        },
+        {
+          "phase": "PREP",
+          "chapter": 0,
+          "observedAt": "2026-10-10T22:44:39.922Z",
+          "gameElapsed": 0.1,
+          "remaining": 44.900000000000006
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:45:24.760Z",
+          "gameElapsed": 44.99999999999958,
+          "remaining": 185
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:48:29.758Z",
+          "gameElapsed": 230.00000000001023,
+          "remaining": 100
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:50:09.820Z",
+          "gameElapsed": 330.00000000003297,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 1,
+          "observedAt": "2026-10-10T22:50:29.792Z",
+          "gameElapsed": 350.00000000003735,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:50:44.825Z",
+          "gameElapsed": 365.00000000004064,
+          "remaining": 185
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:53:49.830Z",
+          "gameElapsed": 550.0000000000317,
+          "remaining": 100
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:55:29.871Z",
+          "gameElapsed": 649.9999999999408,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 2,
+          "observedAt": "2026-10-10T22:55:49.874Z",
+          "gameElapsed": 669.9999999999225,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:56:04.858Z",
+          "gameElapsed": 684.9999999999088,
+          "remaining": 185
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 3,
+          "observedAt": "2026-10-10T22:59:09.852Z",
+          "gameElapsed": 869.9999999997328,
+          "remaining": 100
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 3,
+          "observedAt": "2026-10-10T23:00:49.891Z",
+          "gameElapsed": 969.9999999996419,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 3,
+          "observedAt": "2026-10-10T23:01:09.929Z",
+          "gameElapsed": 989.9999999996236,
+          "remaining": 15
+        },
+        {
+          "phase": "EXPLORE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:01:24.893Z",
+          "gameElapsed": 1004.9999999996099,
+          "remaining": 185
+        },
+        {
+          "phase": "DISCUSS",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:04:29.935Z",
+          "gameElapsed": 1189.999999999434,
+          "remaining": 100
+        },
+        {
+          "phase": "VOTE",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:06:09.979Z",
+          "gameElapsed": 1289.9999999993431,
+          "remaining": 20
+        },
+        {
+          "phase": "DRAFT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:06:29.965Z",
+          "gameElapsed": 1309.999999999325,
+          "remaining": 15
+        },
+        {
+          "phase": "EXTRACT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:06:44.953Z",
+          "gameElapsed": 1324.9999999993113,
+          "remaining": 90
+        },
+        {
+          "phase": "RESULT",
+          "chapter": 4,
+          "observedAt": "2026-10-10T23:08:14.971Z",
+          "gameElapsed": 1414.9999999992294,
+          "remaining": 0
+        }
+      ],
+      "privateViewChecks": 127667,
+      "privateViewFailures": 0,
+      "hiddenCoordinatesObserved": 29210,
+      "commandErrors": 0,
+      "abstentionCommands": 36,
+      "abstentionAcknowledgements": 36,
+      "draftCommands": 36,
+      "draftAcknowledgements": 36,
+      "statementCommands": 4,
+      "settlementAcknowledgements": 9,
+      "movement": {
+        "authoritative": true,
+        "distance": 222.66824257928334,
+        "sequenceAcknowledged": true,
+        "hiddenFromRemotePeers": true
+      },
+      "reconnect": {
+        "originalRoomPreserved": true,
+        "originalSessionPreserved": true,
+        "privateIdentityPreserved": true,
+        "serverSequencePreserved": true,
+        "postReconnectMoveAccepted": true,
+        "elapsedMilliseconds": 1171
+      },
+      "persistence": {
+        "accountsVerified": 9,
+        "matchIncrement": 1,
+        "rewardDeltasMatchResult": true,
+        "repeatedReadsStable": true,
+        "newSessionPersistence": true,
+        "rewardTotals": {
+          "fragments": 130,
+          "secrets": 11
+        }
+      },
+      "current": {
+        "phase": "RESULT",
+        "chapter": 4,
+        "remaining": 0,
+        "gameElapsed": 1414.9999999992294
+      },
+      "startedAt": "2026-10-10T22:44:39.922Z",
+      "finishedAt": "2026-10-10T23:08:16.179Z",
+      "actualWallSeconds": 1415.089,
+      "actualEngineSeconds": 1414.9999999992294,
+      "winner": "wolf",
+      "reason": "终钟响起，归灯远征未完成",
+      "phaseSequenceVerified": true
+    }
+  ],
+  "errors": [],
+  "connectionCleanup": {
+    "allOwnedConnectionsLeft": true,
+    "observedPublicRooms": 0,
+    "checkedAt": "2026-10-10T23:08:51.314Z"
+  }
+}

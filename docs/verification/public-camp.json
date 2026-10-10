@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "runId": "fd8b61c1-e783-4e9e-bd7c-0e5c03bc8de4",
+  "readOnlyCamp": {
+    "measuredAt": "2026-10-10T22:35:50.100Z",
+    "finishedAt": "2026-10-10T22:36:04.217Z",
+    "capacity": 10,
+    "publicOrigin": "https://gaming.byron.wang",
+    "passed": true,
+    "checks": [
+      "authenticated HTTPS session/camp and unauthenticated rejection",
+      "unowned cosmetic rejection preserves saved equipment",
+      "foreign-origin mutation rejection",
+      "signup native input validation submits no account creation request",
+      "invalid login displays recoverable UI error",
+      "real public UI login, account name and current camp balances",
+      "authenticated 390px public camp remains visible without horizontal overflow"
+    ],
+    "balances": {
+      "before": {
+        "fragments": 0,
+        "secrets": 0,
+        "matches": 0,
+        "wins": 0
+      },
+      "after": {
+        "fragments": 0,
+        "secrets": 0,
+        "matches": 0,
+        "wins": 0
+      }
+    },
+    "pageErrors": [],
+    "createdAccounts": 0,
+    "signupRequests": 0,
+    "screenshots": [
+      ".local/verification/public-camp-desktop.png",
+      ".local/verification/public-camp-mobile.png"
+    ],
+    "accountAlias": "normal-ten-player-index-zero"
+  },
+  "ownership": {
+    "credentialFile": ".local/public-gameplay-accounts.json",
+    "createdBy": "social_games and hybrid_games coordinated disposable accounts",
+    "cleanup": "Exact coordinated test IDs only; no SQL, signup or deletion issued by this script.",
+    "credentialFiles": [
+      ".local/public-gameplay-accounts.json",
+      ".local/public-lobby-accounts.json"
+    ],
+    "accountAliases": [
+      "normal-ten-player-index-zero",
+      "dedicated-lobby-index-zero",
+      "normal-four-player-index-zero"
+    ],
+    "exactArtifacts": "Private .local/public-camp-artifacts.json; no cleanup IDs are present in this report."
+  },
+  "privatePayloadAudit": {
+    "measuredAt": "2026-10-10T22:40:13.581Z",
+    "passed": true,
+    "source": "Coordinated production WSS views captured for human/wolf at the same server tick; raw views remain private in .local.",
+    "checks": [
+      "No other-player faction, role-private inventory, wolf budget, evidence, cooldown or movement intent in public roster",
+      "Human receives no wolf allies or budget; wolf receives its configured team only",
+      "No pre-result faction map, map seed or internal RNG state",
+      "Hidden players have null coordinates and neutralized HP/down/shield/transform/core-holder fields",
+      "Non-public active world objects stay within current private vision radius; object owner omitted",
+      "Evidence, message and object identifiers contain no player identifier",
+      "Feedback payload coordinates are finite and target player is visible when a target is named"
+    ],
+    "samples": [
+      {
+        "capacity": 4,
+        "label": "initial private identities",
+        "capturedAt": "2026-10-10T22:34:49.978Z",
+        "elapsed": 45.04999999999958,
+        "sameTick": true,
+        "hiddenPlayersAcrossTwoViews": 0,
+        "visiblePlayersAcrossTwoViews": 8,
+        "nearbyPrivateObjectsAcrossTwoViews": 0,
+        "feedbackChecked": 0,
+        "passed": true
+      },
+      {
+        "capacity": 10,
+        "label": "initial private identities",
+        "capturedAt": "2026-10-10T22:34:51.605Z",
+        "elapsed": 45.04999999999958,
+        "sameTick": true,
+        "hiddenPlayersAcrossTwoViews": 0,
+        "visiblePlayersAcrossTwoViews": 20,
+        "nearbyPrivateObjectsAcrossTwoViews": 0,
+        "feedbackChecked": 0,
+        "passed": true
+      },
+      {
+        "capacity": 4,
+        "label": "after authorized separation",
+        "capturedAt": "2026-10-10T22:34:52.721Z",
+        "elapsed": 47.749999999999424,
+        "sameTick": true,
+        "hiddenPlayersAcrossTwoViews": 4,
+        "visiblePlayersAcrossTwoViews": 4,
+        "nearbyPrivateObjectsAcrossTwoViews": 0,
+        "feedbackChecked": 0,
+        "passed": true
+      },
+      {
+        "capacity": 10,
+        "label": "after authorized separation",
+        "capturedAt": "2026-10-10T22:34:54.341Z",
+        "elapsed": 47.84999999999942,
+        "sameTick": true,
+        "hiddenPlayersAcrossTwoViews": 10,
+        "visiblePlayersAcrossTwoViews": 10,
+        "nearbyPrivateObjectsAcrossTwoViews": 0,
+        "feedbackChecked": 0,
+        "passed": true
+      }
+    ],
+    "scope": "These four production samples cover initial EXPLORE and post-movement separation for 4 and 10 players. They contain no finished match, sealed observer, fog or public vote interaction."
+  },
+  "publicRuntimeNotices": {
+    "measuredAt": "2026-10-10T22:41:55.427Z",
+    "passed": true,
+    "url": "https://gaming.byron.wang/THIRD_PARTY_NOTICES.txt",
+    "status": 200,
+    "bytes": 270460,
+    "sha256": "97d6190a176a927ca2d60ada0295c2e588f118e84724c66757c7a444e64c98ea",
+    "matchesInstalledVersionNoticeSource": true
+  },
+  "dedicatedTutorialCamp": {
+    "measuredAt": "2026-10-10T22:41:23.498Z",
+    "finishedAt": "2026-10-10T22:42:44.715Z",
+    "publicOrigin": "https://gaming.byron.wang",
+    "passed": true,
+    "checks": [
+      "repeated unfunded recipe requests preserve zero balances and no owned item",
+      "all six public UI lessons completed by movement, interactions, attack/skill/dodge/rescue, evidence/chat/vote, boon and final core escort",
+      "authenticated tutorial completion persists one lantern; repeated completion is idempotent and grants no currency or match",
+      "real UI owned lantern, free second scout form and named preset survive full reload; preset restores changed selection",
+      "saved preset retries are idempotent; nonce payload reuse and unowned cosmetic are rejected without mutation",
+      "390px authenticated camp displays earned lantern and saved preset without overflow"
+    ],
+    "lessons": [
+      "循灯而行",
+      "点亮共同的归途",
+      "战斗也会留下线索",
+      "让证据先于判断",
+      "选择这一程的祝福",
+      "护送唯一的归灯芯"
+    ],
+    "after": {
+      "fragments": 0,
+      "secrets": 0,
+      "matches": 0,
+      "wins": 0,
+      "tutorialStep": 6,
+      "tutorialCompleted": true,
+      "cosmetics": [
+        "base",
+        "tutorial-lantern"
+      ],
+      "equipment": {
+        "form": 1,
+        "cosmeticId": "tutorial-lantern",
+        "profession": "scout"
+      },
+      "presets": [
+        {
+          "form": 1,
+          "name": "公网验收·初行者",
+          "cosmeticId": "tutorial-lantern",
+          "profession": "scout"
+        }
+      ]
+    },
+    "createdAccounts": 0,
+    "pageErrors": [],
+    "screenshots": [
+      ".local/verification/public-authenticated-tutorial-complete.png",
+      ".local/verification/public-dedicated-camp-desktop.png",
+      ".local/verification/public-dedicated-camp-mobile.png"
+    ],
+    "accountAlias": "dedicated-lobby-index-zero",
+    "afterTutorialBeforeRetryChecks": {
+      "fragments": 0,
+      "secrets": 0,
+      "matches": 0,
+      "wins": 0,
+      "tutorialStep": 6,
+      "tutorialCompleted": true,
+      "cosmetics": [
+        "base",
+        "tutorial-lantern"
+      ],
+      "equipment": {
+        "form": 1,
+        "cosmeticId": "tutorial-lantern",
+        "profession": "scout"
+      },
+      "presets": [
+        {
+          "form": 1,
+          "name": "公网验收·初行者",
+          "cosmeticId": "tutorial-lantern",
+          "profession": "scout"
+        }
+      ]
+    }
+  },
+  "sourceCredentialScan": {
+    "measuredAt": "2026-10-10T23:10:50.739Z",
+    "passed": true,
+    "textFilesChecked": 138,
+    "protectedCredentialValuesChecked": 152,
+    "uniqueOwnedTestAccounts": 50,
+    "privateVaultsChecked": 3,
+    "matchedPaths": [],
+    "cleanupIdMatchedReports": [],
+    "scope": "Git-tracked and non-ignored source/report text checked against all 50 owned test accounts from three coordinated vaults, their passwords/cookies and local configured secrets; docs checked for exact cleanup IDs. Neither credential values nor cleanup IDs are copied to this report."
+  },
+  "fundedUiCraft": {
+    "measuredAt": "2026-10-10T22:49:05.000Z",
+    "finishedAt": "2026-10-10T22:49:23.822Z",
+    "passed": true,
+    "accountAlias": "normal-four-player-index-zero",
+    "publicOrigin": "https://gaming.byron.wang",
+    "checks": [
+      "real public UI login displays currency and one match earned by normal 4-player WSS settlement",
+      "actual craft button sends a nonce, produces one wearable cosmetic and deducts exactly 10 earned fragments",
+      "same craft nonce twice, new nonce for already-owned recipe and mismatched payload reject all preserve one charge",
+      "crafted cosmetic, freely available second scout form and account preset survive reload and restore edited selection",
+      "390px mobile reload keeps crafted cosmetic and named preset visible without horizontal overflow"
+    ],
+    "before": {
+      "fragments": 10,
+      "secrets": 1,
+      "matches": 1,
+      "wins": 0,
+      "equipment": {
+        "form": 0,
+        "cosmeticId": "base",
+        "profession": "warden"
+      },
+      "cosmetics": [
+        "base"
+      ],
+      "presets": []
+    },
+    "after": {
+      "fragments": 0,
+      "secrets": 1,
+      "matches": 1,
+      "wins": 0,
+      "equipment": {
+        "form": 1,
+        "cosmeticId": "first-thread",
+        "profession": "scout"
+      },
+      "cosmetics": [
+        "base",
+        "first-thread"
+      ],
+      "presets": [
+        {
+          "form": 1,
+          "name": "公网制作·归灯",
+          "cosmeticId": "first-thread",
+          "profession": "scout"
+        }
+      ]
+    },
+    "createdAccounts": 0,
+    "pageErrors": [],
+    "screenshots": [
+      ".local/verification/public-crafted-camp-desktop.png",
+      ".local/verification/public-crafted-camp-mobile.png"
+    ]
+  }
+}

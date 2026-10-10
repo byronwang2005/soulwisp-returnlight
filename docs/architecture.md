@@ -97,4 +97,8 @@ Compose 等数据库健康；应用先迁移、再监听和通过 readiness。�
 
 Pages 之后可单独托管 `apps/web/dist`，不承载 Node 房间、数据库或音频。当前默认同源 API；改 Pages 跨域托管需新增 CORS / cookie 域策略、重建公开 HTTPS / WSS 地址并重验登录。[Pages React](https://developers.cloudflare.com/pages/framework-guides/deploy-a-react-site/)
 
-当前已实测原生PostgreSQL事务、备份恢复与原生LiveKit浏览器连接。十个独立音频客户端在两轮发言切换中，每轮其余九个接收者均收到实际RTP音频。正式服务器使用Ubuntu24.04 / Docker，公网入口为`gaming.byron.wang`；容器、证书、强制TURN与目标服务器负载结果随部署验收更新。
+正式入口为[亡絮：归灯](https://gaming.byron.wang)，运行于2核 / 8GB Ubuntu24.04单台VPS。2026-10-10已实测生产Docker构建与启动、四域HTTPS、同源Secure / HttpOnly登录cookie和真实Colyseus WSS入房。完整数据库先恢复到空目标，再按UTC / C排序核对十张表，行数与内容摘要全部一致；每日备份也已恢复到独立空库并导出本机。
+
+公网LiveKit测试使用十个独立音频客户端，强制选择TCP443的TURN/TLS relay。两轮发言切换中，每轮其余九个接收者均收到实际RTP音频；服务器同时核实仅当前发言人可发布。另在正常时长十人远征的第二章议会，使用游戏API签发的真实票据接入十个音频客户端，验证两次发言轮换与九人接收音频。议会结束后全部连接断开、SFU房间删除；结束前签发且仍未过期的旧票据被拒绝，不能重建房间。
+
+最后一版应用容器替换后readiness恢复，再通过登录和WSS检查；随后保持服务稳定完成七档正常时长对局、49个账户真实结算和重新登录持久化。逐档大厅同时验证职业席位、地图节点和未授权入房拒绝。版本、时间、表摘要与relay候选记录见[公网部署验收](verification/deployment-public.json)；服务器七房并发采样见[运行记录](verification/server-runtime.json)，完整阶段与结算见[开发状态](development-status.md)。

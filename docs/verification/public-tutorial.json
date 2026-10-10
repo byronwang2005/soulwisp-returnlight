@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-10-10T22:34:38.802Z",
+  "target": "https://gaming.byron.wang/",
+  "command": "WEB_TEST_URL=https://gaming.byron.wang node apps/web/scripts/ui-smoke.mjs",
+  "passed": true,
+  "canvas": true,
+  "qualitySwitches": 3,
+  "tutorialLessons": 6,
+  "pageErrors": [],
+  "feedback": {
+    "soundNodes": 42,
+    "hapticApiCalls": 15,
+    "volume": 0.25
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "noHorizontalOverflow": true
+  },
+  "method": "Isolated browser guest training; haptic API intercepted to count calls, physical haptics not measured."
+}

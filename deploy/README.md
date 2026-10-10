@@ -1,6 +1,6 @@
 # 单台 Linux VPS 迁移
 
-本地四人优先，再逐档完成并验收4–10人；本目录在所有本地档位通过后使用。本机不要求Docker；生产模板在Ubuntu24.04使用Docker Engine与Compose。当前正式入口为`gaming.byron.wang`，具体上线验证结果随部署验收记录更新。
+本地四人优先，再逐档完成并验收4–10人；本目录在所有本地档位通过后使用。本机不要求Docker；生产模板在Ubuntu24.04使用Docker Engine与Compose。当前正式入口为[亡絮：归灯](https://gaming.byron.wang)。已完成容器上线、HTTPS / WSS、完整数据库迁移、十客户端强制TURN/TLS音频、备份空库恢复与本机导出；具体版本、时间和内容校验见[公网部署验收](../docs/verification/deployment-public.json)。七档正常时长完整对局、账户结算及服务器采样见[开发状态](../docs/development-status.md)。
 
 ## 域名与服务
 
@@ -73,7 +73,7 @@ docker compose --env-file deploy/.env -f deploy/compose.yaml up -d
 
 只有全新、未供app使用的空目标`wangxu`才使用上述首次导入命令。已有云数据时先恢复到新库验证，保留旧库；不要运行`down -v`，它会删除数据卷。
 
-导入后比较auth_user、camps、matches、match_rewards、redeemed_loot行数和营地余额，核对camps.presets以及matches.map_seed / player_count，再登录检查外观 / 研究 / 当前配装 / 账户预设。需要继续既有登录会话时保留旧AUTH_SECRET；更换时既有用户重新登录。测试账号是否迁移由实际用途决定，不从有效账户余额随意扣除。
+导入后比较完整十张表的行数和内容摘要：auth_user、auth_session、auth_account、auth_verification、camps、camp_requests、matches、match_rewards、redeemed_loot、wangxu_migrations。比较应使用只读一致性快照，统一UTC时区，按`to_jsonb(t)::text COLLATE "C"`排序，避免本机与容器的时区或locale差异产生假不一致。另核对营地余额、camps.presets以及matches.map_seed / player_count，再登录检查外观 / 研究 / 当前配装 / 账户预设。需要继续既有登录会话时保留旧AUTH_SECRET；更换时既有用户重新登录。测试账号是否迁移由实际用途决定，不从有效账户余额随意扣除。
 
 ## 每日备份、导出与空库恢复
 

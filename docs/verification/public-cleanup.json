@@ -1,0 +1,11 @@
+{
+  "completedAt": "2026-10-10T23:09:45.394Z",
+  "method": "Exact ID and email inventory from three private verification vaults; all accounts created after launch; one guarded serializable transaction.",
+  "removedOwnedAccounts": 50,
+  "removedOwnedMatches": 7,
+  "remainingAccounts": 113,
+  "remainingMatches": 14,
+  "otherAccountCountUnchanged": true,
+  "otherMatchCountUnchanged": true,
+  "credentialsPublished": false
+}
