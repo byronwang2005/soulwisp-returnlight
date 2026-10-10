@@ -11,7 +11,7 @@ import { VoiceLobbyService } from './voice-lobby.js';
 if(!process.env.AUTH_SECRET||process.env.AUTH_SECRET.length<32)throw new Error('AUTH_SECRET must contain at least 32 characters. Run npm run setup.');
 await migrateDatabase();
 const voice=createVoiceService();if(voice)setVoiceService(voice);
-const voiceConfig=getVoiceConfig();const lobby=voiceConfig?new VoiceLobbyService(voiceConfig,hasActiveExpedition):undefined;if(lobby)setVoiceLobby(lobby);
+const voiceConfig=getVoiceConfig();const lobby=voiceConfig?new VoiceLobbyService(voiceConfig,hasActiveExpedition,{cleanupPreviousInstances:process.env.NODE_ENV==='production',cleanupLegacy:process.env.NODE_ENV==='production'}):undefined;if(lobby)setVoiceLobby(lobby);
 const app=createApi({getRoom:id=>{const room=rooms.get(id);return room?.allowsVoiceAdmission()?room:undefined;},voiceService:voice,voiceLobby:lobby});
 const httpServer=serve({fetch:app.fetch,port:Number(process.env.API_PORT??3000),hostname:'0.0.0.0'});
 const game=new Server({transport:new WebSocketTransport({maxPayload:16*1024}),gracefullyShutdown:false,auth:false,express:app=>{app.get('/health',(_req:{},res:{json:(value:unknown)=>void})=>res.json({ok:true,rooms:rooms.size}));}});

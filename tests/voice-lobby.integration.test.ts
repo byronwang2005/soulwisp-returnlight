@@ -258,4 +258,27 @@ describe('real public voice lobby', () => {
       await expect(service.issueToken({ id: `${run}-late`, name: '已关闭' })).rejects.toMatchObject({ status: 503 });
     } finally { await another.dispose(); }
   });
+  it('reunites listeners after a crashed application leaves its old lobby alive', async () => {
+    const previous = new VoiceLobbyService(config);
+    const current = new VoiceLobbyService(config, () => false, { cleanupPreviousInstances: true });
+    const pages = await Promise.all([page(), page()]);
+    try {
+      const old = await previous.issueToken({ id: `${run}-recovery-0`, name: '重启前' });
+      const oldName = (await new TokenVerifier(config.apiKey, config.apiSecret).verify(old.token)).video!.room!;
+      await Promise.all(pages.map(async (page, index) => connect(page, await previous.issueToken({ id: `${run}-recovery-${index}`, name: `听众${index}` }))));
+      expect((await admin.listParticipants(oldName)).length).toBe(2);
+      // No dispose: model a process killed while its SFU connections remain alive.
+      const tickets = await Promise.all(pages.map((_page, index) => current.issueToken({ id: `${run}-recovery-${index}`, name: `听众${index}` })));
+      expect(tickets[0]!.epoch).toBe(tickets[1]!.epoch);
+      expect(await admin.listRooms([oldName])).toHaveLength(0);
+      await eventually(() => Promise.all(pages.map(page => page.evaluate(() => (window as unknown as Scope).lobby.state))), states => states.every(state => state === 'disconnected'));
+      await Promise.all(pages.map((page, index) => connect(page, tickets[index]!)));
+      await Promise.all(pages.map(page => page.evaluate(async () => { await (window as unknown as Scope).lobby.localParticipant.setMicrophoneEnabled(true); })));
+      await eventually(() => Promise.all(pages.map(receivers)), values => values.every(tracks => tracks.length === 1 && tracks[0]!.bytes > 0));
+      expect(await current.status()).toMatchObject({ available: true, online: 2 });
+    } finally {
+      await Promise.allSettled(pages.map(page => page.context().close()));
+      await current.dispose(); await previous.dispose();
+    }
+  });
 });

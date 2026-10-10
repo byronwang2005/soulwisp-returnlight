@@ -18,9 +18,13 @@ export class VoiceLobbyService {
   private stopping = false;
   private cached: { at: number; info: VoiceLobbyInfo } | null = null;
   private statusRequest: Promise<VoiceLobbyInfo> | null = null;
+  private reconciled = false;
+  private readonly owner: string;
 
-  constructor(private readonly config: VoiceConfig, private readonly inExpedition: (id: string) => boolean = () => false) {
+  constructor(private readonly config: VoiceConfig, private readonly inExpedition: (id: string) => boolean = () => false,
+    private readonly options: { cleanupPreviousInstances?: boolean; cleanupLegacy?: boolean } = {}) {
     this.client = new RoomServiceClient(config.serverUrl, config.apiKey, config.apiSecret, { requestTimeout: 2, failover: false });
+    this.owner = `soulwisp-returnlight:${config.publicUrl}`;
   }
 
   private serial<T>(work: () => Promise<T>): Promise<T> {
@@ -33,6 +37,21 @@ export class VoiceLobbyService {
 
   private async ensureRoom(): Promise<string> {
     if (this.stopping) throw this.unavailable();
+    // Production has one authoritative app process. Reconcile after crashes as
+    // well as graceful restarts, before creating a room or issuing any ticket.
+    if (!this.reconciled && this.options.cleanupPreviousInstances) {
+      for (const room of await this.client.listRooms()) {
+        let metadata: { kind?: string; owner?: string; serverInstanceId?: string; epoch?: string };
+        try { metadata = JSON.parse(room.metadata || '{}'); } catch { continue; }
+        if (!metadata || metadata.kind !== 'public-lobby' || !metadata.serverInstanceId || !metadata.epoch ||
+          room.name !== `public-lobby-${metadata.serverInstanceId}-${metadata.epoch}`) continue;
+        if (metadata.owner !== this.owner && !(this.options.cleanupLegacy && metadata.owner === undefined)) continue;
+        try { await this.client.deleteRoom(room.name); }
+        catch (error) { if (!isNotFound(error)) throw error; }
+      }
+      // A failed deletion must be retried; creating another room would split listeners.
+      this.reconciled = true;
+    }
     if (this.name && (await this.client.listRooms([this.name])).length) return this.name;
     const epoch = randomUUID();
     const name = `public-lobby-${this.instance}-${epoch}`;
@@ -41,7 +60,7 @@ export class VoiceLobbyService {
     this.epoch = epoch;
     this.ownedNames.add(name);
     await this.client.createRoom({ name, maxParticipants: 10, emptyTimeout: 600, departureTimeout: 600,
-      metadata: JSON.stringify({ kind: 'public-lobby', serverInstanceId: this.instance, epoch }) });
+      metadata: JSON.stringify({ kind: 'public-lobby', owner: this.owner, serverInstanceId: this.instance, epoch }) });
     if (this.stopping) throw this.unavailable();
     return name;
   }
