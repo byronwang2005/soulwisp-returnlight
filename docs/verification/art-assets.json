@@ -6,6 +6,7 @@
   "profiles": [
     {
       "level": 0,
+      "automatic": false,
       "files": 14,
       "normalRequests": 0,
       "transferBytes": 2573458,
@@ -13,6 +14,7 @@
     },
     {
       "level": 1,
+      "automatic": false,
       "files": 21,
       "normalRequests": 7,
       "transferBytes": 5371924,
@@ -20,13 +22,15 @@
     },
     {
       "level": 2,
+      "automatic": false,
       "files": 21,
       "normalRequests": 7,
-      "transferBytes": 15886518,
-      "estimatedRgba8WithMipmapsBytes": 150994944
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
     },
     {
       "level": 3,
+      "automatic": false,
       "files": 21,
       "normalRequests": 7,
       "transferBytes": 15886518,
@@ -34,10 +38,51 @@
     },
     {
       "level": 4,
+      "automatic": false,
       "files": 21,
       "normalRequests": 7,
       "transferBytes": 15886518,
       "estimatedRgba8WithMipmapsBytes": 150994944
+    },
+    {
+      "level": 0,
+      "automatic": true,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
+    },
+    {
+      "level": 1,
+      "automatic": true,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
+    },
+    {
+      "level": 2,
+      "automatic": true,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
+    },
+    {
+      "level": 3,
+      "automatic": true,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
+    },
+    {
+      "level": 4,
+      "automatic": true,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
     }
   ],
   "estimate": "Cold cache, all seven material families; RGBA8 full mip chains. This is an allocation estimate, not GPU measurement; quality transitions may retain cached maps.",
@@ -164,20 +209,5 @@
     1254
   ],
   "color2k": "Resampled export from generated source; does not add source detail.",
-  "previews": "art-preview/*.png; CPU triangles, initial Idle pose, approximate palette tint; no GPU shader/lighting validation.",
-  "integratedOriginMain": "8c6f125c6c5d497ff6cf8d68d383b100f879bc56",
-  "verifiedAt": "2026-10-11T10:46:54.573103+00:00",
-  "validation": {
-    "install": "npm ci, Node.js 24.21.0, committed lockfile",
-    "types": "npm run check: passed",
-    "build": "npm run build: web and server passed",
-    "assets": "npm run assets:check: passed",
-    "tests": "91 passed in 7 static suites: art-assets, scene-interaction, attack-audio, footsteps, lobby-sounds, music, navigation",
-    "previews": "npm run art:preview: generated and inspected",
-    "notRun": [
-      "browser",
-      "live multiplayer",
-      "device/GPU"
-    ]
-  }
+  "previews": "art-preview/*.png; CPU triangles, initial Idle pose, approximate palette tint; no GPU shader/lighting validation."
 }

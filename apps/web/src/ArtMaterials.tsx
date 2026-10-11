@@ -1,16 +1,26 @@
-import {useEffect,useMemo} from 'react';
-import {useTexture} from '@react-three/drei';
-import {useThree} from '@react-three/fiber';
+import {createContext,useContext,useEffect,useLayoutEffect,useMemo,type ReactNode} from 'react';
+import {useLoader,useThree} from '@react-three/fiber';
 import * as THREE from 'three';
 import {ART_PALETTE,materialPaths,type ArtSurface} from './art-config';
 import {fallbackArtMaterials,type ArtMaterials} from './art-geometry';
 import type {qualityProfile} from './render-quality';
 export type ArtProfile=ReturnType<typeof qualityProfile>;
-export function configureMaps(maps:THREE.Texture[],paths:string[],anisotropy:number){maps.forEach((map,i)=>{map.wrapS=map.wrapT=THREE.RepeatWrapping;map.colorSpace=paths[i].includes('_color_')?THREE.SRGBColorSpace:THREE.NoColorSpace;map.anisotropy=Math.min(8,anisotropy);map.minFilter=THREE.LinearMipmapLinearFilter;map.magFilter=THREE.LinearFilter;map.generateMipmaps=true;map.needsUpdate=true;});}
+const configured=new WeakSet<THREE.Texture>();
+const uploaded=new WeakMap<THREE.WebGLRenderer,WeakSet<THREE.Texture>>();
+export function configureMaps(maps:THREE.Texture[],paths:string[],anisotropy:number){maps.forEach((map,i)=>{if(configured.has(map))return;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.colorSpace=paths[i].includes('_color_')?THREE.SRGBColorSpace:THREE.NoColorSpace;map.anisotropy=Math.min(8,anisotropy);map.minFilter=THREE.LinearMipmapLinearFilter;map.magFilter=THREE.LinearFilter;map.generateMipmaps=true;map.needsUpdate=true;configured.add(map);});}
+const TextureContext=createContext<Record<string,THREE.Texture>>({});
+export function ArtMaterialProvider({profile,children}:{profile:ArtProfile;children:ReactNode}){
+ const {gl}=useThree(),tier=`${profile.resolution}:${profile.normal}`;
+ const paths=useMemo(()=>['foundation','bronze','wood','cloth','leather','plaza','road'].flatMap(id=>Object.values(materialPaths(id,profile.normal,(id==='plaza'||id==='road')&&profile.resolution==='2k'?2048:1024,profile.resolution==='2k'?1024:512))),[tier]);
+ const maps=useLoader(THREE.TextureLoader,paths);
+ useLayoutEffect(()=>{configureMaps(maps,paths,gl.capabilities.getMaxAnisotropy());let seen=uploaded.get(gl);if(!seen){seen=new WeakSet();uploaded.set(gl,seen);}for(const map of maps)if(!seen.has(map)){gl.initTexture(map);seen.add(map);}},[maps,gl]);
+ const value=useMemo(()=>Object.fromEntries(paths.map((path,i)=>[path,maps[i]])),[maps,paths]);
+ return <TextureContext.Provider value={value}>{children}</TextureContext.Provider>;
+}
+export function useSharedMaps(paths:string[]){const textures=useContext(TextureContext),key=paths.join('|');return useMemo(()=>paths.map(path=>{const texture=textures[path];if(!texture)throw new Error(`Unregistered art texture: ${path}`);return texture;}),[textures,key]);}
 export function useArtMaterials(profile:ArtProfile,surfaces:readonly ArtSurface[]):ArtMaterials{
-  const {gl}=useThree();const paths=surfaces.flatMap(id=>Object.values(materialPaths(id,profile.normal,1024,profile.resolution==='2k'?1024:512)));
-  const maps=useTexture(paths);
-  useEffect(()=>configureMaps(maps,paths,gl.capabilities.getMaxAnisotropy()),[maps,gl,paths.join('|')]);
+  const paths=surfaces.flatMap(id=>Object.values(materialPaths(id,profile.normal,1024,profile.resolution==='2k'?1024:512)));
+  const maps=useSharedMaps(paths);
   const materials=useMemo(()=>{const result=fallbackArtMaterials();let offset=0;
     for(const surface of surfaces){const count=profile.normal?3:2,map=maps[offset],arm=maps[offset+1],normal=profile.normal?maps[offset+2]:undefined;offset+=count;result[surface].dispose();
       result[surface]=new THREE.MeshStandardMaterial({map,aoMap:arm,aoMapIntensity:.35,roughnessMap:arm,metalnessMap:surface==='bronze'?arm:undefined,normalMap:normal,normalScale:new THREE.Vector2(.25,.25),color:surface==='foundation'?'#ded9c7':'#ffffff',metalness:surface==='bronze'?.85:0,roughness:1});

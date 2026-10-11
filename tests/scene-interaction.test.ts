@@ -53,11 +53,11 @@ describe('authoritative context actions',()=>{
 });
 describe('automatic quality',()=>{
   it('reduces effects before resolution and avoids a failed upgrade for thirty seconds',()=>{
-    const control=new AutoQuality();expect(control.sample(50,2500)).toBe(4);expect(control.sample(50,5000)).toBe(3);expect(qualityProfile(3,2).dpr).toBe(2);
-    for(let i=1;i<=4;i++)control.sample(60,5000+i*2500);expect(control.level).toBe(4);
-    control.sample(50,17500);control.sample(50,20000);expect(control.level).toBe(3);
-    for(let i=1;i<=8;i++)control.sample(60,20000+i*2500);expect(control.level).toBe(3);
-    control.sample(60,50000);expect(control.level).toBe(4);
+    const control=new AutoQuality();expect(control.sample(50,2500)).toBe(2);expect(control.sample(50,5000)).toBe(1);expect(qualityProfile(3,2).dpr).toBe(2);
+    for(let i=1;i<=4;i++)control.sample(60,5000+i*2500);expect(control.level).toBe(2);
+    control.sample(50,17500);control.sample(50,20000);expect(control.level).toBe(1);
+    for(let i=1;i<=8;i++)control.sample(60,20000+i*2500);expect(control.level).toBe(1);
+    control.sample(60,50000);expect(control.level).toBe(2);
   });
 });
 function walk(session:TrainingSession,target:{x:number;y:number}){

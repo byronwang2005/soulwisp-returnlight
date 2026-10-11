@@ -1,7 +1,7 @@
 import {movementInput} from './movement';
 import {MiniMap} from './MiniMap';
-import {navigationField,navigationTarget} from './navigation';
-import {isSolid} from '@wangxu/shared';
+import {navigationTarget} from './navigation';
+import {useNavigation} from './useNavigation';
 import {pickAction} from './interaction';
 import {ActionButton,type ButtonIcon} from './ActionButton';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -32,9 +32,7 @@ export function GameScreen({view,send:rawSend,assets,quality,onLeave,training,gu
   const target=interactionTarget?.enabled?interactionTarget.targetId:undefined;
   const moveTouch=useControls(view,send,target);const voice=useCouncilVoice(training?null:view);const me=view.players.find(p=>p.id===view.self.id)!;const selectedObject=view.objects.find(o=>o.id===interactionTarget?.targetId);const selectedPlayer=view.players.find(p=>p.id===offerTarget?.targetId);const physical=view.phase==='EXPLORE'||view.phase==='EXTRACT';
   const navigation=physical&&!me.sealed&&!me.down?navigationTarget(view,training?trainingDestination:destination,training?trainingTarget:undefined):undefined;
-  const navigationKey=JSON.stringify([view.nodes,view.edges,view.objects.filter(o=>o.active&&isSolid(o.kind)).map(o=>[o.id,o.kind,o.x,o.y]),navigation]);
-  const field=useMemo(()=>navigation?navigationField(view,navigation):undefined,[navigationKey]);
-  const route=useMemo(()=>field&&me.x!==null&&me.y!==null?field.route({x:me.x,y:me.y}):[],[field,me.x===null?null:Math.round(me.x/5),me.y===null?null:Math.round(me.y/5)]);
+  const route=useNavigation(view,navigation,me.x!==null&&me.y!==null?{x:me.x,y:me.y}:null);
   useEffect(()=>setSelected(interactionTarget?.targetId),[interactionTarget?.targetId]);
   useEffect(()=>setVote(undefined),[view.phase]);
   return <div className={`game-screen ${effects.settings.motion?'':'effects-reduced'}`}><World view={view} assets={assets} quality={quality} selected={interactionTarget?.targetId??corruptionTarget?.targetId} cue={cue} onSwing={effects.swing} events={effects.events} reduceMotion={!effects.settings.motion} navigationRoute={route} navigationDestination={navigation}/><div className="game-top"><div className="phase-chip"><span className="eyebrow">{training?'ISOLATED TRAINING':'RETURNLIGHT EXPEDITION'}</span><strong>{PHASE_NAMES[view.phase]}</strong><small>第 {view.chapter || 1} / {view.config.chapters} 章</small></div><div className="clock" role="timer">{time(view.remaining)}</div><div className="status-chip"><span>蚀月 <b>{view.moon}/{view.config.moonLimit}</b></span><span>灯柱 <b>{view.beaconsLit}/{view.config.beacons}</b></span><ActionButton iconKind="settings"  className="icon-button settings-toggle" aria-label="打开设置" aria-haspopup="dialog" onClick={openSettings}>⚙</ActionButton><ActionButton iconKind="leave"  className="icon-button" aria-label="离开远征" onClick={onLeave}>×</ActionButton></div></div>

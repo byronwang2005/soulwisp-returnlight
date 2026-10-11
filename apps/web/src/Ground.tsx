@@ -1,16 +1,13 @@
 import {useEffect,useLayoutEffect,useMemo,useRef} from 'react';
-import {useTexture} from '@react-three/drei';
-import {useThree} from '@react-three/fiber';
 import * as THREE from 'three';
 import {SCENE,SCENE_MATERIALS,type MapNode} from '@wangxu/shared';
 import {groundPolygons,pavingGeometry,foundationGeometry} from './ground-geometry';
 import {groundTexturePaths} from './art-config';
-import {configureMaps,useArtMaterials,STONE_SURFACES,type ArtProfile} from './ArtMaterials';
+import {useSharedMaps,useArtMaterials,STONE_SURFACES,type ArtProfile} from './ArtMaterials';
 
 function Paving({geometry,name,profile}:{geometry:THREE.BufferGeometry;name:string;profile:ArtProfile}){
-  const {gl}=useThree(),paths=Object.values(groundTexturePaths(name,profile));
-  const maps=useTexture(paths);
-  useEffect(()=>configureMaps(maps,paths,gl.capabilities.getMaxAnisotropy()),[maps,gl,paths.join('|')]);
+  const paths=Object.values(groundTexturePaths(name,profile));
+  const maps=useSharedMaps(paths);
   return <mesh geometry={geometry} receiveShadow name={`ground:${name}`}>
     <meshStandardMaterial map={maps[0]} aoMap={maps[1]} aoMapIntensity={.4} roughnessMap={maps[1]} normalMap={profile.normal?maps[2]:undefined} normalScale={[.3,.3]} metalness={0} roughness={1} color="#e0dac9" onBeforeCompile={shader=>{
       shader.vertexShader='varying vec2 vGroundWorld;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','vGroundWorld=(modelMatrix*vec4(transformed,1.0)).xz;\n#include <project_vertex>');
