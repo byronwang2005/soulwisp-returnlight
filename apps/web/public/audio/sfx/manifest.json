@@ -29,8 +29,8 @@
       "sha256": "daa085e6d54d417ba1d8f676acef5ffeaa7833d864b21da56e268b1ff3ce49d1",
       "durationSeconds": 0.32,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.299999,
+      "peak": 0.849971,
+      "activeRms": 0.299987,
       "sourceFiles": [],
       "processing": "Original deterministic bell/click synthesis"
     },
@@ -40,8 +40,8 @@
       "sha256": "b7e34bf8e787810fd2bf7383f35497e446e42282f4917c6225214e66ae5255e0",
       "durationSeconds": 0.28,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.299999,
+      "peak": 0.849971,
+      "activeRms": 0.299987,
       "sourceFiles": [],
       "processing": "Original deterministic bell/click synthesis"
     },
@@ -51,8 +51,8 @@
       "sha256": "ce2d82d471e36b389480a31a0deb94818f3c5c90a3cd84914556e7a099427e94",
       "durationSeconds": 0.15,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.3,
+      "peak": 0.849971,
+      "activeRms": 0.299988,
       "sourceFiles": [],
       "processing": "Original deterministic bell/click synthesis"
     },
@@ -62,8 +62,8 @@
       "sha256": "d99d2b51c61f4f6eb766fcd0bd6e5f2acc6bab45ff3d6b9d1be6ab6312396586",
       "durationSeconds": 0.13,
       "channels": 1,
-      "peak": 0.799055,
-      "activeRms": 0.3,
+      "peak": 0.799036,
+      "activeRms": 0.299988,
       "sourceFiles": [],
       "processing": "Original deterministic bell/click synthesis"
     },
@@ -73,8 +73,8 @@
       "sha256": "a9a62beff2a9cffb5ac50763e467cd8579661b3628d8850dc40510993ed64e06",
       "durationSeconds": 0.055833,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.238512,
+      "peak": 0.849971,
+      "activeRms": 0.238503,
       "sourceFiles": [
         "Audio/footstep_concrete_000.ogg"
       ],
@@ -86,8 +86,8 @@
       "sha256": "ab5d1922a6d6f03136affc8ee2f526501e61ee71084e3ca822b8ad3e362a0691",
       "durationSeconds": 0.18,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.233526,
+      "peak": 0.849971,
+      "activeRms": 0.233515,
       "sourceFiles": [
         "Audio/footstep_concrete_000.ogg",
         "gravel.ogg"
@@ -100,8 +100,8 @@
       "sha256": "c6973c529b7fe9ca375d0a792dcdaaa3816340673045545c6b5a8940e0947702",
       "durationSeconds": 0.078875,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.239072,
+      "peak": 0.849971,
+      "activeRms": 0.239063,
       "sourceFiles": [
         "Audio/footstep_concrete_001.ogg"
       ],
@@ -113,8 +113,8 @@
       "sha256": "f8424a32aa92df1d0a78ea8dfb975128781dcf64ff9addaccaa039f682ba2db8",
       "durationSeconds": 0.18,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.236804,
+      "peak": 0.849971,
+      "activeRms": 0.236793,
       "sourceFiles": [
         "Audio/footstep_concrete_001.ogg",
         "gravel.ogg"
@@ -127,8 +127,8 @@
       "sha256": "68f3098fe1be347cb9fe979ca472cbeb3c8f9409f754905d173da462dd6a7426",
       "durationSeconds": 0.078875,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.238267,
+      "peak": 0.849971,
+      "activeRms": 0.238257,
       "sourceFiles": [
         "Audio/footstep_concrete_002.ogg"
       ],
@@ -140,8 +140,8 @@
       "sha256": "ade19a9f8e0336e2109e935aa7ae7641553571c9d671759667e3ec98630a583e",
       "durationSeconds": 0.18,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.236459,
+      "peak": 0.849971,
+      "activeRms": 0.236447,
       "sourceFiles": [
         "Audio/footstep_concrete_002.ogg",
         "gravel.ogg"
@@ -154,8 +154,8 @@
       "sha256": "b141281f981ef1367f224325d9837bef419bbc1febefa4849011312717ceadce",
       "durationSeconds": 0.055917,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.23796,
+      "peak": 0.849971,
+      "activeRms": 0.237951,
       "sourceFiles": [
         "Audio/footstep_concrete_003.ogg"
       ],
@@ -167,8 +167,8 @@
       "sha256": "09487869d6e0ef6f92e4f8894306d891d5fdda9df4e661b5162c5a06c355adca",
       "durationSeconds": 0.18,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.233816,
+      "peak": 0.849971,
+      "activeRms": 0.233804,
       "sourceFiles": [
         "Audio/footstep_concrete_003.ogg",
         "gravel.ogg"
@@ -181,8 +181,8 @@
       "sha256": "28cd1591075cfce7a3c914eb452b08021ddcbd5dfa7f3676f01edae43321a11c",
       "durationSeconds": 0.056375,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.239398,
+      "peak": 0.849971,
+      "activeRms": 0.239389,
       "sourceFiles": [
         "Audio/footstep_concrete_004.ogg"
       ],
@@ -194,8 +194,8 @@
       "sha256": "3444a4c3e02efbee3094fd12a5f148ffd86099a3e34d59253f202e5592dfed8a",
       "durationSeconds": 0.18,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.235055,
+      "peak": 0.849971,
+      "activeRms": 0.235043,
       "sourceFiles": [
         "Audio/footstep_concrete_004.ogg",
         "gravel.ogg"
@@ -208,8 +208,8 @@
       "sha256": "a9e6afdd217495399e21b4a76d06f2c4998fb025b3618851fc45ffd201ca4b5b",
       "durationSeconds": 0.2,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.298332,
+      "peak": 0.849971,
+      "activeRms": 0.298321,
       "sourceFiles": [],
       "processing": "Original deterministic sword air/body/transient synthesis"
     },
@@ -219,8 +219,8 @@
       "sha256": "cd7b77fc16c21521dd959276687b2c9d94e6c49362b8b1d6f66e9abf2b803c5e",
       "durationSeconds": 0.20075,
       "channels": 1,
-      "peak": 0.85,
-      "activeRms": 0.370048,
+      "peak": 0.849971,
+      "activeRms": 0.370035,
       "sourceFiles": [],
       "processing": "Original deterministic sword air/body/transient synthesis"
     }
@@ -251,57 +251,74 @@
       "auth": 0.161548
     },
     "minimumFootstepMarginDb": 9.5,
-    "minimumLobbyMarginDb": 14.676,
+    "minimumLobbyMarginDb": 17.675,
+    "lobbyGain": 1.4125375446227544,
+    "combatHitGain": 1.977552562471856,
+    "peakLimit": 0.95,
+    "feedbackGainDb": {
+      "hurt": 6,
+      "block": 6,
+      "push": 6,
+      "collision": 3,
+      "pickup": 6,
+      "complete": 6,
+      "down": 6,
+      "rescue": 6,
+      "cast": 6,
+      "dodge": 6
+    },
     "rmsMethod": "Short sounds: contiguous active span above 1% peak. Music: full decoded stereo RMS. Own normal footsteps use -3 dB gain."
   },
   "previews": [
     {
       "file": "/audio/sfx/preview-lobby-50.wav",
       "bytes": 499244,
-      "sha256": "84da9b8080e81f0172ed6715fef03ddcc8bf5e155de2ed6bee9ae5c17c11ef61",
+      "sha256": "b84f13b12a8ba1de7bf89b85599f366a93aaa1114f856d0d85f20fdce3eb8827",
       "durationSeconds": 5.2,
       "channels": 2,
-      "peak": 0.314877,
-      "activeRms": 0.04298,
+      "peak": 0.428828,
+      "activeRms": 0.058387,
       "timeline": [
         {
           "at": 1,
           "sound": "lobby-enter",
-          "gain": 1,
+          "gain": 1.4125375446227544,
           "pan": 0,
           "occluded": false
         },
         {
           "at": 2,
           "sound": "lobby-exit",
-          "gain": 1,
+          "gain": 1.4125375446227544,
           "pan": 0,
           "occluded": false
         },
         {
           "at": 3,
           "sound": "lobby-mic-on",
-          "gain": 1,
+          "gain": 1.4125375446227544,
           "pan": 0,
           "occluded": false
         },
         {
           "at": 4,
           "sound": "lobby-mic-off",
-          "gain": 1,
+          "gain": 1.4125375446227544,
           "pan": 0,
           "occluded": false
         }
-      ]
+      ],
+      "slider": 0.5,
+      "effectsPeak": 0.3902
     },
     {
       "file": "/audio/sfx/preview-footsteps-50.wav",
       "bytes": 1039088,
-      "sha256": "affba1ec019f5800b4f4b9a9f60130420074762268b1b2649561eae6a91d5d9d",
+      "sha256": "88cc49603f4ee34086d0711fb1592d4fc7651d66b1741c90f6e3c7c4733d8f56",
       "durationSeconds": 10.823375,
       "channels": 2,
-      "peak": 0.298246,
-      "activeRms": 0.030478,
+      "peak": 0.298238,
+      "activeRms": 0.030477,
       "timeline": [
         {
           "at": 1.0,
@@ -429,16 +446,18 @@
           "pan": 0,
           "occluded": false
         }
-      ]
+      ],
+      "slider": 0.5,
+      "effectsPeak": 0.232427
     },
     {
       "file": "/audio/sfx/preview-direction-50.wav",
       "bytes": 595244,
-      "sha256": "adb40295d67dbe5f8c8b9f6beeaaba0942630be8e048044c0470ab31b3215af8",
+      "sha256": "b34dc68893ad13e4782dc1cc609ee43a1a6ea073c1b4953ff76bd57d352a1c0b",
       "durationSeconds": 6.2,
       "channels": 2,
-      "peak": 0.313907,
-      "activeRms": 0.019172,
+      "peak": 0.313898,
+      "activeRms": 0.019171,
       "timeline": [
         {
           "at": 1,
@@ -475,16 +494,18 @@
           "pan": -0.6,
           "occluded": true
         }
-      ]
+      ],
+      "slider": 0.5,
+      "effectsPeak": 0.269246
     },
     {
       "file": "/audio/sfx/preview-combat-50.wav",
       "bytes": 403244,
-      "sha256": "8b289019d6e464c1fe8d06919ed8f33e2cd403b9c4f0f002b73f7e83646c5320",
+      "sha256": "5caa3c804bb2a2d21d0f58c912c805535fe62881453ff920760330d581ccf5fe",
       "durationSeconds": 4.2,
       "channels": 2,
-      "peak": 0.511385,
-      "activeRms": 0.052036,
+      "peak": 0.631026,
+      "activeRms": 0.064948,
       "timeline": [
         {
           "at": 1,
@@ -503,19 +524,215 @@
         {
           "at": 2.065,
           "sound": "combat-hit",
-          "gain": 1.05,
+          "gain": 1.483164421853892,
           "pan": 0,
           "occluded": false
         },
         {
           "at": 3,
           "sound": "combat-hit",
-          "gain": 1.05,
+          "gain": 1.483164421853892,
           "pan": 0,
           "occluded": false
         }
-      ]
+      ],
+      "slider": 0.5,
+      "effectsPeak": 0.636576
+    },
+    {
+      "file": "/audio/sfx/preview-feedback-50.wav",
+      "bytes": 1075244,
+      "sha256": "e3982808ff515aba471ea60bde76426e8397612db8d0a1c65c6cd409a8c3934c",
+      "durationSeconds": 11.2,
+      "channels": 2,
+      "peak": 0.520929,
+      "activeRms": 0.030893,
+      "timeline": [
+        {
+          "at": 1,
+          "sound": "feedback-hurt",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2,
+          "sound": "feedback-block",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 3,
+          "sound": "feedback-push",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 4,
+          "sound": "feedback-collision",
+          "gain": 1.4125375446227544,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 5,
+          "sound": "feedback-pickup",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 6,
+          "sound": "feedback-complete",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 7,
+          "sound": "feedback-down",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 8,
+          "sound": "feedback-rescue",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 9,
+          "sound": "feedback-cast",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 10,
+          "sound": "feedback-dodge",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        }
+      ],
+      "slider": 0.5,
+      "effectsPeak": 0.519865
+    },
+    {
+      "file": "/audio/sfx/preview-feedback-100.wav",
+      "bytes": 1267244,
+      "sha256": "aa59f8cf676c7053754ec31a38ab428ece87d9105fe7cb376c91fc01f5ec4201",
+      "durationSeconds": 13.2,
+      "channels": 2,
+      "peak": 0.971574,
+      "activeRms": 0.062754,
+      "timeline": [
+        {
+          "at": 1,
+          "sound": "feedback-hurt",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2,
+          "sound": "feedback-block",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 3,
+          "sound": "feedback-push",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 4,
+          "sound": "feedback-collision",
+          "gain": 1.4125375446227544,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 5,
+          "sound": "feedback-pickup",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 6,
+          "sound": "feedback-complete",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 7,
+          "sound": "feedback-down",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 8,
+          "sound": "feedback-rescue",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 9,
+          "sound": "feedback-cast",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 10,
+          "sound": "feedback-dodge",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 12,
+          "sound": "feedback-hurt",
+          "gain": 1.9952623149688795,
+          "pan": -0.4,
+          "occluded": false
+        },
+        {
+          "at": 12,
+          "sound": "feedback-block",
+          "gain": 1.9952623149688795,
+          "pan": 0.4,
+          "occluded": false
+        },
+        {
+          "at": 12,
+          "sound": "feedback-pickup",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 12,
+          "sound": "feedback-complete",
+          "gain": 1.9952623149688795,
+          "pan": 0,
+          "occluded": false
+        }
+      ],
+      "slider": 1,
+      "effectsPeak": 0.95
     }
   ],
-  "previewNote": "Equal-power stereo left/right and near/mid/far references; front/back HRTF is provided by the browser at runtime."
+  "previewNote": "Runtime category gains and tone/noise definitions; offline FFmpeg compressor plus 0.95 peak guard. Browser filter/compressor coefficients and HRTF are device-dependent."
 }

@@ -44,12 +44,21 @@ describe('self-hosted, licensed and calibrated effect assets',()=>{
     expect(AUDIO_MIX.music).toBe(manifest.calibration.musicGain);expect(AUDIO_MIX.effects).toBe(manifest.calibration.effectsGain);
     const music=Math.max(...Object.values(manifest.calibration.musicRmsDecoded) as number[])*.5*AUDIO_MIX.music;
     for(const asset of manifest.assets){
-      const ui=asset.file.includes('lobby-');const level=wav(asset.file).rms*.5*AUDIO_MIX.effects*(ui?1:10**(-3/20));
+      const ui=asset.file.includes('lobby-');const level=wav(asset.file).rms*.5*AUDIO_MIX.effects*(ui?AUDIO_MIX.lobby:10**(-3/20));
       expect(20*Math.log10(level/music)).toBeGreaterThanOrEqual(ui?10:6);
     }
     for(const preview of manifest.previews){
       const decoded=wav(preview.file);expect(decoded.channels).toBe(2);expect(decoded.peak).toBeLessThan(1);
       expect(createHash('sha256').update(decoded.data).digest('hex')).toBe(preview.sha256);
+      expect(preview.effectsPeak).toBeLessThanOrEqual(AUDIO_MIX.peakLimit);
     }
+    expect(manifest.calibration.lobbyGain).toBe(AUDIO_MIX.lobby);
+    expect(manifest.calibration.combatHitGain).toBe(AUDIO_MIX.combatHit);
+    expect(manifest.calibration.feedbackGainDb.collision).toBe(3);
+    expect(manifest.calibration.feedbackGainDb.pickup).toBe(6);
+    const high=manifest.previews.find((preview:{file:string})=>preview.file.includes('feedback-100'));
+    expect(high.slider).toBe(1);expect(high.timeline.filter((cue:{at:number})=>cue.at===12)).toHaveLength(4);
+    const lobby=manifest.previews.find((preview:{file:string})=>preview.file.includes('lobby-50'));
+    expect(lobby.timeline.every((cue:{gain:number})=>cue.gain===AUDIO_MIX.lobby)).toBe(true);
   });
 });

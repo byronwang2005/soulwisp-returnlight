@@ -1,6 +1,12 @@
-import {FOOTSTEPS,type FootstepEvent} from '@wangxu/shared';
+import {FOOTSTEPS,type FootstepEvent,type FeedbackEvent} from '@wangxu/shared';
 
-export const AUDIO_MIX=Object.freeze({music:.20,effects:.65,combatHit:1.4,remoteLobby:10**(-3/20),maxFootsteps:16});
+export const AUDIO_MIX=Object.freeze({music:.20,effects:.65,combatHit:1.4*10**(3/20),lobby:10**(3/20),remoteLobby:10**(-3/20),maxFootsteps:16,peakLimit:.95});
+export const feedbackLevel=(kind:FeedbackEvent['kind'])=>10**((kind==='hit'||kind==='collision'?3:6)/20);
+export function peakLimitCurve():Float32Array<ArrayBuffer>{
+  const curve=new Float32Array(4097);
+  for(let i=0;i<curve.length;i++)curve[i]=Math.max(-AUDIO_MIX.peakLimit,Math.min(AUDIO_MIX.peakLimit,i*2/(curve.length-1)-1));
+  return curve;
+}
 export const musicLevel=(volume:number,ducked:boolean)=>volume*AUDIO_MIX.music*(ducked?.18:1);
 export function footstepLevel(event:FootstepEvent):number {
   return FOOTSTEPS.paceGain[event.pace]*(event.own?FOOTSTEPS.ownGain:

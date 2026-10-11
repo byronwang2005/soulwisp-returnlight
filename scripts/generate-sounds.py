@@ -20,6 +20,7 @@ OUTPUT = ROOT / 'apps/web/public/audio/sfx'
 CACHE = ROOT / '.local/audio-sources'
 RATE = 24000
 MUSIC_GAIN, EFFECT_GAIN = .20, .65
+LOBBY_GAIN, HIT_GAIN, PEAK_LIMIT = 10**(3/20), 1.4*10**(3/20), .95
 SOURCES = [
     {'name': 'Kenney Impact Sounds 1.0', 'author': 'Kenney', 'license': 'CC0-1.0',
      'page': 'https://kenney.nl/assets/impact-sounds',
@@ -72,6 +73,37 @@ def bell(buffer, hz, start, duration, amplitude=1):
     offset = round(start*RATE)
     buffer[offset:offset+len(signal)] += signal*amplitude
 
+def feedback_samples():
+    """Render the runtime tone/noise definitions for offline mix inspection."""
+    presets = json.loads((ROOT / 'apps/web/src/feedback-sounds.json').read_text())
+    sounds = {}
+    rng = np.random.default_rng(20261011)
+    for kind, preset in presets.items():
+        signal = np.zeros(RATE)
+        for hz, end, duration, shape, delay, amplitude in preset.get('tones', []):
+            t = np.arange(round((duration+.015)*RATE))/RATE
+            ramp = math.log(max(25,end)/hz)/duration
+            phase = 2*np.pi*hz*(np.exp(ramp*t)-1)/ramp if abs(ramp)>1e-10 else 2*np.pi*hz*t
+            wave = np.sin(phase) if shape=='sine' else 2/np.pi*np.arcsin(np.sin(phase))
+            envelope = np.where(t<.008, .0001*np.exp(math.log(amplitude/.0001)*t/.008),
+                                amplitude*np.exp(math.log(.0001/amplitude)*(t-.008)/(duration-.008)))
+            start = round(delay*RATE)
+            signal[start:start+len(t)] += wave*envelope
+        for duration, cutoff, amplitude, high in preset.get('noises', []):
+            length = math.ceil(duration*RATE)
+            t = np.arange(length)/RATE
+            noise = (rng.random(length)*2-1)*(1-np.arange(length)/length)
+            # Offline filters use the runtime cutoff; browser coefficients may differ.
+            filter_name = 'highpass' if high else 'lowpass'
+            raw = subprocess.run(['ffmpeg','-v','error','-f','f32le','-ar',str(RATE),'-ac','1','-i','pipe:0',
+                                  '-af',f'{filter_name}=f={cutoff}', '-f','f32le','pipe:1'],
+                                 input=noise.astype('<f4').tobytes(),check=True,capture_output=True).stdout
+            filtered = np.frombuffer(raw,dtype='<f4')
+            envelope = amplitude*np.exp(math.log(.0001/amplitude)*t/duration)
+            signal[:length] += filtered*envelope
+        sounds['feedback-'+kind] = signal[:np.flatnonzero(np.abs(signal)>.00001)[-1]+1]
+    return sounds
+
 def lobby(kind):
     duration = {'enter':.32, 'exit':.28, 'mic-on':.15, 'mic-off':.13}[kind]
     signal = np.zeros(round(duration*RATE))
@@ -99,6 +131,7 @@ def metadata(path, samples, **extra):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--download', action='store_true')
+    parser.add_argument('--previews-only', action='store_true', help='Keep existing runtime assets byte-for-byte')
     args = parser.parse_args()
     CACHE.mkdir(parents=True, exist_ok=True)
     OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -155,7 +188,12 @@ def main():
         sounds['combat-'+kind] = calibrate(signal, target)
     for name, samples in sounds.items():
         path = OUTPUT / (name+'.wav')
-        write_wav(path, samples)
+        if args.previews_only:
+            with wave.open(str(path)) as source:
+                samples = np.frombuffer(source.readframes(source.getnframes()),dtype='<i2').astype(np.float64)/32767
+            sounds[name] = samples
+        else:
+            write_wav(path, samples)
         source_files = [] if name.startswith(('lobby','combat')) else [f'Audio/footstep_concrete_{int(name[-1]):03d}.ogg']
         if name.startswith('cobble'):
             source_files += ['gravel.ogg']
@@ -165,6 +203,7 @@ def main():
             'Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85' if name.startswith('stone') else
             'Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85'))
 
+    feedback = feedback_samples()
     music_manifest = json.loads((ROOT / 'apps/web/public/audio/manifest.json').read_text())
     music_rms = {}
     for track in music_manifest['tracks']:
@@ -172,37 +211,46 @@ def main():
         music_rms[track['scene']] = float(np.sqrt(np.mean(signal**2)))
     loudest = max(music_rms.values())*.5*MUSIC_GAIN
     step_margin = min(active_rms(sounds[name])*.5*EFFECT_GAIN*10**(-3/20) for name in sounds if name.startswith(('stone','cobble')))
-    lobby_margin = min(active_rms(sounds[name])*.5*EFFECT_GAIN for name in sounds if name.startswith('lobby'))
+    lobby_margin = min(active_rms(sounds[name])*.5*EFFECT_GAIN*LOBBY_GAIN for name in sounds if name.startswith('lobby'))
     calibration = {'musicGain': MUSIC_GAIN, 'effectsGain': EFFECT_GAIN, 'slider': .5,
         'musicRmsDecoded': {key:round(value,6) for key,value in music_rms.items()},
         'minimumFootstepMarginDb': round(20*math.log10(step_margin/loudest), 3),
         'minimumLobbyMarginDb': round(20*math.log10(lobby_margin/loudest), 3),
+        'lobbyGain': LOBBY_GAIN, 'combatHitGain': HIT_GAIN, 'peakLimit': PEAK_LIMIT,
+        'feedbackGainDb': {kind.removeprefix('feedback-'):3 if kind=='feedback-collision' else 6 for kind in feedback},
         'rmsMethod': 'Short sounds: contiguous active span above 1% peak. Music: full decoded stereo RMS. Own normal footsteps use -3 dB gain.'}
     assert calibration['minimumFootstepMarginDb'] >= 6
     assert calibration['minimumLobbyMarginDb'] >= 10
 
     # Review mixes use equal-power stereo positions, not a browser's HRTF.
     music = decode((ROOT / 'apps/web/public/audio/camp.mp3').read_bytes(), channels=2)
-    def preview(name, cues):
+    sounds.update(feedback)
+    def preview(name, cues, slider=.5):
         length = round((max(cue[0] for cue in cues)+1.2)*RATE)
-        mix = music[:length].copy()*.5*MUSIC_GAIN
+        mix = music[:length].copy()*slider*MUSIC_GAIN
         if len(mix) < length:
             mix = np.pad(mix, ((0, length-len(mix)), (0, 0)))
+        effect_mix = np.zeros_like(mix)
         timeline = []
         for cue in cues:
             start, key, level, pan = cue[:4]
             occluded = len(cue) > 4 and cue[4]
             sound = decode((OUTPUT / (key+'.wav')).read_bytes(), filters='lowpass=f=1400')[:, 0] if occluded else sounds[key]
-            signal = sound*.5*EFFECT_GAIN*level
+            signal = sound*slider*EFFECT_GAIN*level
             stereo = signal[:, None]*np.array([1,1] if pan == 0 else [math.sqrt((1-pan)/2), math.sqrt((1+pan)/2)])
             offset = round(start*RATE)
-            mix[offset:offset+len(signal)] += stereo[:len(mix)-offset]
+            effect_mix[offset:offset+len(signal)] += stereo[:len(mix)-offset]
             timeline.append({'at':start, 'sound':key, 'gain':level, 'pan':pan, 'occluded':occluded})
+        raw = subprocess.run(['ffmpeg','-v','error','-f','f32le','-ar',str(RATE),'-ac','2','-i','pipe:0',
+                              '-af','acompressor=threshold=0.707945784:ratio=20:knee=1:attack=3:release=80:makeup=1:detection=peak:link=maximum',
+                              '-f','f32le','pipe:1'],input=effect_mix.astype('<f4').tobytes(),check=True,capture_output=True).stdout
+        limited = np.clip(np.frombuffer(raw,dtype='<f4').reshape(-1,2),-PEAK_LIMIT,PEAK_LIMIT)
+        mix += limited
         assert np.max(np.abs(mix)) < 1
         path = OUTPUT / (name+'.wav')
         write_wav(path, mix)
-        return metadata(path, mix, timeline=timeline)
-    previews = [preview('preview-lobby-50', [(1+i, 'lobby-'+kind, 1, 0) for i,kind in enumerate(['enter','exit','mic-on','mic-off'])])]
+        return metadata(path, mix, timeline=timeline, slider=slider, effectsPeak=round(float(np.max(np.abs(limited))),6))
+    previews = [preview('preview-lobby-50', [(1+i, 'lobby-'+kind, LOBBY_GAIN, 0) for i,kind in enumerate(['enter','exit','mic-on','mic-off'])])]
     cues = []
     for group, surface in enumerate(['stone','cobble']):
         for speed, ratio, db in [('slow',.85,-2), ('normal',1,0), ('fast',1.1,1.5)]:
@@ -211,10 +259,15 @@ def main():
                 cues.append((start+i*36/(105*ratio),f'{surface}-{i}',10**((db-3)/20),0))
     previews.append(preview('preview-footsteps-50', cues))
     previews.append(preview('preview-direction-50', [(1,'stone-0',1,-.9),(2,'stone-1',1,.9),(3,'cobble-0',.45,-.6),(4,'cobble-1',.15,.6),(5,'cobble-2',10**(-6/20),-.6,True)]))
-    previews.append(preview('preview-combat-50', [(1,'combat-swing',1,0),(2,'combat-swing',1,0),(2.065,'combat-hit',1.05,0),(3,'combat-hit',1.05,0)]))
+    previews.append(preview('preview-combat-50', [(1,'combat-swing',1,0),(2,'combat-swing',1,0),(2.065,'combat-hit',HIT_GAIN*.75,0),(3,'combat-hit',HIT_GAIN*.75,0)]))
+    cues = [(1+i,name,10**((3 if name=='feedback-collision' else 6)/20),0) for i,name in enumerate(feedback)]
+    # A four-event burst follows the individual cues at full volume.
+    burst = [(12,name,10**(6/20),pan) for name,pan in [('feedback-hurt',-.4),('feedback-block',.4),('feedback-pickup',0),('feedback-complete',0)]]
+    previews.append(preview('preview-feedback-50',cues))
+    previews.append(preview('preview-feedback-100',cues+burst,slider=1))
     manifest = {'license':'CC0-1.0', 'costRmb':0, 'sampleRate':RATE,
         'sources':SOURCES, 'assets':assets, 'calibration':calibration, 'previews':previews,
-        'previewNote':'Equal-power stereo left/right and near/mid/far references; front/back HRTF is provided by the browser at runtime.'}
+        'previewNote':'Runtime category gains and tone/noise definitions; offline FFmpeg compressor plus 0.95 peak guard. Browser filter/compressor coefficients and HRTF are device-dependent.'}
     (OUTPUT / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf8')
     print(json.dumps(calibration, indent=2))
 
