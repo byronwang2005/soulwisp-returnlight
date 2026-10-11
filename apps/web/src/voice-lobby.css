@@ -23,3 +23,39 @@
 .waiting-game-status{padding:12px;border:1px solid var(--line);border-radius:5px;margin-bottom:16px}.waiting-game-status h3{margin:0 0 8px;font-size:14px}.waiting-game-status p{margin:0;font-size:12px;color:var(--muted)}
 .voice-strip-actions{display:flex;gap:6px}.voice-member-name>span{overflow-wrap:anywhere}.voice-lobby-body>p[role=status]{font-size:13px;line-height:1.7;color:var(--gold-light)}
 @media(max-width:420px){.voice-lobby-members{grid-template-columns:minmax(0,1fr)}.voice-lobby-count small{display:none}}
+
+.screen-content[hidden]{display:none}
+.voice-lobby-shell{flex:none}
+.expedition-lobby-page{display:flex;flex:1;min-height:0;width:100%;padding:24px 4%;overflow:hidden}
+.expedition-lobby{display:flex;flex-direction:column;min-height:0;width:100%;max-width:1280px;margin:auto;height:100%;background:linear-gradient(130deg,#29271fec,#161a17f5);border-color:#b89c6340;overflow:hidden}
+.expedition-lobby .voice-lobby-heading{padding:24px 28px;background:linear-gradient(110deg,#ab875d12,transparent);align-items:flex-start}
+.expedition-lobby .voice-lobby-heading h2{font-size:32px;letter-spacing:.06em}
+.expedition-lobby .voice-lobby-heading p{font-size:13px}
+.expedition-lobby .voice-lobby-body{padding:24px 28px}
+.expedition-overview{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.waiting-game-status{padding:16px;border:1px solid var(--line);border-radius:6px;background:#c9a66506}
+.waiting-game-status .eyebrow{font-size:9px;margin-bottom:10px}
+.waiting-game-status>strong{display:block;font-family:var(--serif);font-size:25px;font-weight:500;color:var(--gold-light)}
+.waiting-game-status strong small{font-family:inherit;font-size:13px;color:var(--muted)}
+.waiting-game-status p{margin:8px 0 0;font-size:12px;color:var(--muted)}
+.expedition-lobby .voice-lobby-body>label{max-width:440px;margin:18px 0 0}
+.expedition-lobby .voice-lobby-body>.hint{margin:8px 0 24px}
+.expedition-roster{margin:20px 0}
+.expedition-roster h3{margin:0;font-family:var(--serif);font-size:19px;font-weight:500}
+.expedition-seats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;list-style:none;padding:0;margin:16px 0}
+.expedition-seats li{display:flex;align-items:center;gap:14px;min-width:0;padding:15px;border:1px solid var(--line);border-radius:6px;background:#b5b5a405}
+.expedition-seats .seat-number{font-family:Georgia,serif;color:var(--gold);font-size:20px;opacity:.55;flex:none}
+.expedition-seats li>div{flex:1;min-width:0}
+.expedition-seats strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:500}
+.expedition-seats li>div>span{display:block;margin-top:5px;color:var(--muted);font-size:11px}
+.expedition-seats .seat-status{font-size:20px;color:var(--muted)}
+.expedition-seats .vacant{border-style:dashed;background:transparent;color:var(--muted);opacity:.65}
+.expedition-seats .is-ready{border-color:#8da98960;background:#91ab810b}.expedition-seats .is-ready .seat-status{color:#bfd3a9}
+.expedition-seats .is-speaking{box-shadow:inset 3px 0 #b8cfac}
+.expedition-overflow{padding:18px 0 0;border-top:1px solid var(--line)}
+.expedition-overflow ol{padding:0;list-style:none;display:grid;gap:8px}.expedition-overflow li{display:flex;justify-content:space-between;font-size:13px}.expedition-overflow li>span{color:var(--muted)}
+.expedition-lobby .voice-lobby-controls{display:flex;flex-wrap:wrap;padding:16px 28px;gap:10px;background:#12161175}
+.expedition-lobby .voice-lobby-controls button{padding:12px 18px;min-height:46px;font-size:13px}.expedition-lobby .voice-lobby-controls>.primary{min-width:180px;margin-right:auto}
+.voice-lobby-dialog .expedition-overview{gap:8px}.voice-lobby-dialog .waiting-game-status{padding:12px}.voice-lobby-dialog .waiting-game-status>strong{font-size:20px}.voice-lobby-dialog .expedition-seats{grid-template-columns:1fr}.voice-lobby-dialog .expedition-seats .vacant{display:none}
+@media(max-width:700px){.expedition-lobby-page{padding:12px;}.expedition-lobby .voice-lobby-heading{padding:18px}.expedition-lobby .voice-lobby-heading h2{font-size:26px}.expedition-lobby .voice-lobby-body{padding:16px}.expedition-overview{gap:8px;margin-bottom:16px}.waiting-game-status{padding:12px}.waiting-game-status>strong{font-size:20px}.expedition-seats{grid-template-columns:1fr;gap:8px}.expedition-seats li{padding:12px}.expedition-lobby .voice-lobby-controls{padding:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.expedition-lobby .voice-lobby-controls>.primary{min-width:0;margin:0;grid-column:1/-1}.expedition-lobby .voice-lobby-controls button{padding:10px;font-size:12px}}
+.expedition-lobby-page[hidden],.voice-lobby-shell[hidden]{display:none}
