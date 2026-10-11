@@ -52,7 +52,7 @@ docker compose exec -T backup backup now
 docker compose logs --tail=80 backup
 ```
 
-The sidecar flushes world data over internal RCON, pauses world writes for the archive and restores saving afterwards. It pauses Chunky first, uses at most half a CPU core and 256 MiB, backs up every 24 hours, and retains seven successful archives. Backups exclude downloaded jars and caches; the locked manifest recreates them. Export backups to a private local directory via SCP. Local archives alone do not survive loss of the VPS.
+The sidecar flushes world data over internal RCON, pauses world writes for the archive and restores saving afterwards. It pauses Chunky first and resumes pending generation after the backup, uses at most half a CPU core and 256 MiB, backs up every 24 hours, and retains seven successful archives. Backups exclude downloaded jars and caches; the locked manifest recreates them. Export backups to a private local directory via SCP. Local archives alone do not survive loss of the VPS.
 
 To restore, stop only the Minecraft project, preserve the current `data` directory under a dated name, inspect and extract the selected archive into a new directory, restore locked jars and start the server against that directory. Never overwrite a running world. Verify archive hashes, region files and player data in a separate restore directory before switching. Keep RCON secrets separately.
 

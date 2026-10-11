@@ -54,6 +54,7 @@ services:
       PRUNE_BACKUPS_DAYS: "0"
       PRUNE_BACKUPS_COUNT: "7"
       PRE_SAVE_ALL_SCRIPT: "rcon-cli chunky pause"
+      POST_BACKUP_SCRIPT: "rcon-cli chunky continue"
       TZ: Europe/London
     depends_on:
       minecraft: {condition: service_healthy}
