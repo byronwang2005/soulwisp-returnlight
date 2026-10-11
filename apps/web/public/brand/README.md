@@ -33,7 +33,8 @@ silver wisps; an eclipsed moon hangs over sage fog. Keep the upper center quiet
 for the separately rendered title and the central composition usable in a
 portrait crop. No characters, typography, UI or buttons.
 
-The hero uses native React controls styled as text entries. Registration opens
-the existing account dialog, and training opens the existing tutorial. On small
+The emblem and game title open the existing registration dialog. The narrative
+line below them opens the existing tutorial. Both hit areas inherit the artwork
+typography without action labels, icons, borders, fills or pressed effects. On small
 or short viewports, the content can scroll within the hero while the page stays
 bounded by the existing application shell.
