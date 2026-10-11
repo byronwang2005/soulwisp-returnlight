@@ -1,6 +1,6 @@
 # 单台 Linux VPS 迁移
 
-本地四人优先，再逐档完成并验收4–10人；本目录在所有本地档位通过后使用。本机不要求Docker；生产模板在Ubuntu24.04使用Docker Engine与Compose。当前正式入口为[亡絮：归灯](https://gaming.byron.wang)。已完成容器上线、HTTPS / WSS、完整数据库迁移、十客户端强制TURN/TLS音频、备份空库恢复与本机导出；具体版本、时间和内容校验见[公网部署验收](../docs/verification/deployment-public.json)。七档正常时长完整对局、账户结算及服务器采样见[开发状态](../docs/development-status.md)。
+生产模板在 Ubuntu 24.04 使用 Docker Engine 与 Compose，同机运行前端、API、权威房间、PostgreSQL 和 LiveKit。本机开发不要求 Docker。历史上线、迁移与备份恢复记录见 [验收索引](../docs/verification/README.md)；实现范围与待验收事项见 [开发状态](../docs/development-status.md)。
 
 日常应用更新可使用 [GitHub Actions 自动发布](AUTOMATION.md)：CI 成功后发布准确 SHA，等待房间清空、备份并检查健康，失败恢复上一应用镜像。
 

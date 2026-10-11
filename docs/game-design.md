@@ -1,6 +1,6 @@
 # 《亡絮：归灯》运行规则
 
-规则版本 `wangxu-0.1.0`。运行参数以 `packages/rules/src/config.ts` 为准，`design/configs.json` 是通过 `scripts/export-design.ts` 生成的可读副本。调研来源保存在 [research](../research/README.md)。
+运行参数以 [规则配置](../packages/rules/src/config.ts)、[动作内容](../packages/rules/src/content.ts) 和 [规则引擎](../packages/rules/src/engine.ts) 为准。当前规则版本为 `wangxu-0.2.0`。`design/configs.json` 是生成副本，查看前执行 `node --import tsx scripts/export-design.ts` 更新；旧副本可能落后于代码。调研来源保存在 [research](../research/README.md)。
 
 暮钟城的死者留下银白亡絮，归灯行会用它修复记忆灯。进入旧城的同行者具有公开职业，却秘密属于守灯者或蚀月者。双方都能采集、点灯、调查和救人；行动贡献能成为证据，也能成为伪装。完整背景与六课训练对应关系见 [story.md](story.md)。
 
@@ -73,8 +73,6 @@
 
 标准模式向所有账户免费开放完整允许技能池。账号进度不增加基础战力；研究决定收藏和默认形态。继续游戏的动机来自新构筑、真实行为博弈、珍藏取舍与外观进展，具体复玩率和阵营公平程度通过真人试局记录。
 
-## 实施与验收
+## 维护与验收
 
-本地按四人成品→5→6→7→8→9→10推进，之后才上云。实际测试结果记录在 [development-status.md](development-status.md)。每档覆盖四种对抗终局，另检查并发预算、误封、物品复制、秘密泄漏、断线和重复发奖。
-
-每档安排20–30局定向真人试玩；分队、抱团、拒交、公开夺芯和错误裁决都有记录。自动化验证规则与协议，真人校准讨论、空等时间、自愿再玩和阵营胜率。生产单台Linux VPS承载前端、API、房间、PostgreSQL及LiveKit；Cloudflare Pages作为可选前端发布渠道。
+变更人数、资源、时长或能力时，同步核对配置、动作内容与规则引擎，再生成设计副本。默认静态检查和可选集成验证见 [本地开发](local-development.md)；实现范围、历史证据与真人试玩事项见 [开发状态](development-status.md)。

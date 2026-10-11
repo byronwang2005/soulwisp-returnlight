@@ -2,7 +2,7 @@
 
 ## 启动
 
-项目使用Node24。首次执行`npm ci`、`npm run setup`，再执行`node scripts/install-services.mjs`和`npm run dev`。安装脚本将Caddy和LiveKit放在项目的`.local/bin`。
+项目使用 Node.js 24（版本见 `.node-version`）及提交的锁文件。准备 PostgreSQL 15 命令行工具并加入 PATH；Apple Silicon 的 LiveKit 安装还需要 Go。本地安装脚本仅支持 Apple Silicon，其他平台自行安装 Caddy / LiveKit。首次执行`npm ci`、`npm run setup`，再执行`node scripts/install-services.mjs`和`npm run dev`。安装脚本将Caddy和LiveKit放在项目的`.local/bin`。
 
 `setup`初始化独立PostgreSQL数据目录`.local/postgres`，端口55432；随机密钥写入`.env`。`dev`启动网页5180、账户API3000、实时房间2567、LiveKit7880。Ctrl+C停止网页和游戏服务，数据库保留。
 
@@ -41,9 +41,26 @@ npm run restore -- /absolute/path/backup.dump postgres://USER:PASSWORD@127.0.0.1
 
 ## 验证
 
-`npm run check`检查类型，`npm run test`验证规则、真实数据库与实时房间，`npm run test:e2e`验证浏览器。集成测试需要本地数据库和LiveKit；浏览器测试需要Playwright Chromium。
+默认执行静态检查，不需要启动游戏服务：
 
-`npm run measure`用十个规则客户端运行六十秒，测量官方20Hz调度、私密视图编码与进程内存，报告写入`.local/verification/simulation.json`。它不测浏览器帧率、媒体或公网带宽。
+```sh
+npm run check
+node scripts/ground-assets.mjs
+node scripts/scene-assets.mjs
+npm run build
+```
+
+地面检查比对清单中的大小与 SHA-256；场景检查核对模型身体尺度、脚底与动作。`--download` 会恢复地面文件，`--record` 会更新尺度报告，日常检查不需要这两个参数。
+
+仅在用户明确要求时运行以下验证：
+
+| 命令 | 范围与前置条件 |
+| --- | --- |
+| `npm run test` | 规则、账户、实时房间与语音；需要本地 PostgreSQL 和 LiveKit |
+| `npm run test:e2e` | 浏览器流程；需要 Playwright Chromium 及对应服务，详见 `playwright.config.ts` |
+| `npm run measure` | 十人规则引擎六十秒 CPU / 私密视图编码基线，不测浏览器、媒体或公网 |
+
+新输出通常写入 `.local/verification`、`.local/screenshots`；场景 GPU 用例和尺度记录脚本会写入 `docs/verification`。提交记录前说明时间、代码版本、环境与范围；旧报告从 [验收索引](verification/README.md) 查阅。
 
 `npm run package`在`.local/releases/`生成源码与资产版本包，包含许可清单、迁移、启动工具、测试及手册，排除私有环境配置、数据库和备份。迁移玩家数据时另外执行`npm run backup`。
 

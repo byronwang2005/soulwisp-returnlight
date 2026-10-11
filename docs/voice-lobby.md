@@ -25,33 +25,25 @@
 
 直连 UDP 为默认媒体路径，现有 ICE/TCP、TURN/TLS 443 作为回退。接收端使用浏览器自适应缓冲。“连接诊断”显示每条远端音轨的网络往返、区间丢包、抖动、区间缓冲等待及 ICE 路径。网络往返不等于说话到听见的延迟。
 
-## 验证
+## 验证与网络目标
 
-使用 Node.js 24、提交的锁文件及本地 PostgreSQL/LiveKit；运行前按 [本地开发说明](local-development.md) 启动数据库并安装服务。
+默认类型、构建与资产检查见 [本地开发](local-development.md)。明确要求语音验收时，再启动 PostgreSQL / LiveKit，并运行：
 
 ```sh
-npm run check
-npm run build
 npm exec vitest run tests/lobby-stats.test.ts tests/voice-lobby-service.test.ts tests/room-voice-gate.test.ts tests/voice-lobby.integration.test.ts tests/voice.integration.test.ts
 npm exec playwright test tests/voice-lobby.e2e.ts
 ```
 
-真实 SFU 测试分别连接 2、4、10 个客户端，确认默认无发布轨道、同时开麦后每个接收者收到其他成员的 RTP 音频，以及第 11 人并发入场被 SFU 拒绝。还覆盖满员时同账户接管、静音复用轨道、旧 epoch 拒绝和实例清理。浏览器测试覆盖四种视口下的状态条固定高度、面板开关与焦点返回、手机双列布局、收起后持续收听与快捷静音、开麦和收听、远端音频元素移除、导航退出、远征入场拒绝、权限拒绝、播放解锁、延迟票据取消及退出后迟到的麦克风权限。
+集成用例覆盖 2 / 4 / 10 人音频接收、第 11 人拒绝、同账户接管、旧 epoch 与清理；浏览器用例覆盖面板、静音与收听、权限拒绝、播放解锁、取消连接、导航退出和远征入场限制。新报告与截图写入 `.local/verification`、`.local/screenshots`。
 
-音频标记测试使用 12 个音调起始点，以源端参考和接收端 AudioWorklet 的输出音频时钟对齐到同一宿主机时间轴，测量浏览器编码、SFU、解码及输出调度。结果写入 `.local/verification/voice-lobby.json`，包括连接分位数、音频标记分位数、ICE 路径和自有 LiveKit 进程负载。该测量不包含真实麦克风、扬声器和外部网络。UI 截图写入 `.local/screenshots/voice-lobby-desktop.png`、`voice-lobby-mobile.png`、`voice-lobby-mobile-panel.png` 及四种尺寸的 `voice-home-*.png`。10 人长昵称、诊断滚动及重连／错误／播放受阻的布局使用控制器快照验证，截图为 `voice-ten-panel-*.png`；双人收听、收起后连接持续和导航退出使用真实 LiveKit 验证。
+[历史本地报告](verification/voice-lobby-local.json) 的音频标记 P50 / P95 为 66.65 / 66.74 ms，范围是同宿主机浏览器编码、SFU、解码与输出调度，不含真实麦克风、扬声器及外部网络。
 
-## 英国与欧洲网络验收
+英国 / 欧洲目标：双方到 SFU 的 RTT 不超过 50 ms、丢包不超过 1%、非蓝牙设备时，预热后加入到可播放 P95 不超过两秒，真实音频端到端 P50 / P95 不超过 150 / 250 ms。使用同一录音时钟记录源参考与接收输出，在 Wi-Fi、移动网络分别记录设备、节点地区、ICE 路径与分位数。
 
-本次本地验收结果见 [本地语音报告](verification/voice-lobby-local.json)：2／4／10 人同时发布均收到完整的其他成员音轨，10 人共验证 90 条接收链路。12 个音频标记的浏览器媒体链路 P50 为 66.65 ms、P95 为 66.74 ms。SDK 连接完成 P95 分别为 419.30／141.70／227.30 ms；这一计时从预热后开始，不包含票据请求和首个可听音频，因此另行保留目标网络上的加入到可播放验收。
-
-在两个客户端到 SFU 的 RTT 均不超过 50 ms、丢包不超过 1%、使用非蓝牙设备时，目标为预热后加入到可播放 P95 不超过 2 秒，真实音频端到端 P50 不超过 150 ms、P95 不超过 250 ms。
-
-真实设备验收使用同一录音时钟同时记录源音频参考和接收设备输出，再对齐已知音频标记。分别测试 Wi-Fi 与移动网络，记录设备、媒体节点地区、网络类型、连接分位数和音频分位数。
-
-对已配置 TURN/TLS 443 的测试 LiveKit，可设置私有环境中的 `LIVEKIT_URL`、`LIVEKIT_PUBLIC_URL`、`LIVEKIT_API_KEY` 和 `LIVEKIT_API_SECRET`，再运行：
+配置好 TURN/TLS 443 的测试服务后，可通过私有环境设置 LiveKit 地址和凭据，再显式验证中继：
 
 ```sh
 LIVEKIT_TEST_FORCE_RELAY=1 npm exec vitest run tests/voice-lobby.integration.test.ts
 ```
 
-强制中继测试保留服务器签发的 TURN 凭据，仅允许 `turns:…:443`，并核实选中路径的 `relayProtocol` 为 TLS；ICE candidate 的 `protocol` 和到 TURN 的传输协议分别报告。[统计字段定义](https://www.w3.org/TR/webrtc-stats/#dom-rtcicecandidatestats-relayprotocol)。默认本地 LiveKit 配置没有 TURN/TLS，因此本地直连结果不代表中继或欧洲移动网络验收。
+该用例核对选中路径的 `relayProtocol` 为 TLS。本地默认配置不提供 TURN/TLS，直连测试不覆盖中继。
