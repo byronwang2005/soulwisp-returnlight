@@ -81,8 +81,7 @@ Failures identify the commit SHA, subject, and each violated rule. Self-tests ex
 
 ```sh
 npm run check
-npm exec vitest run tests/rules.test.ts
 npm run build
 ```
 
-The GitHub workflow runs these checks, the validator and history-checker self-tests, and actual push/PR commit enforcement on Node.js 24. `npm run test` also includes PostgreSQL and LiveKit integration tests; `npm run test:e2e` covers browser flows. Run those locally when the change affects their behavior, with the services described in the local development guide. Report the commands and results in the commit body or pull request.
+The GitHub workflow runs these checks, the validator and history-checker self-tests, and actual push/PR commit enforcement on Node.js 24. Local validation defaults to type checking, production builds, and source/asset checks. `npm run test` also includes PostgreSQL and LiveKit integration tests; `npm run test:e2e` covers browser flows. Launch live integration, browser, or device/GPU tests only when explicitly requested by the user, with the services described in the local development guide. Report the commands and results in the commit body or pull request.
