@@ -30,6 +30,27 @@ jobs:
         run: node scripts/check-commit.mjs --self-test
       - name: Test commit history checker
         run: node scripts/check-commit-history.mjs --self-test
+      - name: Fetch exact event commits
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_AFTER: ${{ github.event.after }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [[ "$EVENT_NAME" == "push" ]]; then
+            commits=("$PUSH_BEFORE" "$PUSH_AFTER")
+          else
+            commits=("$PR_BASE" "$PR_HEAD")
+          fi
+          for sha in "${commits[@]}"; do
+            if [[ ! "$sha" =~ ^[a-fA-F0-9]{40}$ || "$sha" =~ ^0+$ ]]; then
+              continue
+            fi
+            if ! git cat-file -e "$sha^{commit}" 2>/dev/null; then
+              git fetch --no-tags origin "$sha"
+            fi
+          done
       - name: Check introduced commit messages
         run: node scripts/check-commit-history.mjs
       - name: Install locked dependencies
