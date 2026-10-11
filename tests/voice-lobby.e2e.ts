@@ -53,17 +53,28 @@ test('public homepage, two real microphones, responsive layout and navigation cl
   await expect(a.locator('.voice-lobby-members li')).toHaveCount(2);
   await expect(a.locator('.app')).toHaveAttribute('data-music-ducked','true');
   await expect.poll(async()=>a.evaluate(async()=>{const {sceneMusic}=await import('/src/music.ts' as string);return (sceneMusic as any).current?.sound.volume()??1;})).toBeLessThan(.09);
-  const roomName = (await admin.listRooms()).find(room => room.name.startsWith('public-lobby-'))!.name;
+  let roomName = '';
+  await expect.poll(async () => {
+    for (const room of (await admin.listRooms()).filter(room => room.name.startsWith('public-lobby-'))) {
+      const participants = await admin.listParticipants(room.name);
+      if (ids.every(id => participants.some(participant => participant.identity === id))) { roomName = room.name; return true; }
+    }
+    return false;
+  }).toBe(true);
   expect((await admin.listParticipants(roomName)).every(participant => participant.tracks.length === 0)).toBe(true);
   await Promise.all([a, b].map(page => page.getByRole('button', { name: '开启麦克风', exact: true }).click()));
   await Promise.all([a, b].map(page => expect(page.locator('audio[data-voice="lobby"]')).toHaveCount(1)));
   await expect.poll(async () => (await admin.listParticipants(roomName)).every(participant => participant.tracks.length === 1)).toBe(true);
   await expect(a.getByRole('button', { name: '静音麦克风', exact: true })).toBeVisible();
   const sid = (await admin.listParticipants(roomName)).find(participant => participant.identity === ids[0])!.tracks[0]!.sid;
+  await expect(a.getByRole('button',{name:'静音麦克风',exact:true})).toHaveAttribute('data-icon-state','on');
   await a.getByRole('button', { name: '静音麦克风', exact: true }).click();
+  await expect(a.getByRole('button',{name:'开启麦克风',exact:true})).toHaveAttribute('data-icon-state','off');
   await a.getByRole('button', { name: '开启麦克风', exact: true }).click();
   expect((await admin.listParticipants(roomName)).find(participant => participant.identity === ids[0])!.tracks[0]!.sid).toBe(sid);
+  await expect(a.getByRole('button',{name:'关闭收听',exact:true})).toHaveAttribute('data-icon-state','on');
   await a.getByRole('button', { name: '关闭收听', exact: true }).click();
+  await expect(a.getByRole('button',{name:'开启收听',exact:true})).toHaveAttribute('data-icon-state','off');
   expect(await a.locator('audio[data-voice="lobby"]').evaluate(element => (element as HTMLAudioElement).muted)).toBe(true);
   await a.getByRole('button', { name: '开启收听', exact: true }).click();
   expect(await a.locator('audio[data-voice="lobby"]').evaluate(element => (element as HTMLAudioElement).muted)).toBe(false);

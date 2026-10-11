@@ -1,12 +1,14 @@
 {
-  "capturedAt": "2026-10-11T00:06:37.230Z",
+  "capturedAt": "2026-10-11T00:49:36.544Z",
   "design": {
-    "bodyFont": "\"Noto Serif SC Variable\", \"Songti SC\", serif",
-    "headingFont": "\"Ma Shan Zheng\", STKaiti, KaiTi, \"Noto Serif SC Variable\", \"Songti SC\", serif",
+    "bodyFont": "\"Source Sans 3 Variable\", \"Noto Sans SC Variable\", system-ui, sans-serif",
+    "headingFont": "\"Source Serif 4 Variable\", \"Noto Serif SC Variable\", \"Songti SC\", serif",
     "paper": "rgb(239, 228, 206)",
     "ink": "rgb(23, 21, 18)",
     "loaded": true,
-    "bodyLoaded": true
+    "bodyLoaded": true,
+    "latinHeadingLoaded": true,
+    "latinBodyLoaded": true
   },
   "primaryContrast": 5.980328805703493,
   "mutedContrast": 5.434569211078987,
@@ -40,6 +42,6 @@
       "buttons": 10
     }
   ],
-  "fontFilesRequested": 39,
+  "fontFilesRequested": 35,
   "errors": []
 }

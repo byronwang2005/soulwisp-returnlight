@@ -16,4 +16,4 @@
 
 ## 古铜主题与古体字体
 
-马善政毛笔楷体、Noto Serif SC和Noto Sans SC通过锁定版本的Fontsource包自托管，均为OFL-1.1，采购成本0元。按钮复用CCC同版本的morphicons（MIT）与lucide（ISC），许可已加入运行包。潘通876 C只作为古铜材质方向参考；实际屏幕色值与字体职责见[视觉系统](visual-system.md)。
+Source Serif 4、Source Sans 3、Noto Serif SC和Noto Sans SC通过锁定版本的Fontsource包自托管，均为OFL-1.1，采购成本0元。按钮复用CCC同版本的morphicons（MIT）与lucide（ISC），许可已加入运行包。潘通876 C只作为古铜材质方向参考；实际屏幕色值与字体职责见[视觉系统](visual-system.md)。
