@@ -16,3 +16,5 @@ deploy/current-revision
 deploy/release.lock
 deploy/.release-*.yaml
 releases/
+deploy/minecraft/data/
+deploy/minecraft/backups/

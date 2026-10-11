@@ -1,0 +1,66 @@
+name: minecraft
+services:
+  minecraft:
+    image: itzg/minecraft-server:java25@sha256:e94acca02886fdbaad61f9c72935784ac2228a69068179f7b97ea1cac165f24e
+    environment:
+      EULA: "TRUE"
+      TYPE: FABRIC
+      VERSION: ${MINECRAFT_VERSION:?render the connection configuration}
+      FABRIC_LOADER_VERSION: "0.19.5"
+      FABRIC_LAUNCHER_VERSION: "1.1.2"
+      MEMORY: ""
+      INIT_MEMORY: 1G
+      MAX_MEMORY: 5G
+      JVM_XX_OPTS: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
+      JVM_OPTS: "-Xlog:gc*:logs/gc.log:time,uptime:filecount=5,filesize=5M"
+      ONLINE_MODE: "TRUE"
+      ENABLE_WHITELIST: "TRUE"
+      ENFORCE_WHITELIST: "TRUE"
+      WHITELIST: ${MINECRAFT_WHITELIST:-}
+      MAX_PLAYERS: ${MINECRAFT_MAX_PLAYERS:?render the connection configuration}
+      DIFFICULTY: ${MINECRAFT_DIFFICULTY:-normal}
+      MODE: survival
+      VIEW_DISTANCE: "8"
+      SIMULATION_DISTANCE: "4"
+      NETWORK_COMPRESSION_THRESHOLD: "256"
+      ENABLE_QUERY: "FALSE"
+      ENABLE_RCON: "TRUE"
+      RCON_PASSWORD: ${RCON_PASSWORD:?set a private RCON password}
+      MOTD: "Friends / Fabric ${MINECRAFT_VERSION} / Whitelist"
+      TZ: Europe/London
+    volumes: ["./data:/data"]
+    ports: ["${MINECRAFT_BIND_IP:?render the connection configuration}:25565:25565/tcp"]
+    mem_limit: 6656m
+    memswap_limit: 6656m
+    pids_limit: 512
+    restart: unless-stopped
+    stop_grace_period: 120s
+    healthcheck:
+      test: ["CMD", "mc-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  backup:
+    image: itzg/mc-backup@sha256:5a572dd1bf3e4f17e81e62fbd1c6a3c1b1c40bc7b198b41ff6041a84aa24808f
+    environment:
+      RCON_HOST: minecraft
+      RCON_PASSWORD: ${RCON_PASSWORD:?set a private RCON password}
+      BACKUP_INTERVAL: 24h
+      INITIAL_DELAY: 2m
+      PRUNE_BACKUPS_DAYS: "0"
+      PRUNE_BACKUPS_COUNT: "7"
+      PRE_SAVE_ALL_SCRIPT: "rcon-cli chunky pause"
+      TZ: Europe/London
+    depends_on:
+      minecraft: {condition: service_healthy}
+    volumes: ["./data:/data:ro", "./backups:/backups"]
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "3"}

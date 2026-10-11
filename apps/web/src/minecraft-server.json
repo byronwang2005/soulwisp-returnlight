@@ -1,0 +1,9 @@
+{
+  "name": "朋友的方块世界",
+  "address": "5.231.45.40:25565",
+  "version": "26.3",
+  "maxPlayers": 10,
+  "onlineMode": true,
+  "whitelist": true,
+  "difficulty": "normal"
+}
