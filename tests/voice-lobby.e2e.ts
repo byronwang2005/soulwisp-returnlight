@@ -42,7 +42,7 @@ test('public homepage, two real microphones, responsive layout and navigation cl
   const a = await first.newPage(), b = await second.newPage();
   a.on('pageerror', error => errors.push(error.message)); b.on('pageerror', error => errors.push(error.message));
   await a.goto('/');
-  await expect(a.getByRole('heading', { name: '灯下语音大厅' })).toBeVisible();
+  await expect(a.getByRole('button', { name: '打开灯下语音大厅' })).toBeVisible();
   await expect(a.getByRole('button', { name: '登录并加入', exact: true })).toBeVisible();
   expect((await a.request.post('/api/voice/lobby/token', { data: {} })).status()).toBe(401);
   const publicInfo = await (await a.request.get('/api/voice/lobby')).json();
@@ -86,11 +86,21 @@ test('public homepage, two real microphones, responsive layout and navigation cl
     return renderer.info.render.frame - before;
   });
   expect(renderedFrames).toBeLessThanOrEqual(2);
+  await a.getByRole('button', { name: '收起语音大厅', exact: true }).click();
+  await expect(a.locator('audio[data-voice="lobby"]')).toHaveCount(1);
+  await expect(a.locator('audio[data-voice="lobby"]')).toHaveJSProperty('muted', false);
+  await expect.poll(async () => (await admin.listParticipants(roomName)).length).toBe(2);
+  await a.getByRole('button', { name: '快捷静音麦克风', exact: true }).click();
+  await a.getByRole('button', { name: '快捷开启麦克风', exact: true }).click();
+  expect((await admin.listParticipants(roomName)).find(participant => participant.identity === ids[0])!.tracks[0]!.sid).toBe(sid);
   mkdirSync('.local/screenshots', { recursive: true });
   await a.screenshot({ path: '.local/screenshots/voice-lobby-desktop.png', fullPage: true });
   await a.setViewportSize({ width: 390, height: 844 });
+  await a.getByRole('button', { name: '打开灯下语音大厅' }).click();
   await expect(a.locator('.voice-lobby-members')).toHaveCSS('grid-template-columns', /\d.*px \d.*px/);
   expect(await a.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await a.screenshot({ path: '.local/screenshots/voice-lobby-mobile-panel.png', fullPage: true });
+  await a.getByRole('button', { name: '收起语音大厅', exact: true }).click();
   await a.screenshot({ path: '.local/screenshots/voice-lobby-mobile.png', fullPage: true });
   await a.getByRole('button', { name: '远征大厅', exact: true }).click();
   await expect(a.locator('audio[data-voice="lobby"]')).toHaveCount(0);
@@ -103,8 +113,10 @@ test('public homepage, two real microphones, responsive layout and navigation cl
   await expect(a.getByRole('button', { name: '加入语音大厅' })).toBeVisible();
   await a.getByRole('button', { name: '加入语音大厅' }).click();
   await expect(a.getByRole('button', { name: '开启麦克风', exact: true })).toBeVisible();
+  await a.getByRole('button', { name: '收起语音大厅', exact: true }).click();
   await a.getByRole('button', { name: '归灯训练', exact: true }).click();
   await expect(a.locator('audio[data-voice="lobby"]')).toHaveCount(0);
+  await b.getByRole('button', { name: '收起语音大厅', exact: true }).click();
   await b.getByRole('button', { name: '退出', exact: true }).click();
   await expect(b.getByRole('button', { name: '登录并加入', exact: true })).toBeVisible();
   await expect.poll(async () => (await admin.listParticipants(roomName)).length).toBe(0);
@@ -118,11 +130,11 @@ test('duplicate page takeover stops the old session and permission denial remain
   await expect(a.getByRole('button', { name: '开启麦克风', exact: true })).toBeVisible();
   const b = await context.newPage(); await b.goto('/');
   await b.getByRole('button', { name: '加入语音大厅' }).click();
-  await expect(a.getByText('语音已在另一个页面接管。')).toBeVisible();
-  await expect(a.getByRole('button', { name: '加入语音大厅' })).toBeVisible();
+  await expect(a.locator('.voice-lobby-message')).toBeVisible();
+  await expect(a.getByRole('dialog',{name:'灯下语音大厅',exact:true}).getByRole('button', { name: '加入语音大厅' })).toBeVisible();
   await b.evaluate(() => { navigator.mediaDevices.getUserMedia = async () => { throw new DOMException('Test denied microphone', 'NotAllowedError'); }; });
   await b.getByRole('button', { name: '开启麦克风', exact: true }).click();
-  await expect(b.getByText('无法打开麦克风，请检查浏览器权限和音频设备。你仍可收听。')).toBeVisible();
+  await expect(b.locator('.voice-lobby-message')).toBeVisible();
   await expect(b.getByRole('button', { name: '关闭收听', exact: true })).toBeVisible();
   await b.getByRole('button', { name: '离开大厅', exact: true }).click();
 });
@@ -134,7 +146,7 @@ test('cancels a delayed token without reconnecting and immediately releases a la
   const barrier = new Promise<void>(resolve => { release = resolve; });
   await page.route('**/api/voice/lobby/token', async route => { await barrier; await route.continue(); });
   await page.getByRole('button', { name: '加入语音大厅' }).click();
-  await page.getByRole('button', { name: '取消连接', exact: true }).click();
+  await page.getByRole('dialog',{name:'灯下语音大厅',exact:true}).getByRole('button', { name: '取消连接', exact: true }).click();
   release(); await page.unrouteAll({ behavior: 'wait' });
   await expect(page.getByRole('button', { name: '加入语音大厅' })).toBeVisible();
   // Exercise the shipped controller directly for a permission prompt resolved after unmount.
@@ -165,9 +177,10 @@ test('retries an offline lobby and unlocks audio after browser playback rejectio
   const context = await browser.newContext({ permissions: ['microphone'] }); contexts.push(context);
   const page = await context.newPage(); await register(page, '声音解锁测试');
   await page.route('**/api/voice/lobby', route => route.fulfill({ json: { available: false, online: 0, capacity: 10, url: null } }));
-  await page.reload(); await expect(page.getByText('大厅暂时离线', { exact: true })).toBeVisible();
-  await page.unroute('**/api/voice/lobby'); await page.getByRole('button', { name: '重试连接', exact: true }).click();
-  await expect(page.getByRole('button', { name: '加入语音大厅' })).toBeVisible();
+  await page.reload(); await page.getByRole('button', { name: '打开灯下语音大厅' }).click();
+  await expect(page.getByText('大厅暂时离线', { exact: true })).toBeVisible();
+  await page.unroute('**/api/voice/lobby'); await page.getByRole('dialog',{name:'灯下语音大厅',exact:true}).getByRole('button', { name: '重试连接', exact: true }).click();
+  await expect(page.getByRole('dialog',{name:'灯下语音大厅',exact:true}).getByRole('button', { name: '加入语音大厅' })).toBeVisible();
   await page.evaluate(() => {
     const scope = window as Window & { testBlockAudio?: boolean };
     scope.testBlockAudio = true;
@@ -177,10 +190,101 @@ test('retries an offline lobby and unlocks audio after browser playback rejectio
     AudioContext.prototype.resume = function () { return scope.testBlockAudio ? Promise.reject(new DOMException('Test blocked playback', 'NotAllowedError')) : resume.call(this); };
     HTMLMediaElement.prototype.play = function () { return scope.testBlockAudio ? Promise.reject(new DOMException('Test blocked playback', 'NotAllowedError')) : play.call(this); };
   });
-  await page.getByRole('button', { name: '加入语音大厅' }).click();
+  await page.getByRole('dialog',{name:'灯下语音大厅',exact:true}).getByRole('button', { name: '加入语音大厅' }).click();
   await expect(page.getByRole('button', { name: '点击启用声音', exact: true })).toBeVisible();
   await page.evaluate(() => { (window as Window & { testBlockAudio?: boolean }).testBlockAudio = false; });
   await page.getByRole('button', { name: '点击启用声音', exact: true }).click();
   await expect(page.getByRole('button', { name: '点击启用声音', exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: '离开大厅', exact: true }).click();
+});
+
+
+test('compact homepage keeps its height, focus and login usable across viewports', async ({ page }) => {
+  await page.goto('/');
+  mkdirSync('.local/screenshots', { recursive: true });
+  for (const size of [{width:1280,height:720},{width:390,height:844},{width:320,height:568},{width:844,height:390}]) {
+    await page.setViewportSize(size);
+    await expect.poll(()=>page.evaluate(()=>parseInt(document.documentElement.style.getPropertyValue('--viewport-height')))).toBe(size.height);
+    const strip = page.locator('.voice-lobby');
+    const before = await page.locator('.screen-content').boundingBox();
+    const stripBox = await strip.boundingBox();
+    expect(stripBox!.height + 8).toBe(size.width <= 700 || size.height <= 520 ? 56 : 64);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const button = await page.getByRole('button', { name: '先体验归灯训练', exact: true }).boundingBox();
+    const footer = await page.locator('footer').boundingBox();
+    expect(button!.y + button!.height).toBeLessThanOrEqual(footer!.y);
+    await page.getByRole('button', { name: '打开灯下语音大厅' }).click();
+    const panel = page.getByRole('dialog', { name: '灯下语音大厅', exact:true });
+    await expect(panel).toBeVisible();
+    expect(await page.locator('.screen-content').boundingBox()).toEqual(before);
+    const bounds = await panel.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.y).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(size.width);
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(size.height);
+    await panel.getByRole('button', {name:'收起语音大厅'}).press('Tab');
+    expect(await page.evaluate(() => document.activeElement?.closest('dialog')?.id)).toBe('voice-lobby-dialog');
+    await panel.getByRole('button', {name:'收起语音大厅'}).press('Escape');
+    await expect(panel).not.toBeVisible();
+    await expect(page.getByRole('button',{name:'打开灯下语音大厅'})).toBeFocused();
+    expect(await page.locator('.screen-content').boundingBox()).toEqual(before);
+    await page.screenshot({path:`.local/screenshots/voice-home-${size.width}x${size.height}.png`});
+  }
+  await page.getByRole('button', { name: '打开灯下语音大厅' }).click();
+  await page.getByRole('dialog', {name:'灯下语音大厅',exact:true}).getByRole('button', {name:'登录并加入',exact:true}).click();
+  await expect(page.getByRole('dialog', {name:'灯下语音大厅',exact:true})).not.toBeVisible();
+  const login=page.getByRole('dialog', {name:'欢迎回到灯火之下',exact:true});
+  await expect(login).toBeVisible();
+  await expect(login.getByLabel('邮箱',{exact:true})).toBeFocused();
+});
+
+
+test('ten-member and failure snapshots keep the strip fixed and all panel actions reachable', async ({page}) => {
+  await register(page, '面板布局测试');
+  // Render server/controller-shaped snapshots without opening ten media devices.
+  await page.evaluate(async () => {
+    const {LobbyVoiceConnection} = await import('/src/lobby-voice.ts' as string);
+    LobbyVoiceConnection.prototype.initialize = async function () {
+      (window as any).__voiceLayout = this;
+      this.snapshot = {...this.getSnapshot(),state:'connected',info:{available:true,online:10,capacity:10,url:null},members:Array.from({length:10},(_,i)=>({id:String(i),name:i===0?'这是一位昵称很长的归灯同行者':'同行者'+i,self:i===0,muted:i%2===0,speaking:i%2!==0})),metrics:Array.from({length:9},(_,i)=>({trackId:String(i),peerId:String(i+1),roundTripMs:42,lossPercent:0,jitterMs:3,bufferMs:8,protocol:'udp',relay:false,relayProtocol:null}))};
+      this.listeners.forEach((listener:any)=>listener());
+    };
+  });
+  await page.getByRole('button',{name:'归灯训练',exact:true}).click();
+  await page.getByRole('button',{name:'余灯集市',exact:true}).click();
+  await expect(page.locator('.voice-lobby-count')).toHaveAttribute('aria-label','10人，最多10人');
+  for (const size of [{width:1280,height:720},{width:390,height:844},{width:320,height:568},{width:844,height:390}]) {
+    await page.setViewportSize(size);
+    await expect.poll(()=>page.evaluate(()=>parseInt(document.documentElement.style.getPropertyValue('--viewport-height')))).toBe(size.height);
+    const before=await page.locator('.screen-content').boundingBox();
+    await page.getByRole('button',{name:'打开灯下语音大厅'}).click();
+    const panel=page.getByRole('dialog',{name:'灯下语音大厅',exact:true});
+    await expect(panel.locator('.voice-lobby-members li')).toHaveCount(10);
+    expect(await page.locator('.screen-content').boundingBox()).toEqual(before);
+    expect(await panel.evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
+    await panel.getByText('连接诊断',{exact:true}).click();
+    await expect(panel.locator('.voice-diagnostics-scroll')).toHaveCSS('overflow-x','auto');
+    await expect(panel.locator('tbody tr')).toHaveCount(9);
+    await panel.locator('.voice-lobby-body').evaluate(e=>{e.scrollTop=e.scrollHeight;});
+    await page.screenshot({path:`.local/screenshots/voice-ten-panel-${size.width}x${size.height}.png`});
+    await panel.getByText('连接诊断',{exact:true}).click();
+    const leave=await panel.getByRole('button',{name:'离开大厅'}).boundingBox();
+    expect(leave!.y+leave!.height).toBeLessThanOrEqual(size.height);
+    for(const mode of ['reconnecting','blocked','error','joining','offline']) {
+      await page.evaluate(mode=>{
+        const connection=(window as any).__voiceLayout;
+        connection.snapshot={...connection.snapshot,state:mode==='joining'?'joining':mode==='offline'?'idle':mode==='reconnecting'?'reconnecting':'connected',playbackBlocked:mode==='blocked',message:mode==='error'?'无法打开麦克风，请检查浏览器权限和音频设备。你仍可收听。':mode==='reconnecting'?'连接暂时中断，正在恢复…':'',info:{...connection.snapshot.info,available:mode!=='offline'}};
+        connection.listeners.forEach((listener:any)=>listener());
+      },mode);
+      expect(await page.locator('.screen-content').boundingBox()).toEqual(before);
+      expect(await page.locator('.voice-lobby').evaluate(e=>e.getBoundingClientRect().height+8)).toBe(size.width<=700||size.height<=520?56:64);
+      const actions=await panel.locator('.voice-lobby-controls button').evaluateAll(buttons=>buttons.map(e=>({height:e.getBoundingClientRect().height,bottom:e.getBoundingClientRect().bottom})));
+      expect(actions.every(e=>e.height>=44&&e.bottom<=size.height)).toBe(true);
+      if(mode==='blocked')await expect(panel.getByRole('button',{name:'点击启用声音'})).toBeVisible();
+      if(mode==='error')await expect(panel.locator('.voice-lobby-message')).toHaveText(/无法打开麦克风/);
+    }
+    await page.evaluate(()=>{const c=(window as any).__voiceLayout;c.snapshot={...c.snapshot,state:'connected',playbackBlocked:false,message:'',info:{...c.snapshot.info,available:true}};c.listeners.forEach((listener:any)=>listener());});
+    await panel.getByRole('button',{name:'收起语音大厅'}).click();
+    expect(await page.locator('.screen-content').boundingBox()).toEqual(before);
+  }
 });
