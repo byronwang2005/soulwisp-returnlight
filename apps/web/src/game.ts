@@ -12,8 +12,8 @@ export function useExpedition(onError: (message: string) => void) {
   const bind = useCallback((joined: Room) => {
     room.current = joined; setConnected(true);
     joined.reconnection.enabled=true;joined.reconnection.minDelay=250;joined.reconnection.maxDelay=4000;joined.reconnection.maxRetries=20;
-    joined.onDrop(()=>{setConnected(false);setConnecting(true);errorRef.current('远征连接暂时中断，正在自动恢复席位。');});
-    joined.onReconnect(()=>{setConnected(true);setConnecting(false);sessionStorage.setItem('wangxu-reconnect',joined.reconnectionToken);});
+    joined.onDrop(()=>{window.dispatchEvent(new Event('soulwisp-game-audio-reset'));setConnected(false);setConnecting(true);errorRef.current('远征连接暂时中断，正在自动恢复席位。');});
+    joined.onReconnect(()=>{window.dispatchEvent(new Event('soulwisp-game-audio-reset'));setConnected(true);setConnecting(false);sessionStorage.setItem('wangxu-reconnect',joined.reconnectionToken);});
     joined.onMessage('view', (state: GameView) => setView(state));
     joined.onMessage('error', (error: {message:string}) => errorRef.current(error.message));
     joined.onError((_code: number, message?: string) => errorRef.current(message || '远征连接出现错误。'));

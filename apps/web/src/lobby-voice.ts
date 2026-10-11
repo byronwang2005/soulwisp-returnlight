@@ -3,6 +3,8 @@ import { AudioPresets, ConnectionState, DisconnectReason, Room, RoomEvent, Track
 import type { VoiceLobbyInfo, VoiceLobbyTicket } from '@wangxu/shared';
 import { request } from './api';
 import { LobbyStats, type LobbyTrackMetrics } from './lobby-stats';
+import {LobbySoundTracker} from './lobby-sounds';
+import {playLobbySound,unlockEffects,preloadSounds} from './sound-player';
 
 export interface LobbyMember { id: string; name: string; muted: boolean; speaking: boolean; self: boolean }
 export interface LobbySnapshot {
@@ -33,14 +35,17 @@ export class LobbyVoiceConnection {
   private startedAt = 0;
   private unbindDevices:(()=>void)|undefined;
 
+  private sounds=new LobbySoundTracker(playLobbySound);
+
   constructor() { this.bindRoom(this.room); }
 
   private bindRoom(room: Room): void {
     this.unbindDevices=bindAudioRoom(room);
-    const members = () => this.syncMembers();
+    const members = () => {if(!this.disposed&&room===this.room)this.syncMembers();};
     room.on(RoomEvent.ParticipantConnected, members).on(RoomEvent.ParticipantDisconnected, members)
       .on(RoomEvent.TrackMuted, members).on(RoomEvent.TrackUnmuted, members)
-      .on(RoomEvent.ActiveSpeakersChanged, members).on(RoomEvent.LocalTrackPublished, members);
+      .on(RoomEvent.ActiveSpeakersChanged, members).on(RoomEvent.LocalTrackPublished, members)
+      .on(RoomEvent.TrackPublished,members).on(RoomEvent.TrackUnpublished,members).on(RoomEvent.LocalTrackUnpublished,members);
     room.on(RoomEvent.TrackSubscribed, (track, _publication, participant) => {
       if (this.disposed || room !== this.room || track.kind !== Track.Kind.Audio) return;
       const id = track.sid;
@@ -57,9 +62,10 @@ export class LobbyVoiceConnection {
     room.on(RoomEvent.AudioPlaybackStatusChanged, () => { this.update({ playbackBlocked: !room.canPlaybackAudio }); });
     const reconnecting = () => this.update({ state: 'reconnecting', message: '连接暂时中断，正在恢复…', metrics: [] });
     room.on(RoomEvent.Reconnecting, reconnecting).on(RoomEvent.SignalReconnecting, reconnecting);
-    room.on(RoomEvent.Reconnected, () => { this.stats.clear(); this.update({ state: 'connected', message: '' }); this.syncMembers(); });
+    room.on(RoomEvent.Reconnected, () => { this.stats.clear(); this.update({ state: 'connected', message: '' }); this.syncMembers(true); });
     room.on(RoomEvent.Disconnected, reason => {
       if (this.disposed || room !== this.room || this.snapshot.state === 'joining') return;
+      this.sounds.leave();
       this.generation++;
       this.clearMedia();
       this.update({ state: 'idle', muted: true, micBusy: false, members: [], metrics: [],
@@ -77,6 +83,7 @@ export class LobbyVoiceConnection {
   }
 
   async initialize(): Promise<void> {
+    preloadSounds();
     await this.refresh();
     if (!this.disposed) this.refreshTimer = setInterval(() => { if (this.snapshot.state === 'idle' && !document.hidden) void this.refresh(); }, 10_000);
   }
@@ -99,6 +106,7 @@ export class LobbyVoiceConnection {
 
   async join(): Promise<void> {
     if (this.disposed || this.snapshot.state !== 'idle') return;
+    unlockEffects();
     const generation = ++this.generation;
     const room = this.room;
     this.startedAt = performance.now();
@@ -111,7 +119,8 @@ export class LobbyVoiceConnection {
       await room.connect(ticket.url, ticket.token, { autoSubscribe: true });
       if (this.disposed || generation !== this.generation) { await room.disconnect(); return; }
       this.update({ state: 'connected', connectMs: performance.now() - this.startedAt, playbackBlocked: !room.canPlaybackAudio });
-      this.syncMembers();
+      this.syncMembers(true);
+      this.sounds.join(this.snapshot.members);
       this.statsTimer = setInterval(() => void this.sampleStats(), 3000);
     } catch (error) {
       if (this.disposed || generation !== this.generation) return;
@@ -125,6 +134,7 @@ export class LobbyVoiceConnection {
 
   async toggleMic(): Promise<void> {
     if (this.disposed || this.snapshot.state !== 'connected' || this.snapshot.micBusy) return;
+    unlockEffects();
     const generation = this.generation;
     const room = this.room;
     const enable = this.snapshot.muted;
@@ -164,6 +174,7 @@ export class LobbyVoiceConnection {
   }
 
   leave(): void {
+    this.sounds.leave();
     this.generation++;
     this.clearMedia();
     // Stop immediately; disconnect may still be waiting on signaling.
@@ -186,12 +197,14 @@ export class LobbyVoiceConnection {
     this.room.removeAllListeners(); this.listeners.clear();
   }
 
-  private syncMembers(): void {
+  private syncMembers(silent=false): void {
     if (this.disposed || this.room.state === ConnectionState.Disconnected) return;
     const speaking = new Set(this.room.activeSpeakers.map(participant => participant.identity));
     const member = (participant: Participant, self: boolean): LobbyMember => ({ id: participant.identity,
       name: participant.name || '归灯者', muted: !participant.isMicrophoneEnabled, speaking: speaking.has(participant.identity), self });
     const members = [member(this.room.localParticipant, true), ...[...this.room.remoteParticipants.values()].map(participant => member(participant, false))];
+    if(silent||this.snapshot.state!=='connected')this.sounds.baseline(members);
+    else this.sounds.sync(members,this.snapshot.listening);
     this.update({ members, muted: !this.room.localParticipant.isMicrophoneEnabled, info: { ...this.snapshot.info, online: members.length } });
   }
 

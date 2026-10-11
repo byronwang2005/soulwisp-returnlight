@@ -22,4 +22,6 @@ export function updateSettings(change:Partial<EffectSettings>){
   try{localStorage.setItem(key,JSON.stringify(snapshot));}catch{}
   listeners.forEach(listener=>listener());
 }
+export const getEffectSettings=getSnapshot;
+export const subscribeEffectSettings=subscribe;
 export function useFeedbackSettings(){return {settings:useSyncExternalStore(subscribe,getSnapshot),updateSettings};}

@@ -1,0 +1,460 @@
+{
+  "license": "CC0-1.0",
+  "costRmb": 0,
+  "sampleRate": 24000,
+  "sources": [
+    {
+      "name": "Kenney Impact Sounds 1.0",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "page": "https://kenney.nl/assets/impact-sounds",
+      "url": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+      "sha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8",
+      "cache": "kenney.zip"
+    },
+    {
+      "name": "Different steps on wood, stone, leaves, gravel and mud",
+      "author": "TinyWorlds / pdsounds.org",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud",
+      "url": "https://opengameart.org/sites/default/files/%5Bkdd%5DDifferentSteps_0.zip",
+      "sha256": "987d072b7deaa65177e005ddd8185f2351be7c9a76cd7575dea560549c39b33b",
+      "cache": "tinyworlds.zip"
+    }
+  ],
+  "assets": [
+    {
+      "file": "/audio/sfx/lobby-enter.wav",
+      "bytes": 15404,
+      "sha256": "daa085e6d54d417ba1d8f676acef5ffeaa7833d864b21da56e268b1ff3ce49d1",
+      "durationSeconds": 0.32,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.299999,
+      "sourceFiles": [],
+      "processing": "Original deterministic bell/click synthesis"
+    },
+    {
+      "file": "/audio/sfx/lobby-exit.wav",
+      "bytes": 13484,
+      "sha256": "b7e34bf8e787810fd2bf7383f35497e446e42282f4917c6225214e66ae5255e0",
+      "durationSeconds": 0.28,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.299999,
+      "sourceFiles": [],
+      "processing": "Original deterministic bell/click synthesis"
+    },
+    {
+      "file": "/audio/sfx/lobby-mic-on.wav",
+      "bytes": 7244,
+      "sha256": "ce2d82d471e36b389480a31a0deb94818f3c5c90a3cd84914556e7a099427e94",
+      "durationSeconds": 0.15,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.3,
+      "sourceFiles": [],
+      "processing": "Original deterministic bell/click synthesis"
+    },
+    {
+      "file": "/audio/sfx/lobby-mic-off.wav",
+      "bytes": 6284,
+      "sha256": "d99d2b51c61f4f6eb766fcd0bd6e5f2acc6bab45ff3d6b9d1be6ab6312396586",
+      "durationSeconds": 0.13,
+      "channels": 1,
+      "peak": 0.799055,
+      "activeRms": 0.3,
+      "sourceFiles": [],
+      "processing": "Original deterministic bell/click synthesis"
+    },
+    {
+      "file": "/audio/sfx/stone-0.wav",
+      "bytes": 2724,
+      "sha256": "a9a62beff2a9cffb5ac50763e467cd8579661b3628d8850dc40510993ed64e06",
+      "durationSeconds": 0.055833,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.238512,
+      "sourceFiles": [
+        "Audio/footstep_concrete_000.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/cobble-0.wav",
+      "bytes": 8684,
+      "sha256": "b52aa2f075a45a255b59e921e561df91969f6cfcb2d6a874d7e7ca2a04717e28",
+      "durationSeconds": 0.18,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.231302,
+      "sourceFiles": [
+        "Audio/footstep_concrete_000.ogg",
+        "gravel.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/stone-1.wav",
+      "bytes": 3830,
+      "sha256": "c6973c529b7fe9ca375d0a792dcdaaa3816340673045545c6b5a8940e0947702",
+      "durationSeconds": 0.078875,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.239072,
+      "sourceFiles": [
+        "Audio/footstep_concrete_001.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/cobble-1.wav",
+      "bytes": 8684,
+      "sha256": "28ff5e1cb64a5a64c3243bbd41f4285b58a22ae4a234a8ded64402f44202fa1c",
+      "durationSeconds": 0.18,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.235305,
+      "sourceFiles": [
+        "Audio/footstep_concrete_001.ogg",
+        "gravel.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/stone-2.wav",
+      "bytes": 3830,
+      "sha256": "68f3098fe1be347cb9fe979ca472cbeb3c8f9409f754905d173da462dd6a7426",
+      "durationSeconds": 0.078875,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.238267,
+      "sourceFiles": [
+        "Audio/footstep_concrete_002.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/cobble-2.wav",
+      "bytes": 8684,
+      "sha256": "89dc4b5b1082bae79d2d3cfa2991ee707eddb65fdabf833fd8c3cce110e376d8",
+      "durationSeconds": 0.18,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.234474,
+      "sourceFiles": [
+        "Audio/footstep_concrete_002.ogg",
+        "gravel.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/stone-3.wav",
+      "bytes": 2728,
+      "sha256": "b141281f981ef1367f224325d9837bef419bbc1febefa4849011312717ceadce",
+      "durationSeconds": 0.055917,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.23796,
+      "sourceFiles": [
+        "Audio/footstep_concrete_003.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/cobble-3.wav",
+      "bytes": 8684,
+      "sha256": "445e7e0746dc4b0956dccbaaf91b7333313c3229aa51a14c7442c2429f848f21",
+      "durationSeconds": 0.18,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.231456,
+      "sourceFiles": [
+        "Audio/footstep_concrete_003.ogg",
+        "gravel.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/stone-4.wav",
+      "bytes": 2750,
+      "sha256": "28cd1591075cfce7a3c914eb452b08021ddcbd5dfa7f3676f01edae43321a11c",
+      "durationSeconds": 0.056375,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.239398,
+      "sourceFiles": [
+        "Audio/footstep_concrete_004.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/cobble-4.wav",
+      "bytes": 8684,
+      "sha256": "8324b388f479bd181397d7a930fedafa3ac6155b28d74c5a6deb72a56133ad14",
+      "durationSeconds": 0.18,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.232865,
+      "sourceFiles": [
+        "Audio/footstep_concrete_004.ogg",
+        "gravel.ogg"
+      ],
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+    }
+  ],
+  "calibration": {
+    "musicGain": 0.2,
+    "effectsGain": 0.65,
+    "slider": 0.5,
+    "musicRmsDecoded": {
+      "welcome": 0.16697,
+      "camp": 0.179975,
+      "craft": 0.172327,
+      "research": 0.152097,
+      "rooms": 0.163921,
+      "lobby": 0.179963,
+      "tutorial": 0.162232,
+      "engineering": 0.178216,
+      "combat": 0.179939,
+      "prep": 0.179958,
+      "explore": 0.17996,
+      "discuss": 0.170731,
+      "vote": 0.164336,
+      "draft": 0.163905,
+      "extract": 0.179905,
+      "victory": 0.168223,
+      "defeat": 0.159591,
+      "connecting": 0.166957,
+      "auth": 0.161548
+    },
+    "minimumFootstepMarginDb": 9.417,
+    "minimumLobbyMarginDb": 14.676,
+    "rmsMethod": "Short sounds: contiguous active span above 1% peak. Music: full decoded stereo RMS. Own normal footsteps use -3 dB gain."
+  },
+  "previews": [
+    {
+      "file": "/audio/sfx/preview-lobby-50.wav",
+      "bytes": 499244,
+      "sha256": "84da9b8080e81f0172ed6715fef03ddcc8bf5e155de2ed6bee9ae5c17c11ef61",
+      "durationSeconds": 5.2,
+      "channels": 2,
+      "peak": 0.314877,
+      "activeRms": 0.04298,
+      "timeline": [
+        {
+          "at": 1,
+          "sound": "lobby-enter",
+          "gain": 1,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2,
+          "sound": "lobby-exit",
+          "gain": 1,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 3,
+          "sound": "lobby-mic-on",
+          "gain": 1,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 4,
+          "sound": "lobby-mic-off",
+          "gain": 1,
+          "pan": 0,
+          "occluded": false
+        }
+      ]
+    },
+    {
+      "file": "/audio/sfx/preview-footsteps-50.wav",
+      "bytes": 1039088,
+      "sha256": "a6251c4d2bd2b18f1eba50449d74d6ce38e8cdea1b6aed7600c9ae3604310b6d",
+      "durationSeconds": 10.823375,
+      "channels": 2,
+      "peak": 0.298246,
+      "activeRms": 0.030413,
+      "timeline": [
+        {
+          "at": 1.0,
+          "sound": "stone-0",
+          "gain": 0.5623413251903491,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 1.403361344537815,
+          "sound": "stone-1",
+          "gain": 0.5623413251903491,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 1.8067226890756303,
+          "sound": "stone-2",
+          "gain": 0.5623413251903491,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2.5,
+          "sound": "stone-0",
+          "gain": 0.7079457843841379,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2.842857142857143,
+          "sound": "stone-1",
+          "gain": 0.7079457843841379,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 3.185714285714286,
+          "sound": "stone-2",
+          "gain": 0.7079457843841379,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 4.0,
+          "sound": "stone-0",
+          "gain": 0.8413951416451951,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 4.311688311688312,
+          "sound": "stone-1",
+          "gain": 0.8413951416451951,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 4.623376623376624,
+          "sound": "stone-2",
+          "gain": 0.8413951416451951,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 6.0,
+          "sound": "cobble-0",
+          "gain": 0.5623413251903491,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 6.4033613445378155,
+          "sound": "cobble-1",
+          "gain": 0.5623413251903491,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 6.80672268907563,
+          "sound": "cobble-2",
+          "gain": 0.5623413251903491,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 7.5,
+          "sound": "cobble-0",
+          "gain": 0.7079457843841379,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 7.8428571428571425,
+          "sound": "cobble-1",
+          "gain": 0.7079457843841379,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 8.185714285714285,
+          "sound": "cobble-2",
+          "gain": 0.7079457843841379,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 9.0,
+          "sound": "cobble-0",
+          "gain": 0.8413951416451951,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 9.311688311688311,
+          "sound": "cobble-1",
+          "gain": 0.8413951416451951,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 9.623376623376624,
+          "sound": "cobble-2",
+          "gain": 0.8413951416451951,
+          "pan": 0,
+          "occluded": false
+        }
+      ]
+    },
+    {
+      "file": "/audio/sfx/preview-direction-50.wav",
+      "bytes": 595244,
+      "sha256": "41aa8d67974c0476e985e19279db8493a29a71b020a75d5b29605b73540d57ea",
+      "durationSeconds": 6.2,
+      "channels": 2,
+      "peak": 0.313907,
+      "activeRms": 0.019126,
+      "timeline": [
+        {
+          "at": 1,
+          "sound": "stone-0",
+          "gain": 1,
+          "pan": -0.9,
+          "occluded": false
+        },
+        {
+          "at": 2,
+          "sound": "stone-1",
+          "gain": 1,
+          "pan": 0.9,
+          "occluded": false
+        },
+        {
+          "at": 3,
+          "sound": "cobble-0",
+          "gain": 0.45,
+          "pan": -0.6,
+          "occluded": false
+        },
+        {
+          "at": 4,
+          "sound": "cobble-1",
+          "gain": 0.15,
+          "pan": 0.6,
+          "occluded": false
+        },
+        {
+          "at": 5,
+          "sound": "cobble-2",
+          "gain": 0.5011872336272722,
+          "pan": -0.6,
+          "occluded": true
+        }
+      ]
+    }
+  ],
+  "previewNote": "Equal-power stereo left/right and near/mid/far references; front/back HRTF is provided by the browser at runtime."
+}

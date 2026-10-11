@@ -1,4 +1,5 @@
 import {bindAudioContext} from './audio-devices';
+import {musicLevel} from './audio-mix';
 import {useEffect,useSyncExternalStore} from 'react';
 import {Howl,Howler} from 'howler';
 import type {EffectSettings} from './settings';
@@ -38,7 +39,7 @@ class SceneMusic {
     if(document.hidden||options.muted||!options.musicEnabled||options.musicVolume===0){
       this.retire();if(this.current?.sound.state()==='loaded')this.current.sound.pause(this.current.id);this.publish({status:'paused'});return;
     }
-    const level=options.musicVolume*(this.state.ducked ? .18 : 1);
+    const level=musicLevel(options.musicVolume,this.state.ducked);
     if(this.current?.scene===this.state.scene){
       const sound=this.current.sound;
       if(!sound.playing()){sound.volume(level);this.play();}else if(Math.abs(sound.volume()-level)>.001)sound.fade(sound.volume(),level,250);
@@ -55,7 +56,7 @@ class SceneMusic {
         if(this.current?.sound!==sound)return;
         this.current.pending=false;
         if(document.hidden||this.settings?.muted||!this.settings?.musicEnabled){sound.pause();this.publish({status:'paused'});return;}
-        sound.fade(sound.volume(),(this.settings?.musicVolume??0)*(this.state.ducked ? .18 : 1),900);this.publish({status:'playing'});
+        sound.fade(sound.volume(),musicLevel(this.settings?.musicVolume??0,this.state.ducked),900);this.publish({status:'playing'});
       },
       onloaderror:()=>{if(this.current?.sound===sound){sound.unload();this.current=undefined;this.publish({status:'unavailable'});}},
       onplayerror:()=>{if(this.current?.sound===sound){this.current.pending=false;this.publish({status:'blocked'});}}

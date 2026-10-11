@@ -14,6 +14,10 @@
 
 开源软件沿用各自许可。依赖版本和包来源记录在根目录`package-lock.json`；[依赖许可索引](dependency-licenses.json)按锁文件生成。执行`npm ci`安装时同时取得相应包的完整许可证。PostgreSQL、LiveKit及Caddy的服务器分发使用各自官方发行版，部署时保留镜像内许可证。
 
+## 大厅提示与脚步
+
+大厅四种提示为原创离线合成；脚步复用 [Kenney Impact Sounds 1.0](https://kenney.nl/assets/impact-sounds) 的五个硬地录音和 [TinyWorlds 的碎石素材](https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud)，均为 CC0-1.0。处理后的 WAV 自托管，源归档哈希、处理方法和逐文件响度见[音效清单](../apps/web/public/audio/sfx/manifest.json)，原许可见[音效许可](../apps/web/public/audio/sfx/LICENSE.txt)。采购成本 0 元，重生成与试听见[音频反馈](audio-feedback.md)。
+
 ## 古铜主题与古体字体
 
 Source Serif 4、Source Sans 3、Noto Serif SC和Noto Sans SC通过锁定版本的Fontsource包自托管，均为OFL-1.1，采购成本0元。按钮使用morphicons（MIT）与lucide（ISC），许可已加入运行包。潘通876 C只作为古铜材质方向参考；实际屏幕色值与字体职责见[场景与界面](presentation.md)。

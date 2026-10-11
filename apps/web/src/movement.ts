@@ -2,7 +2,7 @@ import {SCENE,segmentDistance,type GameView,type Vec2} from '@wangxu/shared';
 const length=Math.hypot(19,23);
 /** Match the fixed isometric camera: right is screen right, forward is screen up. */
 export function screenToWorld(input:Vec2):Vec2{return {x:(23*input.x+19*input.y)/length,y:(-19*input.x+23*input.y)/length};}
-export function worldToScreen(input:Vec2):Vec2{return {x:(23*input.x-19*input.y)/length,y:(19*input.x+23*input.y)/length};}
+export {worldToScreen} from '@wangxu/shared';
 export function movementInput(input:Vec2,view:GameView):Vec2{
   const world=screenToWorld(input),magnitude=Math.hypot(world.x,world.y);
   if(!magnitude)return {x:0,y:0};
