@@ -1,4 +1,7 @@
-import { Hono } from 'hono';
+import { Hono,type MiddlewareHandler } from 'hono';
+import {bodyLimit} from 'hono/body-limit';
+import {ProfileError,presetAvatar,saveProfile} from './profiles.js';
+import {profileRepository} from './profile-store.js';
 import { AccountError, advanceTutorial, auth, craft, getCamp, getSession, issueGameTicket, saveLoadout, savePresets } from './accounts.js';
 import { VoiceError, type VoiceService, type VoiceState } from './voice.js';
 import type { CampData, CampPreset } from '@wangxu/shared';
@@ -12,9 +15,17 @@ type Variables = { account: { id: string; name: string } };
 const origins = () => [...new Set([process.env.AUTH_BASE_URL ?? process.env.AUTH_URL ?? process.env.BETTER_AUTH_URL ?? process.env.PUBLIC_APP_URL ?? 'http://localhost:5180',
   ...(process.env.ALLOWED_ORIGINS ?? process.env.TRUSTED_ORIGINS ?? '').split(',').map(origin => origin.trim()).filter(Boolean)])];
 
+// Hono skips stream measurement when Content-Length is present. Measure every upload.
+export const actualBodyLimit=(maxSize:number):MiddlewareHandler=>async(c,next)=>{
+  const headers=new Headers(c.req.raw.headers);headers.delete('content-length');
+  c.req.raw=new Request(c.req.raw,{headers});
+  return bodyLimit({maxSize,onError:c=>c.json({error:'REQUEST_TOO_LARGE',message:'请求数据过大'},413)})(c,next);
+};
+
 export function createApi(options: ApiOptions) {
   const app = new Hono<{ Variables: Variables }>();
   app.onError((error, c) => {
+    if(error instanceof ProfileError)return c.json({error:error.code,message:error.message},error.status);
     if (error instanceof LobbyVoiceError) return c.json({ error: error.code, message: error.message }, error.status);
     if (error instanceof AccountError) return c.json({ error: error.code, message: error.message }, error.status);
     if (error instanceof VoiceError) return c.json({ error: 'VOICE_UNAVAILABLE', message: error.message }, error.status);
@@ -22,7 +33,25 @@ export function createApi(options: ApiOptions) {
     console.error('[api]', error);
     return c.json({ error: 'SERVER_ERROR', message: '服务暂时不可用，请重试' }, 503);
   });
-  app.on(['GET', 'POST'], '/api/auth/*', c => auth.handler(c.req.raw));
+  app.use('/api/auth/*',actualBodyLimit(32_768));
+  app.on(['GET', 'POST'], '/api/auth/*', async c => {
+    const path=c.req.path.replace(/\/+$/,'');
+    if(path==='/api/auth/update-user')return c.json({error:'PROFILE_REQUIRED',message:'请通过用户设置修改资料'},403);
+    if(c.req.method==='POST'&&path==='/api/auth/sign-up/email'){
+      const body=await c.req.raw.clone().json();
+      if(body?.image!==undefined&&!presetAvatar(body.image))throw new ProfileError('BAD_AVATAR','请选择预设头像或登录后上传图片');
+    }
+    return auth.handler(c.req.raw);
+  });
+  app.get('/api/avatars/:assetId/:version',async c=>{
+    const {assetId,version}=c.req.param();
+    if(!/^[a-f0-9-]{36}$/.test(assetId)||! /^[a-f0-9]{64}\.webp$/.test(version))return c.notFound();
+    const avatar=await profileRepository.findAvatar(assetId,version.slice(0,-5));
+    if(!avatar)return c.notFound();
+    c.header('Content-Type','image/webp');c.header('X-Content-Type-Options','nosniff');
+    c.header('Cache-Control','public, max-age=31536000, immutable');
+    return c.body(new Uint8Array(avatar.data));
+  });
   app.get('/api/health', async c => {
     await pool.query('SELECT 1');
     return c.json({ ok: true, database: 'ready', revision: process.env.RELEASE_SHA ?? null, voice: Boolean(options.voiceService) });
@@ -38,21 +67,17 @@ export function createApi(options: ApiOptions) {
       const origin = c.req.header('Origin');
       if (origin && !origins().includes(origin)) return c.json({ error: 'BAD_ORIGIN', message: '请求来源无效' }, 403);
       if (!c.req.header('Content-Type')?.toLowerCase().startsWith('application/json')) return c.json({ error: 'BAD_CONTENT_TYPE', message: '请发送JSON请求' }, 400);
-      if (Number(c.req.header('Content-Length') ?? 0) > 32_768) return c.json({ error: 'REQUEST_TOO_LARGE', message: '请求数据过大' }, 413);
     }
     const session = await getSession(c.req.raw.headers);
     if (!session) return c.json({ error: 'UNAUTHORIZED', message: '请先登录营地' }, 401);
     c.set('account', { id: session.user.id, name: session.user.name });
     await next();
   });
+  app.use('/api/*',async(c,next)=>{
+    return actualBodyLimit(c.req.path==='/api/profile'?96*1024:32_768)(c,next);
+  });
   app.post('/api/profile', async c => {
-    const body = await c.req.json<{name?:unknown;image?:unknown}>();
-    if (!body || typeof body.name !== 'string' || body.name.trim().length < 2 || body.name.trim().length > 20 || /[\u0000-\u001f\u007f]/.test(body.name)) throw new AccountError('BAD_NAME', '用户名须为 2–20 个字符');
-    if (body.image !== null && (typeof body.image !== 'string' || !/^\/avatars\/lantern-[1-6]\.svg$/.test(body.image))) throw new AccountError('BAD_AVATAR', '请选择可用的头像');
-    const result=await auth.api.updateUser({headers:c.req.raw.headers,body:{name:body.name.trim(),image:body.image},returnHeaders:true});
-    for(const cookie of result.headers.getSetCookie())c.header('Set-Cookie',cookie,{append:true});
-    const current=(await getSession(c.req.raw.headers))!.user;
-    return c.json({user:{...current,name:body.name.trim(),image:body.image}});
+    return c.json({user:await saveProfile(profileRepository,c.get('account').id,await c.req.json())});
   });
   app.get('/api/camp', async c => c.json(await getCamp(c.get('account').id)));
   app.post('/api/lobby/join', async c => c.json(await reserveWaiting(c.get('account'))));

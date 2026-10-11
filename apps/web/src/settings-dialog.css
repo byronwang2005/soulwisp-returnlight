@@ -3,3 +3,5 @@
 .avatar-picker .button-svg{display:none}
 
 .site-header nav>button.settings-entry[data-icon-kind="settings"]{display:inline-flex;white-space:nowrap;min-height:40px}
+
+.avatar-file-input{display:none}.avatar-editor{margin:18px 0;padding:14px;border:1px solid var(--line);border-radius:8px}.avatar-crop-stage{position:relative;width:100%;height:280px;background:var(--surface);margin-bottom:16px}.avatar-editor-actions{display:flex;gap:12px;flex-wrap:wrap}.settings-content .profile-preview .avatar-fallback,.account .avatar-fallback{display:grid;place-items:center;background:#d2b46620;color:var(--gold-light)}.settings-content form>.primary{margin-top:18px}@media(max-width:600px){.avatar-crop-stage{height:240px}}

@@ -1,5 +1,7 @@
 # 运行资产与许可
 
+头像裁剪使用 react-easy-crop 6.2.4（MIT）；服务端图片校验和压缩复用 Sharp 0.35.5（Apache-2.0）。两者声明为对应工作区的运行依赖，许可随运行包保存。
+
 仓库内素材采购支出 **0 元**。角色和地牢物件直接使用 Kay Lousberg 官方 KayKit 免费资源，许可为 **CC0-1.0**，支持商业使用与修改。原始许可文件随运行资产保存：
 
 - [角色包原许可](../apps/web/public/assets/characters/LICENSE.txt)

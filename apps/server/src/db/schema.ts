@@ -1,4 +1,4 @@
-import { bigint, boolean, check, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
+import { bigint, boolean, check, customType, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import type { CampData, CampPreset, Evidence, Settlement } from '@wangxu/shared';
 
@@ -11,6 +11,11 @@ export const user = pgTable('auth_user', {
   emailVerified: boolean('email_verified').notNull().default(false), image: text('image'),
   createdAt: createdAt(), updatedAt: updatedAt(),
 });
+const bytea=customType<{data:Buffer;driverData:Buffer}>({dataType:()=> 'bytea'});
+export const profileAvatars=pgTable('profile_avatars',{
+  userId:text('user_id').primaryKey().references(()=>user.id,{onDelete:'cascade'}),
+  assetId:text('asset_id').notNull().unique(),version:text('version').notNull(),data:bytea('data').notNull(),
+},table=>[check('profile_avatar_size',sql`octet_length(${table.data}) BETWEEN 1 AND 65536`)]);
 export const session = pgTable('auth_session', {
   id: text('id').primaryKey(), token: text('token').notNull().unique(),
   userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),

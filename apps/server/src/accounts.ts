@@ -13,6 +13,7 @@ const authBase = process.env.AUTH_BASE_URL ?? process.env.AUTH_URL ?? process.en
 const trustedOrigins = [...new Set([authBase, ...(process.env.ALLOWED_ORIGINS ?? process.env.TRUSTED_ORIGINS ?? '').split(',').map(origin => origin.trim()).filter(Boolean)])];
 export const auth = betterAuth({
   secret, baseURL: authBase, basePath: '/api/auth',
+  disabledPaths: ['/update-user'],
   database: drizzleAdapter(db, { provider: 'pg', transaction: true, schema: { user: schema.user, session: schema.session, account: schema.account, verification: schema.verification } }),
   trustedOrigins,
   emailAndPassword: { enabled: true, minPasswordLength: 8, maxPasswordLength: 128 },

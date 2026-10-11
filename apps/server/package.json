@@ -1,6 +1,6 @@
 {
  "name":"@wangxu/server","version":"0.1.0","private":true,"type":"module",
  "scripts":{"dev":"tsx watch src/index.ts","build":"tsc --project tsconfig.build.json","start":"tsx src/index.ts"},
- "dependencies":{"@wangxu/shared":"*","@wangxu/rules":"*","@colyseus/core":"^0.18.18","@colyseus/ws-transport":"^0.18.0","@hono/node-server":"^1.19.0","hono":"^4.10.0","better-auth":"1.7.7","drizzle-orm":"^0.45.2","pg":"^8.16.0","jose":"^6.1.0","livekit-server-sdk":"^2.13.0","dotenv":"^17.2.0"},
+ "dependencies":{"@colyseus/core":"^0.18.18","@colyseus/ws-transport":"^0.18.0","@hono/node-server":"^1.19.0","@wangxu/rules":"*","@wangxu/shared":"*","better-auth":"1.7.7","dotenv":"^17.2.0","drizzle-orm":"^0.45.2","hono":"^4.10.0","jose":"^6.1.0","livekit-server-sdk":"^2.13.0","pg":"^8.16.0","sharp":"0.35.5"},
  "devDependencies":{"@types/pg":"^8.15.0"}
 }

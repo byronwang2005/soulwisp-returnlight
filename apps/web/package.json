@@ -25,6 +25,7 @@
     "polygon-clipping": "0.15.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-easy-crop": "6.2.4",
     "three": "^0.180.0"
   },
   "devDependencies": {
