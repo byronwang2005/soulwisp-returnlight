@@ -91,6 +91,16 @@
       "scale": 1.005944,
       "bodyHeight": 2.2000044241259644,
       "footHeight": -0.000026684723193669925
+    },
+    {
+      "profession": "enemy:guardian",
+      "path": "/assets/characters/Knight.glb",
+      "measurementPath": "/assets/characters/Knight.glb",
+      "rawHeight": 2.314534488319623,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 0.950324,
+      "bodyHeight": 2.1995576730778574,
+      "footHeight": -0.000025209288871250463
     }
   ]
 }

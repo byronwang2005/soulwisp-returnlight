@@ -603,5 +603,17 @@
       }
     },
     "groundManifest": "/assets/ground/manifest.json"
+  },
+  "enemies": {
+    "guardian": {
+      "path": "/assets/characters/Knight.glb",
+      "scale": 0.950324,
+      "bodyHeight": 2.2,
+      "footOffset": 0,
+      "clips": {
+        "idle": "Blocking",
+        "hit": "Hit_A"
+      }
+    }
   }
 }
