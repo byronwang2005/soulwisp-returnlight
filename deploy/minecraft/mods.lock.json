@@ -1,62 +1,158 @@
 {
-  "minecraft": "26.3",
-  "loader": "0.19.5",
+  "pack": "Create6.0",
+  "version": "1.0.5",
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.133",
+  "sourceArchive": "\u670d\u52a1\u7aef1.0.5_20250315.zip",
+  "sourceSha256": "0c8927e827208fab5cc5a7b7031ce5eb5b34c912dcd81a8c38f9428019b9e34f",
+  "excludedPrefixes": [
+    "sodium-",
+    "jei-",
+    "jecharacters-",
+    "Searchables-",
+    "Xaeros_",
+    "XaerosWorldMap_",
+    "SimpleBackups-"
+  ],
   "mods": [
     {
-      "project": "lithium",
-      "version": "mc26.3-0.26.2-fabric",
-      "versionId": "xS0Q8LSi",
-      "url": "https://cdn.modrinth.com/data/gvQqBUqZ/versions/xS0Q8LSi/lithium-fabric-0.26.2%2Bmc26.3.jar",
-      "filename": "lithium-fabric-0.26.2+mc26.3.jar",
-      "sha512": "4d7fee66132eedc71feab9390b92c95d7058edbdad0fecfac1d836a2950b97a7ca463afbede61c7ef361ce65e1f927ab9e89dde5bf2e0e0ce486afb5c5dbee40"
+      "project": "architectury-13.0.8-neoforge",
+      "filename": "architectury-13.0.8-neoforge.jar",
+      "sha512": "65e3664953385d880320dd6bb818bcb96d361c07c53e2a7f65e64c6a47720ee26b233224ae9cad465ef0b2bbaefdaf30fb0175a983cecd91de058817d6fcf57e",
+      "source": "server-pack"
     },
     {
-      "project": "ferrite-core",
-      "version": "9.0.0-fabric",
-      "versionId": "d5ddUdiB",
-      "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/d5ddUdiB/ferritecore-9.0.0-fabric.jar",
-      "filename": "ferritecore-9.0.0-fabric.jar",
-      "sha512": "d81fa97e11784c19d42f89c2f433831d007603dd7193cee45fa177e4a6a9c52b384b198586e04a0f7f63cd996fed713322578bde9a8db57e1188854ae5cbe584"
+      "project": "BetterTab-neoforge-1.21.1-1.0.0+build.10",
+      "filename": "BetterTab-neoforge-1.21.1-1.0.0+build.10.jar",
+      "sha512": "6ddbc3c81a1a259aaec31ff462cb2a2538623caeb3f83afbe9add8f9a385b4b82ab42ce87631ac175f89eed063ae7436b1eb24a8772155d1c86cf2f42dafb919",
+      "source": "server-pack"
     },
     {
-      "project": "servercore",
-      "version": "1.5.20+26.3",
-      "versionId": "LCG1Bm84",
-      "url": "https://cdn.modrinth.com/data/4WWQxlQP/versions/LCG1Bm84/servercore-fabric-1.5.20%2B26.3.jar",
-      "filename": "servercore-fabric-1.5.20+26.3.jar",
-      "sha512": "abe1f806ea587971faf7de826e18b07314a4a9e690f64a4c3a54e7f61c3e6f4792633b13a917252bd8de154cec39da6619110d83799cf533450c5b4cac7a8448"
+      "project": "c2me-neoforge-mc1.21.1-0.3.0+alpha.0.60",
+      "filename": "c2me-neoforge-mc1.21.1-0.3.0+alpha.0.60.jar",
+      "sha512": "63e45bdcc98852a4ca69968b42b99c62cbcdf930a2bc92372d6e1eb3c4cea295d33745541729a1aa6561126fa11ef1f835f22aab3cbe244db0672091f860f8e7",
+      "source": "server-pack"
     },
     {
-      "project": "krypton",
-      "version": "0.3.2",
-      "versionId": "UugdIYJw",
-      "url": "https://cdn.modrinth.com/data/fQEb0iXm/versions/UugdIYJw/krypton-0.3.2.jar",
-      "filename": "krypton-0.3.2.jar",
-      "sha512": "d1d57ebd41395b75b01f130cd9503eb8d208212424a399ff9f367f50be8fbc1c6472442b33c686e777c3148f6a609520e8fb732c755157c358cb207fd4d1123a"
+      "project": "c6c-1.0",
+      "filename": "c6c-1.0.jar",
+      "sha512": "967892b96cf4c7bdeff46da8c9f6e8b9e6c0bf21b7bee55e0245515653996888e81b60f27fff3bc70841df5dee37495bb49d949412e1fbf12488703a43e1891a",
+      "source": "server-pack"
     },
     {
-      "project": "spark",
-      "version": "1.10.187-fabric",
-      "versionId": "e3hsPc1o",
-      "url": "https://cdn.modrinth.com/data/l6YH9Als/versions/e3hsPc1o/spark-1.10.187-fabric.jar",
-      "filename": "spark-1.10.187-fabric.jar",
-      "sha512": "c74bf5d5a16b2445ec6ea717eac756412b272a8015e91f91a7bf5a27e6f2f99c4a11878d434510f941f37b0344b3a7d1ba0dd6c34e80642762c48fb6e9a93894"
+      "project": "create-1.21.1-6.0.3",
+      "filename": "create-1.21.1-6.0.3.jar",
+      "sha512": "377188fdca5c775da921ae59fb8f26a3e8a5216727ce94d9583721cf82dd429c11b16f726faf9f0fd5a51e982154aa59c3aef30978bd6615fcf4aa5d9ba22c3a",
+      "source": "server-pack"
+    },
+    {
+      "project": "fastleafdecay-35",
+      "filename": "fastleafdecay-35.jar",
+      "sha512": "795f7e5a03b65705d18901fe28034df771e1843aabd16bfe49fe77b534938424ce26f3d0f723cd78ada058989bb758d14f091ca111f0b1e4d195e8baa031bbc5",
+      "source": "server-pack"
+    },
+    {
+      "project": "ferritecore-7.0.2-neoforge",
+      "filename": "ferritecore-7.0.2-neoforge.jar",
+      "sha512": "2a5a7b79473c42572bdbbd1f429a459630d793b35f3eb17051139a94bced2d13c39e9c6309c81368d5502bc46c509e9868a8b5fa3cf93c51375a694cd96c20ac",
+      "source": "server-pack"
+    },
+    {
+      "project": "flatbedrock-neoforge-87.0.0",
+      "filename": "flatbedrock-neoforge-87.0.0.jar",
+      "sha512": "33e479f675f66f27505e3865c288e245676cb321368a321d2b54e0c4d1761d4e268f5eec65cbe9d19e91102e04dc8154466b5c31740bd00388af6d4f0c688dbc",
+      "source": "server-pack"
+    },
+    {
+      "project": "ftb-chunks-neoforge-2101.1.7",
+      "filename": "ftb-chunks-neoforge-2101.1.7.jar",
+      "sha512": "80739f6e575b41c7ec2e2091bc3d767e60c9acad88f53a00136dafd8cfc86d22c9ef96e3012d2fc296a49155cd6940c6e8a1d701b93e835f6cdab5ef74cfc134",
+      "source": "server-pack"
+    },
+    {
+      "project": "ftb-library-neoforge-2101.1.12",
+      "filename": "ftb-library-neoforge-2101.1.12.jar",
+      "sha512": "400d0995724b1772a79a1850466a877b6ac97a8e52fcbe0532d1e89301ced90f9e8aabc6698b3d7953f7ed1c859362f80f136594de71f3942a9944fdc2770ce6",
+      "source": "server-pack"
+    },
+    {
+      "project": "ftb-teams-neoforge-2101.1.2",
+      "filename": "ftb-teams-neoforge-2101.1.2.jar",
+      "sha512": "de4c6b880a7dd1d7aae26041f086e0eb262ed06d4fede30744f017e4dd3620718947936638ca65ea1e123bedc4ecf819620218407acd42686bfe08c9470f404f",
+      "source": "server-pack"
+    },
+    {
+      "project": "Jade-1.21.1-NeoForge-15.9.2",
+      "filename": "Jade-1.21.1-NeoForge-15.9.2.jar",
+      "sha512": "1d65a81f356855dbd8c3bdbfb9aee318c9650142280d456bc421d4f217c2b1a8873b5b51827543b9cadeabfab88ea2303058e9cea2f6cf7addbf9d1d8879e5d0",
+      "source": "server-pack"
+    },
+    {
+      "project": "lithium-neoforge-0.15.0+mc1.21.1",
+      "filename": "lithium-neoforge-0.15.0+mc1.21.1.jar",
+      "sha512": "34c0250ab119e7d83eb069433315883a572cd197d025dcc043c5f7e399c1e350addd79aed756da0bda87cc76add1a8747c5f69293ec2b9278b0348a1c15cdb32",
+      "source": "server-pack"
+    },
+    {
+      "project": "lithostitched-neoforge-1.21.1-1.4.5",
+      "filename": "lithostitched-neoforge-1.21.1-1.4.5.jar",
+      "sha512": "c35165b5be8702b5db471c57586737fcb81c73271f00289bce0ab14b9b4bbbcd053ce3de00ae66c1eaee8ce05c6d7b749f14e222452da05b8fb7660bcc899665",
+      "source": "server-pack"
+    },
+    {
+      "project": "modernfix-neoforge-5.20.2+mc1.21.1",
+      "filename": "modernfix-neoforge-5.20.2+mc1.21.1.jar",
+      "sha512": "fa32a7922c9b48866ed233085376888d2dae0c37325e942778f0d51efcdcc8687348418ca394f1346d0e8c1d27674f56f54b5f1b9708b1a15d69a7af5cf0a3ba",
+      "source": "server-pack"
+    },
+    {
+      "project": "noisium-neoforge-2.3.0+mc1.21-1.21.1",
+      "filename": "noisium-neoforge-2.3.0+mc1.21-1.21.1.jar",
+      "sha512": "b50c37d2f69d51742d4407d272cea525b428784d2a39338d34b692937320495cd77d47b2d2321b3976713447028f50823e9ba44ca618900eba4ced907985ec84",
+      "source": "server-pack"
+    },
+    {
+      "project": "Ponder-NeoForge-1.21.1-1.0.0",
+      "filename": "Ponder-NeoForge-1.21.1-1.0.0.jar",
+      "sha512": "1dcd837008dbe58d2ccb075ca2819d0d182135c46f0682c3654d8fd77c97e19c89cfd23ea59789f0255880c03fc1666a04e2b454e5ac62b4ebcf544d8860102c",
+      "source": "server-pack"
+    },
+    {
+      "project": "RollingGate-neoforge-1.21.1-1.0.0+build.45",
+      "filename": "RollingGate-neoforge-1.21.1-1.0.0+build.45.jar",
+      "sha512": "0342ac05d1cb0c2bb1c1de708903f37c7fca17dd48508fdaee7bbec4b8f511d5b1ec24e196343c25cd783bf91f8cb5bcb27e1fe17cf01e732dc3f74a6b96ff00",
+      "source": "server-pack"
+    },
+    {
+      "project": "SiliconeDolls-neoforge-1.21.1-1.0.0+build.43",
+      "filename": "SiliconeDolls-neoforge-1.21.1-1.0.0+build.43.jar",
+      "sha512": "6f05f96ce69c42497b441f5bc8fdb0fccc0eb48e706d28d7eb448319bf0876a8e1f3a7f0577cfd358db6026edb8f194f033b1b62f6687d7f2534565674fa4b0b",
+      "source": "server-pack"
+    },
+    {
+      "project": "spark-1.10.124-neoforge",
+      "filename": "spark-1.10.124-neoforge.jar",
+      "sha512": "f86ce34f2759c69df82578c397ff55b666c84626229a98f598458b960c21b38c95d6bfef4772af7f963c4f4868e5e2d9aef6b99c1d51bab55bf45e0e6e6b5ed4",
+      "source": "server-pack"
+    },
+    {
+      "project": "tectonic-neoforge-1.21.1-2.4.3",
+      "filename": "tectonic-neoforge-1.21.1-2.4.3.jar",
+      "sha512": "3393c985be9d0231228f2e55a50180ba8e43d8dd9ed2124eb3513c0e84fbf76bc97f9126e2e4b417afedab3676cbe25fb0fcd74988fbae19500d4cac9470aad9",
+      "source": "server-pack"
+    },
+    {
+      "project": "wwoo-2.3.4",
+      "filename": "wwoo-2.3.4.jar",
+      "sha512": "4ca1ffa9274152e6b5bf978f03be0bd350599e2481ca42494b3a65f0390cb1c83284185f9758e41fe32136c42dc5d5944d6d355679b2939e2b1f592181fc1c89",
+      "source": "server-pack"
     },
     {
       "project": "chunky",
-      "version": "1.5.3",
-      "versionId": "4Eotm6ov",
-      "url": "https://cdn.modrinth.com/data/fALzjamp/versions/4Eotm6ov/Chunky-Fabric-1.5.3.jar",
-      "filename": "Chunky-Fabric-1.5.3.jar",
-      "sha512": "b83bfe7b218d0aa6232af977ae741dc1f82b10e50cd12bb759f65cf416b8b62beccb543e587ef0b9670abe03815660f8e091bc6823624d65cf07300571573516"
-    },
-    {
-      "project": "fabric-api",
-      "version": "0.162.0+26.3",
-      "versionId": "v2j28coa",
-      "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/v2j28coa/fabric-api-0.162.0%2B26.3.jar",
-      "filename": "fabric-api-0.162.0+26.3.jar",
-      "sha512": "5ab70908952f1d2346d16b122ca31327f4055db59c279a1bc3c3c581ce359bb541cba15730f55b0727be7c7c4debc4a4412a183c228e0d4dea81c734f7b412ce"
+      "version": "1.4.23",
+      "filename": "Chunky-NeoForge-1.4.23.jar",
+      "url": "https://cdn.modrinth.com/data/fALzjamp/versions/LuFhm4eU/Chunky-NeoForge-1.4.23.jar",
+      "sha512": "2db769dd723f243a21e1881e7c9f825e9c193da6f2bed454b70cb6fa9e51c57f63fdcf017c0657bbd26f7bba30815413e27c74d3c7be0783390a96ee9baa4bf7"
     }
   ]
 }

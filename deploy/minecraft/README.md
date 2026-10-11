@@ -1,71 +1,72 @@
-# Fabric friends server
+# Create friends server
 
-The authoritative public connection settings are in `apps/web/src/minecraft-server.json`. The website imports that file and `render.mjs` derives the server properties from it. The pinned Fabric mods and their SHA-512 hashes are in `mods.lock.json`; use Node.js 24 to render. The Java runtime inside the server container is Java 25.
+The public connection settings in `apps/web/src/minecraft-server.json` drive the website and server renderer: `gaming.byron.wang:25565`, Minecraft 1.21.1, NeoForge 21.1.133, Create6.0 pack 1.0.5, six players, authenticated accounts and whitelist. Use Java 21 in the server and clients. Plain Minecraft and the previous Fabric 26.3 instance cannot join.
 
 ## Prepare and start
 
-Copy this directory and the public connection JSON to `/opt/minecraft`, keeping secrets and runtime data outside Git. Render with:
+Runtime directory: `/opt/minecraft-create`. The previous Fabric installation remains stopped at `/opt/minecraft` with its world and backups preserved. Never reuse its 26.3 world in this 1.21.1 server.
+
+Copy this deployment directory and the public connection JSON to the runtime directory. Obtain the original `服务端1.0.5_20250315.zip` privately from the owner, then run:
 
 ```sh
-node render.mjs /opt/minecraft /opt/minecraft/connection.json
-docker compose --env-file /opt/minecraft/.env -f /opt/minecraft/compose.yaml config --quiet
-docker compose --env-file /opt/minecraft/.env -f /opt/minecraft/compose.yaml up -d minecraft
+python3 prepare.py /private/path/server-pack.zip /opt/minecraft-create
+node render.mjs /opt/minecraft-create /opt/minecraft-create/connection.json
+docker compose config --quiet
+docker compose up -d minecraft
 ```
 
-The public address is `gaming.byron.wang:25565`, using the existing DNS-only A record. The renderer preserves the private IPv4 binding, RCON password and configured whitelist; on first setup it resolves the public domain to IPv4. The container can use both CPU cores, has a 1–5 GiB Java heap and a 6.5 GiB total limit, and cannot use swap. Only TCP 25565 is published, bound to the public IPv4; RCON remains on the private Docker network. Allow TCP 25565 through the host and provider firewalls. Do not publish 25575.
+Use Python 3 and Node.js 24. The preparation script verifies the original archive SHA-256 and extracts only mods and configuration; it does not execute supplied scripts or overwrite existing configuration. The manifest pins the server jars by SHA-512. Client rendering/search/map jars and SimpleBackups are excluded from the server. Chunky 1.4.23 NeoForge is downloaded from its pinned official artifact. Pack jars and the client archive stay outside Git.
 
-Use the following commands from `/opt/minecraft`:
+The renderer preserves the private IPv4 binding, RCON password and whitelist. For a fresh installation, configure `MINECRAFT_WHITELIST` in the private `.env` before starting. The runtime retains ByronNomad and H3arth without operator privileges.
+
+The container can use both cores, has a 2–5 GiB G1 heap, a 6.5 GiB total limit and no container swap. View distance is six, simulation distance four and compression threshold 256 bytes. Only TCP 25565 is published; RCON stays on the private Docker network. Keep existing gameplay configurations from the friend-provided pack.
+
+## Administration
+
+Run from `/opt/minecraft-create`:
 
 ```sh
 docker compose exec -T minecraft rcon-cli whitelist add PLAYER_NAME
-docker compose exec -T minecraft rcon-cli op PLAYER_NAME
+docker compose exec -T minecraft rcon-cli whitelist list
 docker compose exec -T minecraft rcon-cli list
-docker compose exec -T minecraft rcon-cli servercore status
-docker compose exec -T minecraft rcon-cli spark tps
+docker compose exec -T minecraft rcon-cli forge tps
 docker compose logs --tail=100 minecraft
 docker stats --no-stream
 ```
 
-Only grant operator status to the intended administrator. The website account does not grant Minecraft access. Whitelisted players are persisted in `data/whitelist.json`; do not configure an automatic startup whitelist removal policy.
+Only grant operator status deliberately. Website accounts do not grant Minecraft access.
 
-## Initial chunk generation
+## Small initial generation
 
-Keep the initial whitelist empty. Process only one world at a time, waiting for each completion before starting the next. Select a square centered on the overworld spawn, radius 2000; nether and end radius 1000. Use the actual generated dimension names returned by Chunky.
+Pre-generate only a square around the overworld spawn, radius 500 blocks (roughly 4,000 chunks). Leave other dimensions for normal exploration. Run this once and wait for completion; use `chunky progress` to inspect it. This replaces the previous large Fabric generation schedule.
 
 ```sh
 docker compose exec -T minecraft rcon-cli chunky world minecraft:overworld
 docker compose exec -T minecraft rcon-cli chunky shape square
 docker compose exec -T minecraft rcon-cli chunky spawn
-docker compose exec -T minecraft rcon-cli chunky radius 2000
+docker compose exec -T minecraft rcon-cli chunky radius 500
 docker compose exec -T minecraft rcon-cli chunky start
 docker compose exec -T minecraft rcon-cli chunky progress
-docker compose exec -T minecraft rcon-cli chunky pause
 ```
-
-For the remaining dimensions use `minecraft:the_nether` and `minecraft:the_end`, center `0 0`, radius `1000`. World exploration remains open beyond the generated area. Tasks are not automatically resumed on server restart. Start the backup sidecar after the initial generation has completed.
 
 ## Backup and restore
 
 ```sh
-docker compose up -d backup
+docker compose up -d --no-deps backup
 docker compose exec -T backup backup now
 docker compose logs --tail=80 backup
 ```
 
-The sidecar flushes world data over internal RCON, pauses world writes for the archive and restores saving afterwards. It pauses Chunky first and resumes pending generation after the backup, uses at most half a CPU core and 256 MiB, backs up every 24 hours, and retains seven successful archives. Backups exclude downloaded jars and caches; the locked manifest recreates them. Export backups to a private local directory via SCP. Local archives alone do not survive loss of the VPS.
+The sidecar pauses Chunky, flushes the world and disables saving for the archive, then restores saving and resumes pending generation. It uses at most half a core and 256 MiB, backs up every 24 hours and retains seven successful archives. SimpleBackups is removed to avoid competing backup schedules. Export archives to a private local directory. Backups exclude downloaded jars and caches; reconstruct them using the pinned pack and manifest.
 
-To restore, stop only the Minecraft project, preserve the current `data` directory under a dated name, inspect and extract the selected archive into a new directory, restore locked jars and start the server against that directory. Never overwrite a running world. Verify archive hashes, region files and player data in a separate restore directory before switching. Keep RCON secrets separately.
+For a restore, stop the Minecraft project, preserve the current data directory, extract the selected archive into a separate directory and restore the locked jars. Check archive hashes, region files and player data before switching. Never overwrite a running world. Keep credentials and player data out of Git.
 
-## Client validation
+## Clients
 
-Use Prism's existing `Minecraft-26.3-Fabric` instance and the authorized `ByronNomad` profile:
+Get `PCL下载安装这个文件即可.zip` from the owner. In Prism choose Add Instance / Import and select the zip. In PCL import the same modpack. Allow all manifest downloads to finish, use Java 21 and log in with an authenticated Minecraft account. Confirm Minecraft 1.21.1, NeoForge 21.1.133 and pack 1.0.5 before adding `gaming.byron.wang:25565` in Multiplayer.
 
-```sh
-"/Applications/Prism Launcher.app/Contents/MacOS/prismlauncher" --launch Minecraft-26.3-Fabric --profile ByronNomad --server gaming.byron.wang:25565
-```
+The previous real-client acceptance applied to Fabric 26.3. This replacement needs a fresh client join and Create gameplay check; server health/status alone does not establish that result.
 
-Confirm the game window and server join log, movement, chunk loading, block interactions, chat, reconnect, persistence after graceful server restart, and rejection when the account is temporarily removed from the whitelist. Restore the whitelist after that check. Save evidence privately without session tokens. One connected client is not a ten-player load test.
+## Sources
 
-## Sources and licenses
-
-Use upstream releases, not development builds. Lithium and Krypton use LGPL-3.0, FerriteCore uses MIT, ServerCore uses MIT with GPL-licensed ported files, Chunky and spark use GPL-3.0, Fabric API uses Apache-2.0. The Minecraft container uses Apache-2.0 and the backup container MIT. The manifest records artifact sources; no third-party jars or player data are committed.
+[NeoForge server installation](https://docs.neoforged.net/user/docs/server/), [itzg NeoForge container](https://docker-minecraft-server.readthedocs.io/en/latest/types-and-platforms/server-types/forge/#neoforge), [Prism modpack import](https://prismlauncher.org/wiki/getting-started/download-modpacks/), [Chunky](https://modrinth.com/plugin/chunky). The server and client archives were supplied privately by the owner; the manifest records their deployment identity without redistributing jars.

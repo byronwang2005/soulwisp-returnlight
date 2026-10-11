@@ -1,15 +1,14 @@
-name: minecraft
+name: minecraft-create
 services:
   minecraft:
-    image: itzg/minecraft-server:java25@sha256:e94acca02886fdbaad61f9c72935784ac2228a69068179f7b97ea1cac165f24e
+    image: itzg/minecraft-server:java21@sha256:6711f4310d536aeac9dc16baa387b3957ed903890e21ed0b766019439be5c12b
     environment:
       EULA: "TRUE"
-      TYPE: FABRIC
+      TYPE: NEOFORGE
       VERSION: ${MINECRAFT_VERSION:?render the connection configuration}
-      FABRIC_LOADER_VERSION: "0.19.5"
-      FABRIC_LAUNCHER_VERSION: "1.1.2"
+      NEOFORGE_VERSION: ${MINECRAFT_LOADER_VERSION:?render the connection configuration}
       MEMORY: ""
-      INIT_MEMORY: 1G
+      INIT_MEMORY: 2G
       MAX_MEMORY: 5G
       JVM_XX_OPTS: "-XX:+UseG1GC -XX:MaxGCPauseMillis=200"
       JVM_OPTS: "-Xlog:gc*:logs/gc.log:time,uptime:filecount=5,filesize=5M"
@@ -20,13 +19,13 @@ services:
       MAX_PLAYERS: ${MINECRAFT_MAX_PLAYERS:?render the connection configuration}
       DIFFICULTY: ${MINECRAFT_DIFFICULTY:-normal}
       MODE: survival
-      VIEW_DISTANCE: "8"
+      VIEW_DISTANCE: "6"
       SIMULATION_DISTANCE: "4"
       NETWORK_COMPRESSION_THRESHOLD: "256"
       ENABLE_QUERY: "FALSE"
       ENABLE_RCON: "TRUE"
       RCON_PASSWORD: ${RCON_PASSWORD:?set a private RCON password}
-      MOTD: "Friends / Fabric ${MINECRAFT_VERSION} / Whitelist"
+      MOTD: "Friends / Create 1.0.5 / ${MINECRAFT_VERSION} / Whitelist"
       TZ: Europe/London
     volumes: ["./data:/data"]
     ports: ["${MINECRAFT_BIND_IP:?render the connection configuration}:25565:25565/tcp"]
