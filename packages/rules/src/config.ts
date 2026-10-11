@@ -29,10 +29,13 @@ export function seedNumber(seed:number|string):number {
 export function getLayout(config:GameConfig, seed:number|string=1):Layout {
   const variant=seedNumber(seed)%3;
   const names=['归灯堂','余灯钟楼','旧城矿庭','秘文书库','归灯门','絮园','机关庭','回响廊','巡林苑','旧墓园','西回廊'];
-  const nodes:MapNode[]=[{id:'sanctuary',name:names[0]!,x:500,y:350,radius:82}];
+  const themes:MapNode['artTheme'][]=['hall','bell','mine','library','gate','garden','machine','echo','forest','grave','gallery'];
+  [names[4],names[config.mapNodes-1]]=[names[config.mapNodes-1]!,names[4]!];
+  [themes[4],themes[config.mapNodes-1]]=[themes[config.mapNodes-1],themes[4]];
+  const nodes:MapNode[]=[{id:'sanctuary',name:names[0]!,artTheme:themes[0],x:500,y:350,radius:82}];
   for(let i=1;i<config.mapNodes;i++) {
     const angle=(i-1)*2*Math.PI/(config.mapNodes-1)-Math.PI/2+variant*0.12;
-    nodes.push({id:`node-${i}`,name:names[i]!,x:500+Math.cos(angle)*(variant===1 ? 345 : 325),y:350+Math.sin(angle)*(variant===2 ? 240 : 225),radius:82});
+    nodes.push({id:`node-${i}`,name:names[i]!,artTheme:themes[i],x:500+Math.cos(angle)*(variant===1 ? 345 : 325),y:350+Math.sin(angle)*(variant===2 ? 240 : 225),radius:82});
   }
   const edges:[string,string][]=[];
   for(let i=1;i<nodes.length;i++) edges.push([nodes[i]!.id,nodes[i===nodes.length-1 ? 1 : i+1]!.id]);
