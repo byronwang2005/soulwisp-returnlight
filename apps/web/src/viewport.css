@@ -146,3 +146,10 @@ html,body,#root{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behav
   .tutorial .wolf-actions,.tutorial:has(.tutorial-guide.compact) .wolf-actions{top:150px;bottom:auto;max-width:48%}
   .effects-settings{top:70px;max-height:calc(100% - 82px)}.effects-settings.global-settings{top:64px;max-height:calc(100dvh - 76px)}
 }
+
+/* The camp keeps its account overview and expedition entry while the workshop is hidden. */
+.camp-simple .camp-grid{grid-template-columns:minmax(0,1.6fr) minmax(270px,1fr);grid-template-rows:minmax(0,1fr)}
+.camp-journey{padding:clamp(18px,3vw,36px);overflow:auto;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.camp-journey>p{color:var(--muted)}.camp-training{border-top:1px solid var(--line);padding-top:22px;margin-top:26px;display:grid;gap:12px}.camp-training h3,.camp-training .hint{margin:0}
+@media(max-width:700px){.camp-simple .camp-grid{grid-template-columns:1fr;grid-template-rows:minmax(110px,.65fr) minmax(0,1fr);gap:12px}.camp-journey{padding:16px;justify-content:flex-start}.camp-journey h2{font-size:22px;margin-bottom:10px}.camp-journey>p{font-size:12px;margin-bottom:12px}.camp-training{margin-top:16px;padding-top:14px;gap:9px}.camp-journey button.large{padding:12px}.camp-simple .camp-preview .preview-tag{top:10px}}
+@media(max-height:540px) and (min-width:701px){.camp-simple .camp-grid{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);grid-template-rows:minmax(0,1fr)}.camp-journey{justify-content:flex-start}}
