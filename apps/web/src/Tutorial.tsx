@@ -1,7 +1,6 @@
 import {ActionButton} from './ActionButton';
 import {useEffect,useRef,useState} from 'react';
 import {TrainingSession} from '@wangxu/rules';
-import {mapRoute} from '@wangxu/shared';
 import type {GameCommand} from '@wangxu/shared';
 import {request,requestId} from './api';
 import {GameScreen} from './GameUI';
@@ -37,13 +36,13 @@ export function Tutorial({onMusicScene,assets,quality,initialStep,wolf,authentic
   }
   async function exit(){setBusy(true);try{await save(false);}catch(error){onError((error as Error).message);}finally{setBusy(false);onExit();}}
   async function next(){if(!done)return;if(step<5){localStorage.setItem(wolf?'wangxu-wolf-tutorial':'wangxu-tutorial-step',String(step+1));setStep(step+1);}else{setBusy(true);try{await save(true);setComplete(true);}catch(error){onError((error as Error).message);}finally{setBusy(false);}}}
-  const objective=session.objective();const route=objective.nodeId?mapRoute({x:session.me.x,y:session.me.y},view.nodes,view.edges??[],objective.nodeId):[];const destination=view.nodes.find(node=>node.id===objective.nodeId);
-  return <div className="tutorial"><GameScreen view={view} send={send} assets={assets} quality={quality} training onLeave={()=>void exit()} trainingDestination={objective.nodeId} guide={<div className={`tutorial-guide panel ${compact?'compact':''}`}>
+  const objective=session.objective();const destination=view.nodes.find(node=>node.id===objective.nodeId);
+  return <div className="tutorial"><GameScreen view={view} send={send} assets={assets} quality={quality} training onLeave={()=>void exit()} trainingDestination={done?undefined:objective.nodeId} trainingTarget={done?undefined:objective.targetId} guide={<div className={`tutorial-guide panel ${compact?'compact':''}`}>
     <div className="section-head"><span className="eyebrow">{wolf?'蚀月者练习':'初行者训练'} / {step+1} / 6</span><div className="guide-tools"><ActionButton iconKind="expand" iconState={compact?'default':'expanded'} aria-expanded={!compact} aria-label="展开或收起训练指引" onClick={()=>setCompact(!compact)}>{compact?'展开':'收起'}</ActionButton><ActionButton iconKind="save" iconState={busy?'busy':'default'} disabled={busy} onClick={()=>void exit()} aria-label="保存并离开">离开</ActionButton></div></div>
     <h2>{LESSONS[step].title}</h2>{!compact&&<><blockquote className="story-memory"><span>艾琳 · 残留记忆</span><p>{LESSONS[step].story}</p></blockquote><p>{LESSONS[step].description}</p></>}
     {!compact&&wolf&&step===2&&<p className="wolf-hint">蚀月练习：在钟楼显形、腐化暗祭坛并使用灰雾，然后实际消除这次腐化。</p>}
     {!compact&&<div className="lesson-progress">{LESSONS.map((_,index)=><i key={index} className={index<=step?'active':''}/>)}</div>}
-    <div className="lesson-task"><span data-training-target={objective.targetId} data-training-node={objective.nodeId}>{done?'✓':'◇'} {done?'本课实际操作已完成':objective.text}</span>{destination&&!done&&<small>路线：{route.map(id=>view.nodes.find(node=>node.id===id)?.name).join(' → ')}</small>}
+    <div className="lesson-task"><span data-training-target={objective.targetId} data-training-node={objective.nodeId}>{done?'✓':'◇'} {done?'本课实际操作已完成':objective.text}</span>{destination&&!done&&<small>循地面金色虚线前往{destination.name}，靠近目标后按提示操作。</small>}
     {step===3&&view.phase==='DISCUSS'&&<ActionButton iconKind="vote" className="primary" disabled={!session.flags.published||!session.flags.said} onClick={beginVote}>进入表决</ActionButton>}
     <ActionButton iconKind="next" iconState={busy?'busy':'default'} className="primary" disabled={!done||busy} onClick={()=>void next()}>{busy?'保存中…':step===5?'完成归灯训练':'下一课 →'}</ActionButton></div>
     {!compact&&<small>训练物品独立保存 · 可保存离开并继续本课</small>}
