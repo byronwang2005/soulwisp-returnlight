@@ -2,7 +2,7 @@ import {canOccupy,interactionRadius,isSolid,OBJECT_FOOTPRINT,segmentDistance,SCE
 
 export interface NavigationTarget extends Vec2 {id:string;name:string;radius:number}
 export function navigationTarget(view:GameView,nodeId?:string,targetId?:string):NavigationTarget|undefined {
-  const object=view.objects.find(item=>item.id===targetId&&item.active);
+  const object=view.objects.find(item=>item.id===(targetId??nodeId)&&item.active);
   if(object)return {id:object.id,name:object.name,x:object.x,y:object.y,radius:object.kind==='exit'?45:interactionRadius(object.kind)-6};
   const player=view.players.find(item=>item.id===targetId&&item.x!==null&&item.y!==null);
   if(player)return {id:player.id,name:player.name,x:player.x!,y:player.y!,radius:50};

@@ -1,3 +1,4 @@
+import {useVisionFog,applyVisionFog} from './VisionFog';
 import {createContext,useContext,useEffect,useLayoutEffect,useMemo,type ReactNode} from 'react';
 import {useLoader,useThree} from '@react-three/fiber';
 import * as THREE from 'three';
@@ -19,11 +20,12 @@ export function ArtMaterialProvider({profile,children}:{profile:ArtProfile;child
 }
 export function useSharedMaps(paths:string[]){const textures=useContext(TextureContext),key=paths.join('|');return useMemo(()=>paths.map(path=>{const texture=textures[path];if(!texture)throw new Error(`Unregistered art texture: ${path}`);return texture;}),[textures,key]);}
 export function useArtMaterials(profile:ArtProfile,surfaces:readonly ArtSurface[]):ArtMaterials{
-  const paths=surfaces.flatMap(id=>Object.values(materialPaths(id,profile.normal,1024,profile.resolution==='2k'?1024:512)));
+  const fog=useVisionFog();const paths=surfaces.flatMap(id=>Object.values(materialPaths(id,profile.normal,1024,profile.resolution==='2k'?1024:512)));
   const maps=useSharedMaps(paths);
   const materials=useMemo(()=>{const result=fallbackArtMaterials();let offset=0;
     for(const surface of surfaces){const count=profile.normal?3:2,map=maps[offset],arm=maps[offset+1],normal=profile.normal?maps[offset+2]:undefined;offset+=count;result[surface].dispose();
       result[surface]=new THREE.MeshStandardMaterial({map,aoMap:arm,aoMapIntensity:.35,roughnessMap:arm,metalnessMap:surface==='bronze'?arm:undefined,normalMap:normal,normalScale:new THREE.Vector2(.25,.25),color:surface==='foundation'?'#ded9c7':'#ffffff',metalness:surface==='bronze'?.85:0,roughness:1});
+      result[surface].onBeforeCompile=shader=>applyVisionFog(shader,fog);result[surface].customProgramCacheKey=()=>'city-static-fog-v1';
     }return result;
   },[maps,profile.normal,surfaces.join('|')]);
   useEffect(()=>()=>Object.values(materials).forEach(m=>m.dispose()),[materials]);return materials;

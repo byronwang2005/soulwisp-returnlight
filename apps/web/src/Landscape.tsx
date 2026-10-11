@@ -1,3 +1,5 @@
+import {masonryGeometry} from './masonry-geometry';
+import {useVisionFog,applyVisionFog} from './VisionFog';
 import {useEffect,useLayoutEffect,useMemo,useRef} from 'react';
 import * as THREE from 'three';
 import {type MapNode,segmentDistance} from '@wangxu/shared';
@@ -5,9 +7,9 @@ import {useGLTF} from '@react-three/drei';
 import {useArtMaterials,STONE_SURFACES,type ArtProfile} from './ArtMaterials';
 // Low stone banks, broken masonry and moss occupy only the non-traversable margin.
 export function Landscape({nodes,edges,detailed,profile}:{nodes:MapNode[];edges:[string,string][];detailed:boolean;profile:ArtProfile}){
- const materials=useArtMaterials(profile,STONE_SURFACES);
+ const fog=useVisionFog();const materials=useArtMaterials(profile,STONE_SURFACES);
  const [wall,intactWall,column]=useGLTF(['/assets/dungeon/wall_broken.gltf.glb','/assets/dungeon/wall.gltf.glb','/assets/dungeon/column.gltf.glb']);
- const geometries=useMemo(()=>[wall,intactWall,column].map(asset=>{let geometry:THREE.BufferGeometry|undefined;asset.scene.updateMatrixWorld(true);asset.scene.traverse(n=>{if(n instanceof THREE.Mesh&&!geometry)geometry=n.geometry.clone().applyMatrix4(n.matrixWorld);});if(!geometry)throw new Error('Masonry mesh missing');geometry.computeBoundingBox();const bounds=geometry.boundingBox!,size=new THREE.Vector3();bounds.getSize(size);geometry.translate(-(bounds.min.x+bounds.max.x)/2,-bounds.min.y,-(bounds.min.z+bounds.max.z)/2);geometry.scale(1/size.x,1/size.y,1/size.z);return geometry;}),[wall.scene,intactWall.scene,column.scene]);
+ const geometries=useMemo(()=>[wall,intactWall,column].map(asset=>masonryGeometry(asset.scene)),[wall.scene,intactWall.scene,column.scene]);
  const rocks=useRef<THREE.InstancedMesh>(null),walls=useRef<THREE.InstancedMesh>(null),moss=useRef<THREE.InstancedMesh>(null),intact=useRef<THREE.InstancedMesh>(null),columns=useRef<THREE.InstancedMesh>(null);
  useEffect(()=>()=>geometries.forEach(g=>g.dispose()),[geometries]);
  const instances=useMemo(()=>{
@@ -23,5 +25,5 @@ export function Landscape({nodes,edges,detailed,profile}:{nodes:MapNode[];edges:
   }return {stone,ruins,green,solid,pillars};
  },[nodes,edges,detailed]);
  useLayoutEffect(()=>{for(const [ref,list]of [[rocks,instances.stone],[walls,instances.ruins],[moss,instances.green],[intact,instances.solid],[columns,instances.pillars]] as const){list.forEach((matrix,i)=>ref.current!.setMatrixAt(i,matrix));ref.current!.instanceMatrix.needsUpdate=true;ref.current!.computeBoundingSphere();}},[instances]);
- return <group name="outside-city-landscape"><instancedMesh ref={rocks} args={[undefined,undefined,instances.stone.length]} receiveShadow><dodecahedronGeometry args={[1,0]}/><primitive object={materials.foundation} attach="material"/></instancedMesh><instancedMesh ref={walls} args={[geometries[0],materials.foundation,instances.ruins.length]} castShadow={detailed} receiveShadow></instancedMesh><instancedMesh ref={intact} args={[geometries[1],materials.foundation,instances.solid.length]} castShadow={detailed} receiveShadow/><instancedMesh ref={columns} args={[geometries[2],materials.foundation,instances.pillars.length]} castShadow={detailed} receiveShadow/><instancedMesh ref={moss} args={[undefined,undefined,instances.green.length]}><dodecahedronGeometry args={[1,0]}/><meshStandardMaterial color="#455342" roughness={1}/></instancedMesh></group>;
+ return <group name="outside-city-landscape"><instancedMesh ref={rocks} args={[undefined,undefined,instances.stone.length]} receiveShadow><dodecahedronGeometry args={[1,0]}/><primitive object={materials.foundation} attach="material"/></instancedMesh><instancedMesh ref={walls} args={[geometries[0],materials.foundation,instances.ruins.length]} castShadow={detailed} receiveShadow></instancedMesh><instancedMesh ref={intact} args={[geometries[1],materials.foundation,instances.solid.length]} castShadow={detailed} receiveShadow/><instancedMesh ref={columns} args={[geometries[2],materials.foundation,instances.pillars.length]} castShadow={detailed} receiveShadow/><instancedMesh ref={moss} args={[undefined,undefined,instances.green.length]}><dodecahedronGeometry args={[1,0]}/><meshStandardMaterial color="#455342" roughness={1} onBeforeCompile={shader=>applyVisionFog(shader,fog)} customProgramCacheKey={()=>'landscape-moss-fog-v1'}/></instancedMesh></group>;
 }

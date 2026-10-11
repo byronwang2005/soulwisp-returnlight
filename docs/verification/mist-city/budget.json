@@ -1,0 +1,135 @@
+{
+  "method": "CPU geometry counts, RGBA8 mip-chain estimates; not GPU measurements",
+  "layouts": [
+    {
+      "players": 4,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 2464
+    },
+    {
+      "players": 4,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 2464
+    },
+    {
+      "players": 4,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 2464
+    },
+    {
+      "players": 5,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 2620
+    },
+    {
+      "players": 5,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 2620
+    },
+    {
+      "players": 5,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 2620
+    },
+    {
+      "players": 6,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 2884
+    },
+    {
+      "players": 6,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 2884
+    },
+    {
+      "players": 6,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 2884
+    },
+    {
+      "players": 7,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 3236
+    },
+    {
+      "players": 7,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 3236
+    },
+    {
+      "players": 7,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 3236
+    },
+    {
+      "players": 8,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 3356
+    },
+    {
+      "players": 8,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 3356
+    },
+    {
+      "players": 8,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 3356
+    },
+    {
+      "players": 9,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 3460
+    },
+    {
+      "players": 9,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 3460
+    },
+    {
+      "players": 9,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 3460
+    },
+    {
+      "players": 10,
+      "layout": 0,
+      "batches": 9,
+      "triangles": 3568
+    },
+    {
+      "players": 10,
+      "layout": 1,
+      "batches": 9,
+      "triangles": 3568
+    },
+    {
+      "players": 10,
+      "layout": 2,
+      "batches": 9,
+      "triangles": 3568
+    }
+  ],
+  "fogTextureBytes": 262144,
+  "noiseTextureBytes": 0,
+  "automaticTextureMiB": 56,
+  "manualHighTextureMiB": 144
+}

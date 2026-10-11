@@ -4,7 +4,7 @@ import type {NavigationTarget} from './navigation';
 import {navigationReplyCurrent,type NavigationRequest,type NavigationResponse} from './navigation-worker-core';
 export function useNavigation(view:GameView,target:NavigationTarget|undefined,start:Vec2|null){
  const worker=useRef<Worker|null>(null),generation=useRef(0),sequence=useRef(0),[answer,setAnswer]=useState<{key:string;route:Vec2[]}>({key:'',route:[]}),keyRef=useRef('');
- const key=JSON.stringify([view.roomId,view.nodes,view.edges,view.objects.filter(o=>o.active&&isSolid(o.kind)).map(o=>[o.id,o.kind,o.x,o.y]),target]);keyRef.current=key;
+ const key=JSON.stringify([view.self.visibility?.matchKey??view.roomId,view.nodes,view.edges,view.objects.filter(o=>o.active&&isSolid(o.kind)).map(o=>[o.id,o.kind,o.x,o.y]),target]);keyRef.current=key;
  const latest=useRef({view,target,start});latest.current={view,target,start};
  useEffect(()=>{const instance=new Worker(new URL('./navigation-worker.ts',import.meta.url),{type:'module'});worker.current=instance;
  instance.onmessage=(event:MessageEvent<NavigationResponse>)=>{if(navigationReplyCurrent(event.data,generation.current,sequence.current))setAnswer({key:keyRef.current,route:event.data.route});};

@@ -4,8 +4,8 @@ import type {WorldObject} from '@wangxu/shared';
 import {ART_PALETTE,PROFESSION_ART,type ArtSurface,type Attachment} from './art-config';
 export type ArtMaterials=Record<ArtSurface,THREE.MeshStandardMaterial>;
 type Shape='box'|'cylinder'|'cone'|'sphere'|'torus';
-interface Part{shape:Shape;size:number[];at:[number,number,number];rotation?:[number,number,number];surface:ArtSurface;}
-const part=(shape:Shape,size:number[],at:[number,number,number],surface:ArtSurface,rotation?:[number,number,number]):Part=>({shape,size,at,surface,rotation});
+export interface Part{shape:Shape;size:number[];at:[number,number,number];rotation?:[number,number,number];surface:ArtSurface;}
+export const part=(shape:Shape,size:number[],at:[number,number,number],surface:ArtSurface,rotation?:[number,number,number]):Part=>({shape,size,at,surface,rotation});
 function geometry(p:Part){switch(p.shape){case'box':return new THREE.BoxGeometry(...p.size as [number,number,number]);case'cylinder':return new THREE.CylinderGeometry(...p.size as [number,number,number,number]);case'cone':return new THREE.ConeGeometry(...p.size as [number,number,number]);case'sphere':return new THREE.SphereGeometry(p.size[0],8,6);case'torus':return new THREE.TorusGeometry(p.size[0],p.size[1],4,p.size[2]??12);}}
 export function assembleArt(parts:Part[],materials:ArtMaterials,name:string){
   const group=new THREE.Group();group.name=name;
