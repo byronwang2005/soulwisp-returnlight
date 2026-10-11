@@ -1,3 +1,4 @@
+import {bindAudioContext} from './audio-devices';
 import {useCallback,useEffect,useRef,useState} from 'react';
 import type {FeedbackEvent,GameCommand,GameView} from '@wangxu/shared';
 import {useFeedbackSettings} from './settings';
@@ -5,7 +6,7 @@ export type {EffectSettings} from './settings';
 
 export interface VisualFeedback extends FeedbackEvent {receivedAt:number}
 let context:AudioContext|undefined;
-function unlock(){try{context??=new AudioContext();if(context.state==='suspended')void context.resume().catch(()=>{});}catch{}}
+function unlock(){try{context??=new AudioContext();bindAudioContext(context);if(context.state==='suspended')void context.resume().catch(()=>{});}catch{}}
 function output(volume:number,pan=0){if(!context||context.state!=='running'||volume<=0)return;const gain=context.createGain();gain.gain.value=volume*.32;const stereo=context.createStereoPanner();stereo.pan.value=Math.max(-.8,Math.min(.8,pan));gain.connect(stereo);stereo.connect(context.destination);setTimeout(()=>{gain.disconnect();stereo.disconnect();},1500);return{audio:context,gain};}
 function tone(out:NonNullable<ReturnType<typeof output>>,frequency:number,end:number,duration:number,type:OscillatorType='sine',delay=0,amplitude=.6){const {audio,gain}=out,now=audio.currentTime+delay,osc=audio.createOscillator(),envelope=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(frequency,now);osc.frequency.exponentialRampToValueAtTime(Math.max(25,end),now+duration);envelope.gain.setValueAtTime(.0001,now);envelope.gain.exponentialRampToValueAtTime(amplitude,now+.008);envelope.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(envelope);envelope.connect(gain);osc.start(now);osc.stop(now+duration+.015);osc.onended=()=>{osc.disconnect();envelope.disconnect();};}
 function noise(out:NonNullable<ReturnType<typeof output>>,duration:number,cutoff:number,amplitude=.3,high=false){const {audio,gain}=out,length=Math.ceil(audio.sampleRate*duration),buffer=audio.createBuffer(1,length,audio.sampleRate),samples=buffer.getChannelData(0);for(let i=0;i<length;i++)samples[i]=(Math.random()*2-1)*(1-i/length);const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),envelope=audio.createGain();source.buffer=buffer;filter.type=high?'highpass':'lowpass';filter.frequency.value=cutoff;envelope.gain.setValueAtTime(amplitude,audio.currentTime);envelope.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);source.connect(filter);filter.connect(envelope);envelope.connect(gain);source.start();source.onended=()=>{source.disconnect();filter.disconnect();envelope.disconnect();};}

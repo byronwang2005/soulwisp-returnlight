@@ -1,6 +1,6 @@
 import type { CampData } from '@wangxu/shared';
 export const API = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
-export interface User { id: string; name: string; email: string }
+export interface User { id: string; name: string; email: string; image?: string|null }
 export async function request<T>(path: string, body?: unknown): Promise<T> {
   const response = await fetch(`${API}${path}`, { method: body === undefined ? 'GET' : 'POST', credentials: 'include', headers: body === undefined ? undefined : { 'Content-Type': 'application/json' }, body: body === undefined ? undefined : JSON.stringify(body) });
   const data = await response.json().catch(() => ({}));

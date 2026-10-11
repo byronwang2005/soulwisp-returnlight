@@ -43,6 +43,15 @@ export function createApi(options: ApiOptions) {
     c.set('account', { id: session.user.id, name: session.user.name });
     await next();
   });
+  app.post('/api/profile', async c => {
+    const body = await c.req.json<{name?:unknown;image?:unknown}>();
+    if (!body || typeof body.name !== 'string' || body.name.trim().length < 2 || body.name.trim().length > 20 || /[\u0000-\u001f\u007f]/.test(body.name)) throw new AccountError('BAD_NAME', '用户名须为 2–20 个字符');
+    if (body.image !== null && (typeof body.image !== 'string' || !/^\/avatars\/lantern-[1-6]\.svg$/.test(body.image))) throw new AccountError('BAD_AVATAR', '请选择可用的头像');
+    const result=await auth.api.updateUser({headers:c.req.raw.headers,body:{name:body.name.trim(),image:body.image},returnHeaders:true});
+    for(const cookie of result.headers.getSetCookie())c.header('Set-Cookie',cookie,{append:true});
+    const current=(await getSession(c.req.raw.headers))!.user;
+    return c.json({user:{...current,name:body.name.trim(),image:body.image}});
+  });
   app.get('/api/camp', async c => c.json(await getCamp(c.get('account').id)));
   app.post('/api/voice/lobby/token', async c => {
     if (!options.voiceLobby) throw new LobbyVoiceError(503, 'LOBBY_UNAVAILABLE', '语音大厅暂时离线，请稍后重试。');

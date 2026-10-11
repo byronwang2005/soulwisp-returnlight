@@ -1,3 +1,4 @@
+import {bindAudioRoom,applyVoiceVolume} from './audio-devices';
 import { AudioPresets, ConnectionState, DisconnectReason, Room, RoomEvent, Track, type Participant, type RemoteTrack } from 'livekit-client';
 import type { VoiceLobbyInfo, VoiceLobbyTicket } from '@wangxu/shared';
 import { request } from './api';
@@ -30,10 +31,12 @@ export class LobbyVoiceConnection {
   private sampling = false;
   private refreshing = false;
   private startedAt = 0;
+  private unbindDevices:(()=>void)|undefined;
 
   constructor() { this.bindRoom(this.room); }
 
   private bindRoom(room: Room): void {
+    this.unbindDevices=bindAudioRoom(room);
     const members = () => this.syncMembers();
     room.on(RoomEvent.ParticipantConnected, members).on(RoomEvent.ParticipantDisconnected, members)
       .on(RoomEvent.TrackMuted, members).on(RoomEvent.TrackUnmuted, members)
@@ -44,7 +47,7 @@ export class LobbyVoiceConnection {
       if (!id) return;
       this.detach(id);
       const element = track.attach();
-      element.autoplay = true; element.muted = !this.snapshot.listening; element.dataset.voice = 'lobby';
+      applyVoiceVolume(element); element.autoplay = true; element.muted = !this.snapshot.listening; element.dataset.voice = 'lobby';
       element.dataset.participant = participant.identity;
       document.body.append(element);
       this.audio.set(id, { track, element });
@@ -165,6 +168,7 @@ export class LobbyVoiceConnection {
     this.clearMedia();
     // Stop immediately; disconnect may still be waiting on signaling.
     const previous = this.room;
+    this.unbindDevices?.();
     previous.removeAllListeners();
     for (const publication of previous.localParticipant.audioTrackPublications.values()) publication.track?.stop();
     void previous.disconnect();
@@ -177,7 +181,7 @@ export class LobbyVoiceConnection {
 
   dispose(): void {
     if (this.disposed) return;
-    this.leave(); this.disposed = true;
+    this.leave(); this.unbindDevices?.(); this.disposed = true;
     if (this.refreshTimer) clearInterval(this.refreshTimer);
     this.room.removeAllListeners(); this.listeners.clear();
   }

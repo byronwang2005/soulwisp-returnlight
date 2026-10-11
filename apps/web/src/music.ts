@@ -1,3 +1,4 @@
+import {bindAudioContext} from './audio-devices';
 import {useEffect,useSyncExternalStore} from 'react';
 import {Howl,Howler} from 'howler';
 import type {EffectSettings} from './settings';
@@ -19,6 +20,7 @@ class SceneMusic {
   unlock=()=>{
     this.unlocked=true;
     // Resume during the user gesture, including when an earlier playback attempt was rejected.
+    if(Howler.ctx)bindAudioContext(Howler.ctx);
     void Howler.ctx?.resume().catch(()=>{});
     this.sync();
   };
@@ -58,6 +60,7 @@ class SceneMusic {
       onloaderror:()=>{if(this.current?.sound===sound){sound.unload();this.current=undefined;this.publish({status:'unavailable'});}},
       onplayerror:()=>{if(this.current?.sound===sound){this.current.pending=false;this.publish({status:'blocked'});}}
     });
+    if(Howler.ctx)bindAudioContext(Howler.ctx);
     this.current={scene,sound,pending:false};this.publish({status:'loading'});this.play();
   }
   dispose(){this.retire();this.current?.sound.stop();this.current?.sound.unload();this.current=undefined;this.unlocked=false;this.publish({status:'waiting'});}
