@@ -2100,6 +2100,36 @@
       "version": "2.2.13",
       "license": "MIT",
       "source": "https://registry.npmmirror.com/@types/howler/-/howler-2.2.13.tgz"
+    },
+    {
+      "name": "morphicons",
+      "version": "1.7.1",
+      "license": "MIT",
+      "source": "https://registry.npmmirror.com/morphicons/-/morphicons-1.7.1.tgz"
+    },
+    {
+      "name": "lucide",
+      "version": "1.26.0",
+      "license": "ISC",
+      "source": "https://registry.npmmirror.com/lucide/-/lucide-1.26.0.tgz"
+    },
+    {
+      "name": "@fontsource-variable/noto-sans-sc",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "source": "https://registry.npmmirror.com/@fontsource-variable/noto-sans-sc/-/noto-sans-sc-5.3.0.tgz"
+    },
+    {
+      "name": "@fontsource-variable/noto-serif-sc",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "source": "https://registry.npmmirror.com/@fontsource-variable/noto-serif-sc/-/noto-serif-sc-5.3.0.tgz"
+    },
+    {
+      "name": "@fontsource/ma-shan-zheng",
+      "version": "5.3.1",
+      "license": "OFL-1.1",
+      "source": "https://registry.npmmirror.com/@fontsource/ma-shan-zheng/-/ma-shan-zheng-5.3.1.tgz"
     }
   ]
 }

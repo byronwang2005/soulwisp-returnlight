@@ -10,5 +10,7 @@ export async function assertViewport(page:Page){
   expect(result.bodyWidth).toBeLessThanOrEqual(result.width);expect(result.bodyHeight).toBeLessThanOrEqual(result.height);
   expect(result.scrollX).toBe(0);expect(result.scrollY).toBe(0);expect(result.app.width).toBeLessThanOrEqual(result.width);
   expect(result.main.x).toBeGreaterThanOrEqual(0);expect(result.main.y).toBeGreaterThanOrEqual(0);expect(result.main.right).toBeLessThanOrEqual(result.width+1);expect(result.main.bottom).toBeLessThanOrEqual(result.height+1);
+  const missing=await page.locator('button').evaluateAll(buttons=>buttons.filter(button=>!button.querySelector('svg.button-svg')).map(button=>button.getAttribute('aria-label')||button.textContent));
+  expect(missing).toEqual([]);
   return result;
 }
