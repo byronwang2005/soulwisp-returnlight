@@ -48,3 +48,21 @@ describe('profile HTTP boundary with mocked sessions and storage',()=>{
     expect((await app.request(`/api/avatars/${assetId}/invalid.webp`)).status).toBe(404);
   });
 });
+
+
+it('notifies active rooms only after the profile transaction commits',async()=>{
+  const notify=vi.fn(),user={id:'a',name:'新名字',email:'a@example.test',image:'/avatars/lantern-2.svg'};
+  mocks.session.mockResolvedValue({user:{id:'a',name:'旧名字'}});
+  let commit!:(value:unknown)=>void;
+  mocks.transaction.mockImplementation(()=>new Promise(resolve=>{commit=resolve;}));
+  const app=createApi({getRoom:()=>undefined,onAvatarUpdated:notify});
+  const pending=app.request('/api/profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:user.name,image:user.image})});
+  await vi.waitFor(()=>expect(commit).toBeDefined());expect(notify).not.toHaveBeenCalled();
+  commit(user);expect((await pending).status).toBe(200);expect(notify).toHaveBeenCalledExactlyOnceWith('a',user.image);
+  mocks.transaction.mockResolvedValue({...user,image:null});
+  expect((await app.request('/api/profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:user.name,image:null})})).status).toBe(200);
+  expect(notify).toHaveBeenLastCalledWith('a',null);
+  notify.mockClear();mocks.transaction.mockRejectedValue(new Error('Commit failed'));
+  const logging=vi.spyOn(console,'error').mockImplementation(()=>{});
+  try{expect((await app.request('/api/profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:user.name,image:null})})).status).toBe(503);expect(notify).not.toHaveBeenCalled();}finally{logging.mockRestore();}
+});

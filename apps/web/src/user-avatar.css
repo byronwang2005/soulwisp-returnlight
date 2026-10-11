@@ -1,0 +1,27 @@
+:where(.user-avatar){display:block;width:32px;height:32px;flex:none;object-fit:cover;object-position:center;border:1px solid var(--line);border-radius:8px;box-sizing:border-box}
+:where(.user-avatar.avatar-fallback){display:grid;place-items:center;background:var(--surface);color:var(--gold-light);font-family:var(--serif);font-size:16px;line-height:1}
+.user-avatar--24{width:24px;height:24px;border-radius:6px;font-size:12px}
+.user-avatar--32{width:32px;height:32px}
+.user-avatar--40{width:40px;height:40px;border-radius:10px;font-size:18px}
+.user-avatar--56{width:56px;height:56px;border-radius:14px;font-size:24px}
+.camp-welcome{display:flex;align-items:center;gap:16px;min-width:0}
+.camp-welcome-copy{min-width:0}
+.camp-welcome-copy h1{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.identity-copy{min-width:0;flex:1}
+.identity .identity-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:500;margin-bottom:4px}
+.identity>.user-avatar{font-size:18px;color:var(--gold-light)}
+.council-speaker{display:inline-flex;align-items:center;gap:8px;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.vote-grid .user-avatar{font-size:16px;color:var(--gold-light)}
+.vote-grid strong{max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-log .chat-message{display:flex;align-items:flex-start;gap:10px}
+.chat-log .chat-message>.user-avatar{display:grid}
+.chat-message-copy{flex:1;min-width:0;overflow-wrap:anywhere}
+.chat-message-copy>b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result-roster>div{align-items:center;min-width:0;gap:10px}
+.result-player-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result-roster b{flex:none}
+.expedition-overflow li{align-items:center;gap:10px;min-width:0}
+.expedition-overflow li>strong{flex:1;min-width:0;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.expedition-overflow li>.avatar-fallback{color:var(--gold-light)}
+.expedition-overflow li>span:last-child{flex:none}
+@media(max-width:600px){.camp-welcome{gap:12px}.camp-welcome-copy .eyebrow{font-size:8px;letter-spacing:.08em}.expedition-seats li{gap:10px}.result-roster>div{gap:8px}}

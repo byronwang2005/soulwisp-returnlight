@@ -9,4 +9,5 @@ import './viewport.css';
 import './bronze-theme.css';
 import './scene-ui.css';
 import './brand.css';
+import './user-avatar.css';
 createRoot(document.getElementById('root')!).render(<App />);

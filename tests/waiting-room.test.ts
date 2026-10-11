@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-const fake=vi.hoisted(()=>({create:vi.fn(),reserve:vi.fn(),settle:vi.fn(),camp:vi.fn()}));
+const fake=vi.hoisted(()=>({create:vi.fn(),reserve:vi.fn(),settle:vi.fn(),camp:vi.fn(),image:vi.fn()}));
 vi.mock('@colyseus/core',()=>({
   matchMaker:{createRoom:fake.create,reserveSeatFor:fake.reserve},
   Room:class {
@@ -11,11 +11,11 @@ vi.mock('@colyseus/core',()=>({
   },
 }));
 vi.mock('../apps/server/src/accounts.js',()=>({
-  verifyGameTicket:(ticket:string)=>({userId:ticket,name:ticket}),issueGameTicket:(id:string)=>id,getCamp:fake.camp,settleMatch:fake.settle,
+  verifyGameTicket:(ticket:string)=>({userId:ticket,name:ticket}),issueGameTicket:(id:string)=>id,getAccountImage:fake.image,getCamp:fake.camp,settleMatch:fake.settle,
 }));
 vi.mock('../apps/server/src/deployment.js',()=>({assertAdmissionOpen:()=>{},isDraining:()=>false}));
 import { WaitingRoom } from '../apps/server/src/waiting-room.js';
-import { ExpeditionRoom, rooms, pendingSettlements, setVoiceLobby } from '../apps/server/src/rooms.js';
+import { ExpeditionRoom, rooms, syncAccountAvatar, pendingSettlements, setVoiceLobby } from '../apps/server/src/rooms.js';
 import { INTERNAL_CREATE_KEY } from '../apps/server/src/match-control.js';
 const flush=async()=>{for(let i=0;i<35;i++)await Promise.resolve();};
 function peer(id:string){return {sessionId:id,auth:{id,name:id,preference:'warden'},send:vi.fn(),leave:vi.fn(async()=>{})};}
@@ -23,6 +23,7 @@ let waiting:WaitingRoom;
 beforeEach(()=>{
   vi.useFakeTimers();vi.setSystemTime(0);vi.clearAllMocks();rooms.clear();
   fake.camp.mockResolvedValue({cosmetics:['base','outfit-warden'],equipment:{profession:'warden',form:1,cosmeticId:'outfit-warden'}});
+  fake.image.mockResolvedValue(null);
   fake.settle.mockResolvedValue(undefined);
   fake.create.mockImplementation(async(_name,options)=>{const room=new ExpeditionRoom();room.roomId='test-game';await room.onCreate(options);return {roomId:room.roomId};});
   fake.reserve.mockImplementation(async(cache,options)=>({room:cache,options}));
@@ -83,5 +84,62 @@ describe('authoritative waiting room handoff',()=>{
     const logging=vi.spyOn(console,'error').mockImplementation(()=>{});
     try {const {peers}=await launch();expect(fake.reserve).not.toHaveBeenCalled();expect(peers.every(p=>!p.send.mock.calls.some(([type])=>type==='matchSeat'))).toBe(true);expect(waiting.coordinator.busy).toBe(false);}
     finally{setVoiceLobby(undefined as never);logging.mockRestore();}
+  });
+});
+
+
+describe('account avatars in authorized room views',()=>{
+  it('reads the avatar from the account instead of client join options',async()=>{
+    fake.image.mockResolvedValue('/avatars/lantern-3.svg');
+    const account=await waiting.onAuth({} as never,{ticket:'a',image:'/avatars/lantern-6.svg'} as never);
+    expect(fake.image).toHaveBeenCalledWith('a');expect(account.image).toBe('/avatars/lantern-3.svg');
+    const client=peer('a');Object.assign(client.auth,account);waiting.onJoin(client as never);
+    expect(waiting.coordinator.snapshot('a').members[0]).toMatchObject({id:'a',image:account.image});
+    expect(waiting.coordinator.snapshot('a').members[0]).not.toHaveProperty('email');
+  });
+  it('transfers the avatar and pushes replacements and clears without changing game identity',async()=>{
+    const {room,peers}=await launch();const clients=await admit(room);
+    const update=(image:string|null)=>{waiting.updateAvatar('a',image);syncAccountAvatar('a',image);};
+    update('/avatars/lantern-2.svg');
+    for(const client of clients){const view=client.send.mock.calls.filter(([type])=>type==='view').at(-1)![1];expect(view.players.find((p:{id:string})=>p.id==='a')).toMatchObject({name:'a',image:'/avatars/lantern-2.svg'});expect(view.players.find((p:{id:string})=>p.id==='b').image).toBeNull();}
+    expect(room.engine.viewFor('a').players[0]).not.toHaveProperty('image');
+    const before=room.engine.viewFor('a');update(null);
+    const view=clients[0].send.mock.calls.filter(([type])=>type==='view').at(-1)![1];
+    expect(view.players.find((p:{id:string})=>p.id==='a').image).toBeNull();
+    expect(room.engine.viewFor('a')).toEqual(before);
+    room.engine.invalidate('Test return');waiting.coordinator.gameState(waiting.coordinator.matchId!, 'RESULT',0,true);
+    waiting.coordinator.returnEarly('a');await flush();
+    expect(waiting.coordinator.snapshot('a').members.find(m=>m.id==='a')?.image).toBeNull();
+    expect(peers[0].auth.name).toBe('a');
+  });
+  it('keeps saves made during asynchronous room creation when transferring',async()=>{
+    fake.create.mockImplementationOnce(async(_name,options)=>{
+      const room=new ExpeditionRoom();room.roomId='test-game';await room.onCreate(options);
+      waiting.updateAvatar('a','/avatars/lantern-4.svg');
+      return {roomId:room.roomId};
+    });
+    const {room}=await launch();const clients=await admit(room);
+    const view=clients[0].send.mock.calls.filter(([type])=>type==='view').at(-1)![1];
+    expect(view.players.find((p:{id:string})=>p.id==='a').image).toBe('/avatars/lantern-4.svg');
+  });
+  it('carries the initial account avatar into the match selection',async()=>{
+    const peers=['a','b','c','d'].map(peer);
+    Object.assign(peers[0].auth,{image:'/avatars/lantern-1.svg'});
+    peers.forEach(p=>waiting.onJoin(p as never));peers.forEach(p=>waiting.coordinator.command(p.auth.id,{type:'ready',ready:true}));
+    vi.setSystemTime(10000);waiting.coordinator.tick();await flush();
+    const clients=await admit(rooms.get('test-game')!);
+    const view=clients[0].send.mock.calls.filter(([type])=>type==='view').at(-1)![1];
+    expect(view.players.find((p:{id:string})=>p.id==='a').image).toBe('/avatars/lantern-1.svg');
+  });
+  it('reloads the current database avatar on waiting reconnection',async()=>{
+    const client=peer('a');waiting.onJoin(client as never);waiting.onLeave(client as never);
+    fake.image.mockResolvedValue('/avatars/lantern-5.svg');await waiting.onReconnect(client as never);
+    expect(waiting.coordinator.snapshot('a').members[0]).toMatchObject({name:'a',image:'/avatars/lantern-5.svg',ready:false});
+  });
+  it('keeps the current avatar across expedition reconnection',async()=>{
+    const {room}=await launch();const clients=await admit(room);
+    syncAccountAvatar('a','/avatars/lantern-6.svg');room.engine.disconnect('a');room.onReconnect(clients[0] as never);
+    const view=clients[0].send.mock.calls.filter(([type])=>type==='view').at(-1)![1];
+    expect(view.players.find((p:{id:string})=>p.id==='a')).toMatchObject({image:'/avatars/lantern-6.svg',connected:true});
   });
 });

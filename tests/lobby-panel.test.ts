@@ -29,3 +29,11 @@ it('joins the game waiting queue even if optional voice fails',async()=>{
 it('reports unavailable lobby state instead of displaying an idle game',()=>{
   const html=renderToStaticMarkup(createElement(VoiceLobby,{...props,summary:{waiting:0,game:null,available:false}}));expect(html).toContain('等待区服务暂未连接');expect(html).toContain('等待连接');expect(html).not.toContain('等待出发');
 });
+
+
+it('renders candidate and overflow avatars by account ID while leaving empty seats unadorned',()=>{
+  const members=[{...lobby.members[0],name:'同名',image:'/avatars/lantern-1.svg'},{...lobby.members[1],name:'同名',image:'/avatars/lantern-2.svg'},{...lobby.members[0],id:'c',name:'候场',candidate:false,image:'/avatars/lantern-3.svg'}];
+  const html=renderToStaticMarkup(createElement(VoiceLobby,{...props,lobby:{...lobby,members}}));
+  for(const image of members.map(m=>m.image))expect(html).toContain(`src="${image}"`);
+  expect(html.match(/class="user-avatar /g)).toHaveLength(3);expect(html).toContain('seat-number');expect(html).toContain('已准备');expect(html).toContain('候场队列');expect(html).toContain('alt="" aria-hidden="true"');
+});

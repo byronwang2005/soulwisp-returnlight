@@ -2,7 +2,7 @@ import { randomInt, randomUUID } from 'node:crypto';
 import { getConfig } from '@wangxu/rules';
 import { PROFESSION_NAMES, type LobbyCommand, type LobbyView, type Phase, type Profession } from '@wangxu/shared';
 
-export interface LobbyAccount { id: string; name: string; preference: Profession | null }
+export interface LobbyAccount { id: string; name: string; image?: string | null; preference: Profession | null }
 interface Member extends LobbyAccount { order: number; ready: boolean; connected: boolean; area: 'waiting' | 'playing' }
 export interface MatchSelection extends LobbyAccount { slot: number; profession: Profession }
 interface Match { id: string; roomId: string | null; ids: string[]; stage: 'transferring' | 'playing' | 'result' | 'closing'; deadline: number | null; phase: Phase | null; remaining: number; returnOrders: Map<string, number> }
@@ -43,10 +43,17 @@ export class LobbyCoordinator {
   isWaiting(id: string) { const m = this.members.get(id); return Boolean(m?.connected && m.area === 'waiting'); }
   isPlaying(id: string) { return this.match?.ids.includes(id) === true && this.members.get(id)?.area === 'playing'; }
   private waiting() { return [...this.members.values()].filter(m => m.area === 'waiting' && m.connected).sort((a,b) => a.order-b.order); }
+  avatarFor(id: string) { return this.members.get(id)?.image ?? null; }
+  updateAvatar(id: string, image: string | null) {
+    const member = this.members.get(id);
+    if (!member) return;
+    member.image = image;
+    this.effects.changed?.();
+  }
   join(account: LobbyAccount) {
     const existing = this.members.get(account.id);
     if (existing?.connected) throw new Error('此账户已在大厅，请使用原页面');
-    if (existing?.area === 'playing') { existing.connected = true; existing.name = account.name; }
+    if (existing?.area === 'playing') { existing.connected = true; existing.image = account.image ?? null; }
     else this.members.set(account.id, { ...account, order: ++this.order, ready: false, connected: true, area: 'waiting' });
     this.check();
   }
@@ -133,7 +140,7 @@ export class LobbyCoordinator {
   snapshot(selfId: string): LobbyView {
     const waiting = this.waiting(); const candidates = this.countdown?.ids ?? waiting.slice(0,10).map(m => m.id);
     const match = this.match;
-    return { selfId, members: waiting.map((m,index) => ({ id: m.id, name: m.name, ready: m.ready, preference: m.preference, position: index+1, candidate: candidates.includes(m.id) })),
+    return { selfId, members: waiting.map((m,index) => ({ id: m.id, name: m.name, image: m.image ?? null, ready: m.ready, preference: m.preference, position: index+1, candidate: candidates.includes(m.id) })),
       selfArea: this.members.get(selfId)?.area ?? 'waiting', countdown: this.countdown ? Math.max(0,Math.ceil((this.countdown.deadline-this.now())/1000)) : null,
       game: match ? { stage: match.stage, players: match.ids.length, phase: match.phase, remaining: match.remaining } : null, draining: this.draining() };
   }

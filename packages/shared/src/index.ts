@@ -10,7 +10,7 @@ export type RegionTheme='hall'|'bell'|'mine'|'library'|'gate'|'garden'|'machine'
 export interface MapNode extends Vec2 { id:string; name:string; radius:number; artTheme?:RegionTheme }
 export interface VisionView {matchKey:string;radius:number;bonuses:string[];occluded:Vec2[][]}
 export interface WorldObject extends Vec2 { id:string; kind:'resource'|'beacon'|'altar'|'core'|'cleanse'|'elite'|'chest'|'deposit'|'exit'|'bridge'; name:string; active:boolean; progress:number; amount?:number; hp?:number; owner?:string; }
-export interface PlayerView { id:string; name:string; slot:number; profession:Profession; form:number; cosmetic:string; ready:boolean; connected:boolean; sealed:boolean; down:boolean; hp:number; maxHp:number; x:number|null; y:number|null; facing?:Vec2; shield:number; transformed:boolean; carryingCore:boolean; }
+export interface PlayerView { id:string; name:string; image?:string|null; slot:number; profession:Profession; form:number; cosmetic:string; ready:boolean; connected:boolean; sealed:boolean; down:boolean; hp:number; maxHp:number; x:number|null; y:number|null; facing?:Vec2; shield:number; transformed:boolean; carryingCore:boolean; }
 export interface Evidence { id:string; source:'system'|'observation'|'claim'; text:string; chapter:number; at:number; author?:string; }
 export interface RelicItem { id:string; contentId:string; name:string; value:number; stored?:boolean; }
 export interface FeedbackEvent { id:number;kind:'hit'|'hurt'|'block'|'push'|'collision'|'pickup'|'complete'|'down'|'rescue'|'cast'|'dodge';x:number;y:number;targetId?:string;power:number;at:number; }
@@ -43,6 +43,6 @@ export const RECIPES:Recipe[]=[
 export interface VoiceLobbyInfo { available: boolean; online: number; capacity: number; url: string | null }
 export interface VoiceLobbyTicket { token: string; url: string; epoch: string }
 
-export interface LobbyMemberView { id: string; name: string; ready: boolean; preference: Profession | null; position: number; candidate: boolean }
+export interface LobbyMemberView { id: string; name: string; image?: string | null; ready: boolean; preference: Profession | null; position: number; candidate: boolean }
 export interface LobbyView { selfId: string; selfArea: 'waiting' | 'playing'; members: LobbyMemberView[]; countdown: number | null; draining: boolean; game: { stage: 'transferring' | 'playing' | 'result' | 'closing'; players: number; phase: Phase | null; remaining: number } | null }
 export type LobbyCommand = { type: 'ready'; ready: boolean } | { type: 'preference'; profession: Profession | null };

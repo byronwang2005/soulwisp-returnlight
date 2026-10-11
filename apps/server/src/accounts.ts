@@ -25,6 +25,11 @@ export const auth = betterAuth({
   user: { deleteUser: { enabled: false } },
 });
 export const getSession = (headers: Headers) => auth.api.getSession({ headers });
+export async function getAccountImage(userId: string): Promise<string | null> {
+  const [user] = await db.select({image: schema.user.image}).from(schema.user).where(eq(schema.user.id, userId));
+  if (!user) throw new AccountError('NO_ACCOUNT', '账户不存在', 404);
+  return user.image;
+}
 
 export class AccountError extends Error {
   constructor(public readonly code: string, message: string, public readonly status: 400 | 401 | 403 | 404 | 409 = 400) { super(message); }

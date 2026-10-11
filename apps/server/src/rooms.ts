@@ -8,6 +8,9 @@ import type { VoiceService } from './voice.js';
 import type { VoiceLobbyService } from './voice-lobby.js';
 import { assertAdmissionOpen } from './deployment.js';
 
+export function syncAccountAvatar(id: string, image: string | null) {
+ for (const room of rooms.values()) room.updateAvatar(id, image);
+}
 export const pendingSettlements=new Set<Promise<unknown>>();
 export const rooms=new Map<string,ExpeditionRoom>();
 const activeUsers=new Map<string,string>();
@@ -73,7 +76,8 @@ export class ExpeditionRoom extends Room {
   if(++this.sendTick%2===0)this.sendViews();
   if(voiceService&&!this.voiceSyncing&&!(this.engine.phase==='DISCUSS'&&(this.closedChapter===this.engine.chapter||this.closeRequested))){this.voiceSyncing=true;void voiceService.syncRoom(this.roomId,this.engine.getVoiceState()).catch(error=>console.error('[voice]',error.message)).finally(()=>{this.voiceSyncing=false;});}
  }
- private sendViews(){for(const client of this.clients){try{const view=this.engine.viewFor((client.auth as Auth).userId);const state=voiceService?.snapshot(this.roomId);view.returnIn=this.resultAt===null?undefined:Math.max(0,Math.ceil((this.resultAt+15000-Date.now())/1000));view.settlementPending=this.pending;view.voice.epoch=state?.epoch??null;view.voice.enabled=view.phase==='DISCUSS'&&!!state?.epoch;client.send('view',view);if(this.settlementError)client.send('error',{message:'结算暂未入库，服务正在重试。'});}catch{}}}
+ updateAvatar(id:string,image:string|null){const member=this.selection.get(id);if(!member)return;member.image=image;this.sendViews();}
+ private sendViews(){for(const client of this.clients){try{const view=this.engine.viewFor((client.auth as Auth).userId);view.players=view.players.map(player=>({...player,image:this.selection.get(player.id)?.image??null}));const state=voiceService?.snapshot(this.roomId);view.returnIn=this.resultAt===null?undefined:Math.max(0,Math.ceil((this.resultAt+15000-Date.now())/1000));view.settlementPending=this.pending;view.voice.epoch=state?.epoch??null;view.voice.enabled=view.phase==='DISCUSS'&&!!state?.epoch;client.send('view',view);if(this.settlementError)client.send('error',{message:'结算暂未入库，服务正在重试。'});}catch{}}}
  private save(settlement:Settlement){this.pending=true;this.writes=this.writes.then(async()=>{for(let attempt=0;;attempt++){try{await settleMatch(settlement);this.pending=false;this.settlementError=null;this.broadcast('settlementCommitted',{matchId:settlement.matchId});notifySettlement([...this.selection.keys()]);return;}catch(error){this.settlementError=(error as Error).message;console.error('[settlement] retry',attempt,this.settlementError);await new Promise(resolve=>setTimeout(resolve,Math.min(30000,1000*2**Math.min(attempt,5))));}}}).catch(error=>{console.error(error);});const task=this.writes;pendingSettlements.add(task);void task.finally(()=>pendingSettlements.delete(task));}
  hasPlayer(id:string){return this.engine.players.has(id);}
  async onDispose(){for(const p of this.engine?.players.values()??[])if(activeUsers.get(p.id)===this.roomId)activeUsers.delete(p.id);await voiceService?.closeRoom(this.roomId).catch(()=>{});rooms.delete(this.roomId);}

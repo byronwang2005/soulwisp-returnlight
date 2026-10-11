@@ -10,7 +10,7 @@ import { reserveWaiting, type WaitingRoom } from './waiting-room.js';
 import { LobbyVoiceError, type VoiceLobbyService } from './voice-lobby.js';
 
 export interface ApiEngine { getVoiceState(): VoiceState }
-export interface ApiOptions { getRoom: (id: string) => { engine: ApiEngine } | ApiEngine | undefined; voiceService?: VoiceService; voiceLobby?: VoiceLobbyService; lobby?: () => WaitingRoom | undefined }
+export interface ApiOptions { getRoom: (id: string) => { engine: ApiEngine } | ApiEngine | undefined; voiceService?: VoiceService; voiceLobby?: VoiceLobbyService; lobby?: () => WaitingRoom | undefined; onAvatarUpdated?: (id: string, image: string | null) => void }
 type Variables = { account: { id: string; name: string } };
 const origins = () => [...new Set([process.env.AUTH_BASE_URL ?? process.env.AUTH_URL ?? process.env.BETTER_AUTH_URL ?? process.env.PUBLIC_APP_URL ?? 'http://localhost:5180',
   ...(process.env.ALLOWED_ORIGINS ?? process.env.TRUSTED_ORIGINS ?? '').split(',').map(origin => origin.trim()).filter(Boolean)])];
@@ -77,7 +77,9 @@ export function createApi(options: ApiOptions) {
     return actualBodyLimit(c.req.path==='/api/profile'?96*1024:32_768)(c,next);
   });
   app.post('/api/profile', async c => {
-    return c.json({user:await saveProfile(profileRepository,c.get('account').id,await c.req.json())});
+    const user=await saveProfile(profileRepository,c.get('account').id,await c.req.json());
+    options.onAvatarUpdated?.(user.id,user.image);
+    return c.json({user});
   });
   app.get('/api/camp', async c => c.json(await getCamp(c.get('account').id)));
   app.post('/api/lobby/join', async c => c.json(await reserveWaiting(c.get('account'))));

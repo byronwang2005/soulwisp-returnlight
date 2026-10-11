@@ -87,3 +87,15 @@ describe('profession preference assignment',()=>{
     expect([...engine.players.values()].filter(p=>p.faction==='wolf')).toHaveLength(1);expect(engine.command('0',{type:'chooseForm',form:0})).toBe(false);
   });
 });
+
+it('updates only the matching avatar while preserving queue order, readiness and the countdown',()=>{
+  const s=setup();for(const id of ['a','b','c','d']){s.lobby.join({id,name:'同名',preference:'warden',image:'/avatars/lantern-1.svg'});s.ready(id);}
+  const before=s.lobby.snapshot('a');s.effects.changed.mockClear();
+  s.lobby.updateAvatar('b','/avatars/lantern-2.svg');
+  const after=s.lobby.snapshot('a');expect(after.countdown).toBe(before.countdown);
+  expect(after.members.map(({image,...member})=>member)).toEqual(before.members.map(({image,...member})=>member));
+  expect(after.members.map(member=>member.image)).toEqual(['/avatars/lantern-1.svg','/avatars/lantern-2.svg','/avatars/lantern-1.svg','/avatars/lantern-1.svg']);
+  expect(s.effects.changed).toHaveBeenCalledOnce();s.lobby.updateAvatar('unknown',null);expect(s.effects.changed).toHaveBeenCalledOnce();
+  s.lobby.updateAvatar('b',null);s.advance(10000);
+  expect(s.effects.start.mock.calls[0][1].find((member:{id:string})=>member.id==='b')).toMatchObject({name:'同名',image:null});
+});

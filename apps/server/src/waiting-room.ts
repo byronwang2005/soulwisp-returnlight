@@ -1,7 +1,7 @@
 import { matchMaker, Room, type Client } from '@colyseus/core';
 import type { IRoomCache } from '@colyseus/core';
 import { randomUUID } from 'node:crypto';
-import { getCamp, issueGameTicket, verifyGameTicket } from './accounts.js';
+import { getAccountImage, getCamp, issueGameTicket, verifyGameTicket } from './accounts.js';
 import { assertAdmissionOpen, isDraining } from './deployment.js';
 import { LobbyCoordinator, type LobbyAccount, type MatchSelection } from './lobby-coordinator.js';
 import { INTERNAL_CREATE_KEY, setLobbyCoordinator, setSettlementNotifier } from './match-control.js';
@@ -47,8 +47,8 @@ export class WaitingRoom extends Room {
     if (typeof options.ticket !== 'string') throw new Error('请先登录');
     const ticket = verifyGameTicket(options.ticket);
     if (this.sessions.has(ticket.userId)) throw new Error('此账户已在大厅，请使用原页面');
-    const camp = await getCamp(ticket.userId);
-    return { id: ticket.userId, name: ticket.name, preference: camp.equipment.profession } satisfies LobbyAccount;
+    const [camp, image] = await Promise.all([getCamp(ticket.userId), getAccountImage(ticket.userId)]);
+    return { id: ticket.userId, name: ticket.name, image, preference: camp.equipment.profession } satisfies LobbyAccount;
   }
   onJoin(client: Client) {
     const account = client.auth as LobbyAccount;
@@ -61,7 +61,16 @@ export class WaitingRoom extends Room {
     this.detach(client);
     try { await this.allowReconnection(client, 60); } catch { /* A new join gets a new queue position. */ }
   }
-  onReconnect(client: Client) { this.onJoin(client); }
+  async onReconnect(client: Client) {
+    const account = client.auth as LobbyAccount;
+    account.image = await getAccountImage(account.id);
+    this.onJoin(client);
+  }
+  updateAvatar(id: string, image: string | null) {
+    const client = this.sessions.get(id);
+    if (client) (client.auth as LobbyAccount).image = image;
+    this.coordinator.updateAvatar(id, image);
+  }
   onLeave(client: Client) { this.detach(client); }
   private detach(client: Client) {
     const id = (client.auth as LobbyAccount)?.id;
@@ -79,6 +88,8 @@ export class WaitingRoom extends Room {
       roomId = cache.roomId; this.matches.set(id, roomId);
       if (!this.coordinator.attach(id, roomId)) { this.matches.delete(id);await rooms.get(roomId)?.disconnect(); return; }
       const room = rooms.get(roomId)!;
+      // Profile saves can happen while the room is being created.
+      for (const member of selected) room.updateAvatar(member.id, this.coordinator.avatarFor(member.id));
       await room.revokeWaitingVoice();
       const reservations = await Promise.all(selected.map(async member => ({ id: member.id, reservation: await matchMaker.reserveSeatFor(cache, { ticket: issueGameTicket(member.id, member.name), seatKey: member.seatKey }) })));
       if (this.coordinator.matchId !== id) { await room.disconnect(); return; }

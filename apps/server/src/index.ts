@@ -5,7 +5,7 @@ import { Server } from '@colyseus/core';
 import { WebSocketTransport } from '@colyseus/ws-transport';
 import { createApi } from './api.js';
 import { migrateDatabase, pool } from './db/index.js';
-import { ExpeditionRoom, rooms, setVoiceService, hasActiveExpedition, setVoiceLobby, pendingSettlements } from './rooms.js';
+import { ExpeditionRoom, rooms, syncAccountAvatar, setVoiceService, hasActiveExpedition, setVoiceLobby, pendingSettlements } from './rooms.js';
 import { createVoiceService, getVoiceConfig } from './voice.js';
 import { WaitingRoom, createWaitingRoom, waitingRoom } from './waiting-room.js';
 import { lobbyCoordinator } from './match-control.js';
@@ -14,7 +14,7 @@ if(!process.env.AUTH_SECRET||process.env.AUTH_SECRET.length<32)throw new Error('
 await migrateDatabase();
 const voice=createVoiceService();if(voice)setVoiceService(voice);
 const voiceConfig=getVoiceConfig();const lobby=voiceConfig?new VoiceLobbyService(voiceConfig,hasActiveExpedition,{cleanupPreviousInstances:process.env.NODE_ENV==='production',cleanupLegacy:process.env.NODE_ENV==='production',canJoin:id=>lobbyCoordinator?.isWaiting(id)===true}):undefined;if(lobby)setVoiceLobby(lobby);
-const app=createApi({getRoom:id=>{const room=rooms.get(id);return room?.allowsVoiceAdmission()?room:undefined;},voiceService:voice,voiceLobby:lobby,lobby:()=>waitingRoom});
+const app=createApi({getRoom:id=>{const room=rooms.get(id);return room?.allowsVoiceAdmission()?room:undefined;},voiceService:voice,voiceLobby:lobby,lobby:()=>waitingRoom,onAvatarUpdated:(id,image)=>{waitingRoom?.updateAvatar(id,image);syncAccountAvatar(id,image);}});
 const httpServer=serve({fetch:app.fetch,port:Number(process.env.API_PORT??3000),hostname:'0.0.0.0'});
 const game=new Server({transport:new WebSocketTransport({maxPayload:16*1024}),gracefullyShutdown:false,auth:false,express:app=>{app.get('/health',(_req:{},res:{json:(value:unknown)=>void})=>res.json({ok:true,rooms:rooms.size}));}});
 game.define('expedition',ExpeditionRoom);
