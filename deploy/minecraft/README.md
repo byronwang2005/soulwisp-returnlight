@@ -29,7 +29,7 @@ Run from `/opt/minecraft-create`:
 docker compose exec -T minecraft rcon-cli whitelist add PLAYER_NAME
 docker compose exec -T minecraft rcon-cli whitelist list
 docker compose exec -T minecraft rcon-cli list
-docker compose exec -T minecraft rcon-cli forge tps
+docker compose exec -T minecraft rcon-cli neoforge tps
 docker compose logs --tail=100 minecraft
 docker stats --no-stream
 ```
