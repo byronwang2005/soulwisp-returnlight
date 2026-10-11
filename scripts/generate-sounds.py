@@ -115,11 +115,11 @@ def main():
             path.write_bytes(data)
         archives.append(zipfile.ZipFile(io.BytesIO(data)))
     (OUTPUT / 'LICENSE.txt').write_text('All sound assets in this directory are CC0-1.0.\n'
-        'Original lobby cues: Soulwisp: Returnlight.\nFootsteps: Kenney Impact Sounds 1.0; TinyWorlds / pdsounds.org gravel.\n'
+        'Original lobby and combat cues: Soulwisp: Returnlight.\nFootsteps: Kenney Impact Sounds 1.0; TinyWorlds / pdsounds.org gravel.\n'
         'Source URLs, archive hashes and processing are recorded in manifest.json.\n'
         'CC0 legal code: https://creativecommons.org/publicdomain/zero/1.0/legalcode\n\n'
         + '\n'.join(line.rstrip() for line in archives[0].read('License.txt').decode().splitlines())+'\n', encoding='utf8')
-    gravel = decode(archives[1].read('gravel.ogg'), filters='highpass=f=450,lowpass=f=6500')[:, 0]
+    gravel = decode(archives[1].read('gravel.ogg'), filters='highpass=f=180,lowpass=f=1800')[:, 0]
     gravel = gravel[:round(.18*RATE)] * np.exp(-np.arange(min(len(gravel),round(.18*RATE)))/RATE*10)
     gravel[-round(.004*RATE):] *= np.linspace(1,0,round(.004*RATE))
     assets, sounds = [], {}
@@ -132,17 +132,38 @@ def main():
         rough = np.pad(stone, (0, length-len(stone)))
         offset = round((.012+i*.003)*RATE)
         grit = np.pad(gravel, (offset, max(0, length-len(gravel)-offset)))[:length]
-        rough += grit*(np.max(np.abs(stone))/max(np.max(np.abs(gravel)), .001))*.38
-        sounds[f'cobble-{i}'] = calibrate(rough, .24)
+        rough += grit*(np.max(np.abs(stone))/max(np.max(np.abs(gravel)), .001))*.18
+        # Round off the entire sole/grit attack, not only the added gravel.
+        raw = subprocess.run(['ffmpeg','-v','error','-f','f32le','-ar',str(RATE),'-ac','1','-i','pipe:0',
+            '-af','lowpass=f=2400,lowpass=f=2400','-f','f32le','pipe:1'], input=rough.astype('<f4').tobytes(), check=True, capture_output=True).stdout
+        sounds[f'cobble-{i}'] = calibrate(np.frombuffer(raw,dtype='<f4').astype(np.float64), .24)
+    # Original deterministic sword layers: swept air and body; confirmed impact adds a hard transient.
+    rng = np.random.default_rng(20261012)
+    for kind, duration, target in [('swing',.20,.30), ('hit',.22,.38)]:
+        t = np.arange(round(duration*RATE))/RATE
+        air = rng.normal(0,1,len(t))
+        raw = subprocess.run(['ffmpeg','-v','error','-f','f32le','-ar',str(RATE),'-ac','1','-i','pipe:0',
+            '-af','highpass=f=180,lowpass=f=2800','-f','f32le','pipe:1'], input=air.astype('<f4').tobytes(), check=True, capture_output=True).stdout
+        air = np.frombuffer(raw,dtype='<f4')
+        if kind == 'swing':
+            envelope = (1-np.exp(-t*100))*np.exp(-t*24)
+            signal = air*envelope + .32*np.sin(2*np.pi*(210*t-240*t*t))*envelope
+        else:
+            envelope = (1-np.exp(-t*1200))*np.exp(-t*38)
+            signal = air*envelope*.7 + np.sin(2*np.pi*(155*t-230*t*t))*np.exp(-t*24)
+            signal += .16*np.sin(2*np.pi*920*t)*np.exp(-t*65)
+        sounds['combat-'+kind] = calibrate(signal, target)
     for name, samples in sounds.items():
         path = OUTPUT / (name+'.wav')
         write_wav(path, samples)
-        source_files = [] if name.startswith('lobby') else [f'Audio/footstep_concrete_{int(name[-1]):03d}.ogg']
+        source_files = [] if name.startswith(('lobby','combat')) else [f'Audio/footstep_concrete_{int(name[-1]):03d}.ogg']
         if name.startswith('cobble'):
             source_files += ['gravel.ogg']
         assets.append(metadata(path, samples, sourceFiles=source_files,
-            processing='Original deterministic bell/click synthesis' if name.startswith('lobby') else
-            'Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85'))
+            processing='Original deterministic sword air/body/transient synthesis' if name.startswith('combat') else
+            'Original deterministic bell/click synthesis' if name.startswith('lobby') else
+            'Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85' if name.startswith('stone') else
+            'Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85'))
 
     music_manifest = json.loads((ROOT / 'apps/web/public/audio/manifest.json').read_text())
     music_rms = {}
@@ -150,7 +171,7 @@ def main():
         signal = decode((ROOT / ('apps/web/public'+track['file'])).read_bytes(), channels=2)
         music_rms[track['scene']] = float(np.sqrt(np.mean(signal**2)))
     loudest = max(music_rms.values())*.5*MUSIC_GAIN
-    step_margin = min(active_rms(sounds[name])*.5*EFFECT_GAIN*10**(-3/20) for name in sounds if not name.startswith('lobby'))
+    step_margin = min(active_rms(sounds[name])*.5*EFFECT_GAIN*10**(-3/20) for name in sounds if name.startswith(('stone','cobble')))
     lobby_margin = min(active_rms(sounds[name])*.5*EFFECT_GAIN for name in sounds if name.startswith('lobby'))
     calibration = {'musicGain': MUSIC_GAIN, 'effectsGain': EFFECT_GAIN, 'slider': .5,
         'musicRmsDecoded': {key:round(value,6) for key,value in music_rms.items()},
@@ -190,6 +211,7 @@ def main():
                 cues.append((start+i*36/(105*ratio),f'{surface}-{i}',10**((db-3)/20),0))
     previews.append(preview('preview-footsteps-50', cues))
     previews.append(preview('preview-direction-50', [(1,'stone-0',1,-.9),(2,'stone-1',1,.9),(3,'cobble-0',.45,-.6),(4,'cobble-1',.15,.6),(5,'cobble-2',10**(-6/20),-.6,True)]))
+    previews.append(preview('preview-combat-50', [(1,'combat-swing',1,0),(2,'combat-swing',1,0),(2.065,'combat-hit',1.05,0),(3,'combat-hit',1.05,0)]))
     manifest = {'license':'CC0-1.0', 'costRmb':0, 'sampleRate':RATE,
         'sources':SOURCES, 'assets':assets, 'calibration':calibration, 'previews':previews,
         'previewNote':'Equal-power stereo left/right and near/mid/far references; front/back HRTF is provided by the browser at runtime.'}

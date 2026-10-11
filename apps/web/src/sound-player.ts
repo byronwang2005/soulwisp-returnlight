@@ -11,7 +11,8 @@ const loading=new Map<string,Promise<void>>();
 const active=new Set<{source:AudioBufferSourceNode;gain:GainNode;priority:number;footstep:boolean;level:number}>();
 const variants:Record<FootstepSurface,number>={stone:-1,cobble:-1};
 const files=[...['enter','exit','mic-on','mic-off'].map(kind=>`lobby-${kind}`),
-  ...['stone','cobble'].flatMap(surface=>Array.from({length:5},(_,i)=>`${surface}-${i}`))];
+  ...['stone','cobble'].flatMap(surface=>Array.from({length:5},(_,i)=>`${surface}-${i}`)),
+  'combat-swing','combat-hit'];
 
 export function effectContext():AudioContext|undefined {return context;}
 export function unlockEffects():void {
@@ -38,7 +39,7 @@ export function applyEffectSettings():void {
   const settings=getEffectSettings();
   for(const sound of active){if(settings.muted||settings.volume===0)sound.source.stop();else sound.gain.gain.setTargetAtTime(settings.volume*AUDIO_MIX.effects*sound.level,context!.currentTime,.015);}
 }
-function play(file:string,level:number,event?:FootstepEvent):void {
+function play(file:string,level:number,event?:FootstepEvent,pan=0):void {
   const audio=context,buffer=buffers.get(file),settings=getEffectSettings();
   if(!audio||audio.state!=='running'||!buffer||settings.muted||settings.volume<=0||document.hidden)return;
   const priority=event?footstepPriority(event):5;
@@ -62,6 +63,7 @@ function play(file:string,level:number,event?:FootstepEvent):void {
     panner.positionX.value=point.x;panner.positionY.value=0;panner.positionZ.value=point.z;
     tail.connect(panner);tail=panner;nodes.push(panner);
   }
+  if(pan){const stereo=audio.createStereoPanner();stereo.pan.value=Math.max(-.8,Math.min(.8,pan));tail.connect(stereo);tail=stereo;nodes.push(stereo);}
   tail.connect(audio.destination);
   const sound={source,gain,priority,footstep:!!event,level};active.add(sound);
   source.onended=()=>{active.delete(sound);nodes.forEach(node=>node.disconnect());};
@@ -78,3 +80,5 @@ export function playFootsteps(events:FootstepEvent[]):void {
     play(`${event.surface}-${next}`,footstepLevel(event),event);
   }
 }
+
+export function playCombatSound(kind:'swing'|'hit',power=1,pan=0):void {play(`combat-${kind}`,Math.max(.25,Math.min(1,power))*(kind==='hit'?AUDIO_MIX.combatHit:1),undefined,pan);}

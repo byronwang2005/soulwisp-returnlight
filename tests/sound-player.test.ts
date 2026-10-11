@@ -7,7 +7,7 @@ vi.mock('../apps/web/src/audio-devices',()=>({bindAudioContext:state.bind}));
 const parameter=()=>({value:0,setTargetAtTime:vi.fn()});
 class Node {
   connect=vi.fn();disconnect=vi.fn();
-  gain=parameter();frequency=parameter();positionX=parameter();positionY=parameter();positionZ=parameter();
+  pan=parameter();gain=parameter();frequency=parameter();positionX=parameter();positionY=parameter();positionZ=parameter();
   playbackRate=parameter();panningModel='';rolloffFactor=1;type='';buffer:unknown;
   onended:(()=>void)|null=null;start=vi.fn();stop=vi.fn(()=>this.onended?.());
 }
@@ -19,6 +19,7 @@ class Context {
   resume=vi.fn(async()=>{});decodeAudioData=vi.fn(async()=>({duration:.2}));
   createBufferSource(){const node=new Node();this.sources.push(node);return node;}
   createGain(){return new Node();}
+  createStereoPanner(){const node=new Node();this.panners.push(node);return node;}
   createPanner(){const node=new Node();this.panners.push(node);return node;}
   createBiquadFilter(){const node=new Node();this.filters.push(node);return node;}
 }
@@ -33,13 +34,13 @@ describe('native audio graph without browser/device playback',()=>{
   afterEach(()=>{vi.unstubAllGlobals();vi.restoreAllMocks();});
   async function player(){
     const player=await import('../apps/web/src/sound-player');player.unlockEffects();
-    await vi.waitFor(()=>expect(Context.latest.decodeAudioData).toHaveBeenCalledTimes(14));
+    await vi.waitFor(()=>expect(Context.latest.decodeAudioData).toHaveBeenCalledTimes(16));
     // All decodes complete before testing synchronous event playback.
     await Promise.resolve();return player;
   }
   it('decodes once, binds device routing, uses HRTF and muffles only obstructed remote footsteps',async()=>{
     const p=await player(),ctx=Context.latest;p.preloadSounds();
-    expect(fetch).toHaveBeenCalledTimes(14);expect(state.bind).toHaveBeenCalled();
+    expect(fetch).toHaveBeenCalledTimes(16);expect(state.bind).toHaveBeenCalled();
     p.playFootsteps([event({occluded:true})]);
     expect(ctx.panners[0].panningModel).toBe('HRTF');expect(ctx.panners[0].rolloffFactor).toBe(0);
     expect(ctx.panners[0].positionX.value).toBe(1);expect(ctx.panners[0].positionZ.value).toBeCloseTo(0);
@@ -48,6 +49,16 @@ describe('native audio graph without browser/device playback',()=>{
     p.playFootsteps([{id:2,at:1,surface:'stone',pace:'normal',own:true}]);
     expect(ctx.panners).toHaveLength(1);expect(ctx.filters).toHaveLength(1);
     source.onended?.();expect(source.disconnect).toHaveBeenCalled();
+  });
+  it('plays stronger combat samples through the shared gain, pan and mute controls',async()=>{
+    const p=await player(),ctx=Context.latest;
+    p.playCombatSound('swing');p.playCombatSound('hit',.75,.4);
+    expect(ctx.sources).toHaveLength(2);
+    expect((ctx.sources[0].connect.mock.calls[0][0] as Node).gain.value).toBeCloseTo(.5*.65);
+    expect((ctx.sources[1].connect.mock.calls[0][0] as Node).gain.value).toBeCloseTo(.5*.65*.75*1.4);
+    expect(ctx.panners[0].pan.value).toBe(.4);
+    state.settings.muted=true;state.changed();expect(ctx.sources.every(s=>s.stop.mock.calls.length)).toBe(true);
+    p.playCombatSound('swing');expect(ctx.sources).toHaveLength(2);
   });
   it('caps footsteps at 16, keeps nearer and own sounds, and releases them on reset',async()=>{
     const p=await player(),ctx=Context.latest;

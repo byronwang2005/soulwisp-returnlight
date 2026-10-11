@@ -78,21 +78,21 @@
       "sourceFiles": [
         "Audio/footstep_concrete_000.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/cobble-0.wav",
       "bytes": 8684,
-      "sha256": "b52aa2f075a45a255b59e921e561df91969f6cfcb2d6a874d7e7ca2a04717e28",
+      "sha256": "ab5d1922a6d6f03136affc8ee2f526501e61ee71084e3ca822b8ad3e362a0691",
       "durationSeconds": 0.18,
       "channels": 1,
       "peak": 0.85,
-      "activeRms": 0.231302,
+      "activeRms": 0.233526,
       "sourceFiles": [
         "Audio/footstep_concrete_000.ogg",
         "gravel.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/stone-1.wav",
@@ -105,21 +105,21 @@
       "sourceFiles": [
         "Audio/footstep_concrete_001.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/cobble-1.wav",
       "bytes": 8684,
-      "sha256": "28ff5e1cb64a5a64c3243bbd41f4285b58a22ae4a234a8ded64402f44202fa1c",
+      "sha256": "f8424a32aa92df1d0a78ea8dfb975128781dcf64ff9addaccaa039f682ba2db8",
       "durationSeconds": 0.18,
       "channels": 1,
       "peak": 0.85,
-      "activeRms": 0.235305,
+      "activeRms": 0.236804,
       "sourceFiles": [
         "Audio/footstep_concrete_001.ogg",
         "gravel.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/stone-2.wav",
@@ -132,21 +132,21 @@
       "sourceFiles": [
         "Audio/footstep_concrete_002.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/cobble-2.wav",
       "bytes": 8684,
-      "sha256": "89dc4b5b1082bae79d2d3cfa2991ee707eddb65fdabf833fd8c3cce110e376d8",
+      "sha256": "ade19a9f8e0336e2109e935aa7ae7641553571c9d671759667e3ec98630a583e",
       "durationSeconds": 0.18,
       "channels": 1,
       "peak": 0.85,
-      "activeRms": 0.234474,
+      "activeRms": 0.236459,
       "sourceFiles": [
         "Audio/footstep_concrete_002.ogg",
         "gravel.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/stone-3.wav",
@@ -159,21 +159,21 @@
       "sourceFiles": [
         "Audio/footstep_concrete_003.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/cobble-3.wav",
       "bytes": 8684,
-      "sha256": "445e7e0746dc4b0956dccbaaf91b7333313c3229aa51a14c7442c2429f848f21",
+      "sha256": "09487869d6e0ef6f92e4f8894306d891d5fdda9df4e661b5162c5a06c355adca",
       "durationSeconds": 0.18,
       "channels": 1,
       "peak": 0.85,
-      "activeRms": 0.231456,
+      "activeRms": 0.233816,
       "sourceFiles": [
         "Audio/footstep_concrete_003.ogg",
         "gravel.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/stone-4.wav",
@@ -186,21 +186,43 @@
       "sourceFiles": [
         "Audio/footstep_concrete_004.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; stone HP 70 Hz / LP 7000 Hz; active-RMS calibration; peak <=0.85"
     },
     {
       "file": "/audio/sfx/cobble-4.wav",
       "bytes": 8684,
-      "sha256": "8324b388f479bd181397d7a930fedafa3ac6155b28d74c5a6deb72a56133ad14",
+      "sha256": "3444a4c3e02efbee3094fd12a5f148ffd86099a3e34d59253f202e5592dfed8a",
       "durationSeconds": 0.18,
       "channels": 1,
       "peak": 0.85,
-      "activeRms": 0.232865,
+      "activeRms": 0.235055,
       "sourceFiles": [
         "Audio/footstep_concrete_004.ogg",
         "gravel.ogg"
       ],
-      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble adds gravel at 0.38 relative peak; active-RMS calibration; peak <=0.85"
+      "processing": "Mono 24 kHz; DC removal; silence trim; 4 ms fades; high/low-pass; cobble gravel HP 180 Hz / LP 1800 Hz at 0.18 relative peak, mixed LP 2400 Hz twice; active-RMS calibration; peak <=0.85"
+    },
+    {
+      "file": "/audio/sfx/combat-swing.wav",
+      "bytes": 9644,
+      "sha256": "a9e6afdd217495399e21b4a76d06f2c4998fb025b3618851fc45ffd201ca4b5b",
+      "durationSeconds": 0.2,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.298332,
+      "sourceFiles": [],
+      "processing": "Original deterministic sword air/body/transient synthesis"
+    },
+    {
+      "file": "/audio/sfx/combat-hit.wav",
+      "bytes": 9680,
+      "sha256": "cd7b77fc16c21521dd959276687b2c9d94e6c49362b8b1d6f66e9abf2b803c5e",
+      "durationSeconds": 0.20075,
+      "channels": 1,
+      "peak": 0.85,
+      "activeRms": 0.370048,
+      "sourceFiles": [],
+      "processing": "Original deterministic sword air/body/transient synthesis"
     }
   ],
   "calibration": {
@@ -228,7 +250,7 @@
       "connecting": 0.166957,
       "auth": 0.161548
     },
-    "minimumFootstepMarginDb": 9.417,
+    "minimumFootstepMarginDb": 9.5,
     "minimumLobbyMarginDb": 14.676,
     "rmsMethod": "Short sounds: contiguous active span above 1% peak. Music: full decoded stereo RMS. Own normal footsteps use -3 dB gain."
   },
@@ -275,11 +297,11 @@
     {
       "file": "/audio/sfx/preview-footsteps-50.wav",
       "bytes": 1039088,
-      "sha256": "a6251c4d2bd2b18f1eba50449d74d6ce38e8cdea1b6aed7600c9ae3604310b6d",
+      "sha256": "affba1ec019f5800b4f4b9a9f60130420074762268b1b2649561eae6a91d5d9d",
       "durationSeconds": 10.823375,
       "channels": 2,
       "peak": 0.298246,
-      "activeRms": 0.030413,
+      "activeRms": 0.030478,
       "timeline": [
         {
           "at": 1.0,
@@ -412,11 +434,11 @@
     {
       "file": "/audio/sfx/preview-direction-50.wav",
       "bytes": 595244,
-      "sha256": "41aa8d67974c0476e985e19279db8493a29a71b020a75d5b29605b73540d57ea",
+      "sha256": "adb40295d67dbe5f8c8b9f6beeaaba0942630be8e048044c0470ab31b3215af8",
       "durationSeconds": 6.2,
       "channels": 2,
       "peak": 0.313907,
-      "activeRms": 0.019126,
+      "activeRms": 0.019172,
       "timeline": [
         {
           "at": 1,
@@ -452,6 +474,45 @@
           "gain": 0.5011872336272722,
           "pan": -0.6,
           "occluded": true
+        }
+      ]
+    },
+    {
+      "file": "/audio/sfx/preview-combat-50.wav",
+      "bytes": 403244,
+      "sha256": "8b289019d6e464c1fe8d06919ed8f33e2cd403b9c4f0f002b73f7e83646c5320",
+      "durationSeconds": 4.2,
+      "channels": 2,
+      "peak": 0.511385,
+      "activeRms": 0.052036,
+      "timeline": [
+        {
+          "at": 1,
+          "sound": "combat-swing",
+          "gain": 1,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2,
+          "sound": "combat-swing",
+          "gain": 1,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 2.065,
+          "sound": "combat-hit",
+          "gain": 1.05,
+          "pan": 0,
+          "occluded": false
+        },
+        {
+          "at": 3,
+          "sound": "combat-hit",
+          "gain": 1.05,
+          "pan": 0,
+          "occluded": false
         }
       ]
     }

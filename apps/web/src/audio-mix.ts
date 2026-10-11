@@ -1,6 +1,6 @@
 import {FOOTSTEPS,type FootstepEvent} from '@wangxu/shared';
 
-export const AUDIO_MIX=Object.freeze({music:.20,effects:.65,remoteLobby:10**(-3/20),maxFootsteps:16});
+export const AUDIO_MIX=Object.freeze({music:.20,effects:.65,combatHit:1.4,remoteLobby:10**(-3/20),maxFootsteps:16});
 export const musicLevel=(volume:number,ducked:boolean)=>volume*AUDIO_MIX.music*(ducked?.18:1);
 export function footstepLevel(event:FootstepEvent):number {
   return FOOTSTEPS.paceGain[event.pace]*(event.own?FOOTSTEPS.ownGain:

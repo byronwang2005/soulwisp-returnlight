@@ -8,7 +8,7 @@
 
 共16个文件，包含5个人物模型、9个场景物件与2份许可文件。安装时不依赖第三方网站实时提供模型，文件随本地与服务器构建发布。
 
-工程新增的环形提示、亡絮粒子、灯柱效果和界面由代码绘制；战斗、碰撞、采集与完成音效由Web Audio合成，没有采样第三方录音。
+工程新增的环形提示、亡絮粒子、灯柱效果和界面由代码绘制；挥剑与命中音由原创程序离线合成，其余战斗、碰撞、采集与完成音效由 Web Audio 合成，没有采样第三方录音。
 
 场景BGM共19首，均为项目原创程序化编曲，采购支出0元。竖琴、钟琴、弦乐、低音和鼓点离线渲染为立体声MP3，运行时直接播放；不引用第三方录音。各曲的标题、时长、SHA256与响度见[音乐清单](../apps/web/public/audio/manifest.json)，音频与许可随构建发布。确定性编曲源码为`scripts/generate-music.py`，重新生成需Python、numpy和ffmpeg；音频采用[CC0-1.0](../apps/web/public/audio/LICENSE.txt)。播放器复用MIT许可的[Howler](https://github.com/goldfire/howler.js)，完整许可已加入第三方声明。
 
@@ -16,7 +16,7 @@
 
 ## 大厅提示与脚步
 
-大厅四种提示为原创离线合成；脚步复用 [Kenney Impact Sounds 1.0](https://kenney.nl/assets/impact-sounds) 的五个硬地录音和 [TinyWorlds 的碎石素材](https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud)，均为 CC0-1.0。处理后的 WAV 自托管，源归档哈希、处理方法和逐文件响度见[音效清单](../apps/web/public/audio/sfx/manifest.json)，原许可见[音效许可](../apps/web/public/audio/sfx/LICENSE.txt)。采购成本 0 元，重生成与试听见[音频反馈](audio-feedback.md)。
+大厅四种提示、挥剑与命中音为原创离线合成；脚步复用 [Kenney Impact Sounds 1.0](https://kenney.nl/assets/impact-sounds) 的五个硬地录音和 [TinyWorlds 的碎石素材](https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud)，均为 CC0-1.0。处理后的 WAV 自托管，源归档哈希、处理方法和逐文件响度见[音效清单](../apps/web/public/audio/sfx/manifest.json)，原许可见[音效许可](../apps/web/public/audio/sfx/LICENSE.txt)。采购成本 0 元，重生成与试听见[音频反馈](audio-feedback.md)。
 
 ## 古铜主题与古体字体
 

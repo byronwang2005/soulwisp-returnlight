@@ -8,7 +8,7 @@
 
 `audio-mix.ts` 统一音乐增益 0.20、音效增益 0.65，不修改已保存的滑杆值。语音和议会期间音乐在此基准上再乘 0.18。总静音、音乐开关、隐藏页暂停和输出设备选择继续生效。
 
-[素材清单](../apps/web/public/audio/sfx/manifest.json)保存来源、固定归档 SHA256、处理方法、文件校验和、时长、峰值、有效段 RMS 与 19 首背景音乐解码 RMS。短音有效段以幅度超过峰值 1% 的首尾界定；音乐使用完整解码立体声 RMS。音乐与音效均为 50 时，最小参考差为本人正常脚步 9.4 dB、大厅提示 14.7 dB，不包含 HRTF、远距离、遮挡或速度档的额外衰减。
+[素材清单](../apps/web/public/audio/sfx/manifest.json)保存来源、固定归档 SHA256、处理方法、文件校验和、时长、峰值、有效段 RMS 与 19 首背景音乐解码 RMS。短音有效段以幅度超过峰值 1% 的首尾界定；音乐使用完整解码立体声 RMS。音乐与音效均为 50 时，最小参考差为本人正常脚步 9.5 dB、大厅提示 14.7 dB，不包含 HRTF、远距离、遮挡或速度档的额外衰减。
 
 ## 试听与素材生成
 
@@ -18,7 +18,7 @@
 
 试听采用立体声左右定位；游戏内前后定位由浏览器 HRTF 生成。参考 RMS 是离线电平指标，实际听感需在耳机或音响上试听。
 
-脚步复用 Kenney Impact Sounds 1.0 的五个硬地样本，鹅卵石叠加 TinyWorlds / pdsounds.org 的碎石录音，均为 CC0。四种大厅提示为原创离线合成。单声道 24 kHz WAV 随包发布，运行时不访问素材提供方。播放沿用现有 Howler 与原生 Web Audio，没有新增 npm 依赖。
+脚步复用 Kenney Impact Sounds 1.0 的五个硬地样本，鹅卵石叠加 TinyWorlds / pdsounds.org 的碎石录音，均为 CC0。四种大厅提示与挥剑、命中音为原创离线合成。单声道 24 kHz WAV 随包发布，运行时不访问素材提供方。播放沿用现有 Howler 与原生 Web Audio，没有新增 npm 依赖。
 
 重新生成需 Python、numpy、ffmpeg：
 
@@ -29,6 +29,16 @@ python3 scripts/generate-sounds.py
 ```
 
 生成器验证源归档哈希，去直流、裁静音、淡入淡出、均衡并校准有效段 RMS，峰值限制为 0.85。许可随运行资产保存。
+
+## 通道与战斗音色
+
+通道仍采用鹅卵石材质。碎石层改为 180 Hz 高通 / 1.8 kHz 低通，叠加比例由相对峰值 0.38 降至 0.18；混合鞋底与碎石后再经过两级 2.4 kHz 低通。保持脚步参考 RMS 与听距，削弱尖锐摩擦。
+
+挥剑采用宽带风切与低频剑身层，命中采用短瞬态、低频冲击与短金属尾音。挥剑参考 RMS 为 0.30、命中 0.38，命中类别增益为 1.4，并保留服务器力度与左右定位。两者预加载、共享解码、音效滑杆、静音与输出设备路由。
+
+挥剑声不再在按键时立即播放，而是在横斩动画的第 6/32 处触发。动画时间驱动提示，受击停帧时同步等待，每次攻击只播一次；连续攻击重启动画，攻击单次播放并在 600 ms 内完成。中断与超过 750 ms 的积压提示丢弃。命中音仍只由服务器确认的命中事件触发。
+
+[战斗试听＋音乐 50](../apps/web/public/audio/sfx/preview-combat-50.wav)：第 1 秒挥空，第 2 秒挥剑接命中，第 3 秒单独命中。离线示例展示音色与电平；运行时挥剑提示由动画时钟驱动。
 
 ## 服务器脚步与听声辨位
 
@@ -51,7 +61,7 @@ Node.js 24 下执行：
 ```sh
 npm run check
 npm run build
-npm exec vitest run tests/footsteps.test.ts tests/lobby-sounds.test.ts tests/sound-player.test.ts tests/sound-assets.test.ts tests/music.test.ts tests/rules.test.ts tests/scene-interaction.test.ts
+npm exec vitest run tests/attack-audio.test.ts tests/footsteps.test.ts tests/lobby-sounds.test.ts tests/sound-player.test.ts tests/sound-assets.test.ts tests/music.test.ts tests/rules.test.ts tests/scene-interaction.test.ts
 ```
 
 音频图使用模拟节点验证 HRTF 参数、滤波、并发优先级、设备路由调用、音量更新与释放；大厅测试模拟 SDK，不启动媒体服务。素材检查读取 PCM、哈希与混音参考数值。浏览器、真实多人、设备试听和 HRTF 听感不包含在这些静态检查中。

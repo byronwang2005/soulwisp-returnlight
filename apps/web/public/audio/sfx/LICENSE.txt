@@ -1,5 +1,5 @@
 All sound assets in this directory are CC0-1.0.
-Original lobby cues: Soulwisp: Returnlight.
+Original lobby and combat cues: Soulwisp: Returnlight.
 Footsteps: Kenney Impact Sounds 1.0; TinyWorlds / pdsounds.org gravel.
 Source URLs, archive hashes and processing are recorded in manifest.json.
 CC0 legal code: https://creativecommons.org/publicdomain/zero/1.0/legalcode
