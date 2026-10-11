@@ -47,12 +47,12 @@ npm run restore -- /absolute/path/backup.dump postgres://USER:PASSWORD@127.0.0.1
 
 ```sh
 npm run check
-node scripts/ground-assets.mjs
-node scripts/scene-assets.mjs
+npm run assets:check
+npx vitest run tests/art-assets.test.ts tests/scene-interaction.test.ts
 npm run build
 ```
 
-地面检查比对清单中的大小与 SHA-256；场景检查核对模型身体尺度、脚底与动作。`--download` 会恢复地面文件，`--record` 会更新尺度报告，日常检查不需要这两个参数。
+地面检查比对清单中的大小与 SHA-256；场景检查核对模型身体尺度、脚底与动作。生成地面文件从提交的源 PNG 恢复，执行 `npm run assets:build`。缺失 KayKit 原始 GLB 可通过 `node scripts/art-models.mjs --download` 恢复；`--record` 会更新尺度报告。离线预览执行 `npm run art:preview`，说明见 [美术源目录](../design/art/README.md)。
 
 仅在用户明确要求时运行以下验证：
 

@@ -25,3 +25,7 @@
 - 大部分测试的新输出在忽略的 `.local/verification` 和 `.local/screenshots`，需明确选择后再保存到文档目录。
 - `node scripts/scene-assets.mjs --record` 会更新 `character-scale.json`；`tests/scene-performance.e2e.ts` 会更新 `scene-gpu-*.json`。普通资产检查不改报告。
 - 新报告注明时间、提交 SHA / 规则版本、运行环境、命令和覆盖范围。CPU 模拟、GPU 夹具、浏览器音频标记与真实设备 / 公网测试分别说明。
+
+## 局内美术与营地简化
+
+[本轮静态验收](art-refresh.md)包含运行资产哈希、模型裁剪统计、纹理内存估算及 CPU 离线投影；不包含浏览器、联机或 GPU 实测。

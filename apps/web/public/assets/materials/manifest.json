@@ -1,0 +1,434 @@
+{
+  "revision": "stylized-bronze-v1",
+  "generator": "built-in image_gen",
+  "paletteReference": "PANTONE 876 C",
+  "palette": [
+    "#b58a58",
+    "#9ab7a5",
+    "#efe4ce",
+    "#171512",
+    "#777566"
+  ],
+  "processing": "Periodic edge feather; a shared luminance/joint mask derives wrapped OpenGL normals, occlusion and roughness. Bronze oxidation mask separates conductive metal from patina. 2K color exports resample 1254px generated sources.",
+  "files": [
+    {
+      "file": "/assets/materials/plaza_color_1024.webp",
+      "bytes": 193806,
+      "sha256": "e6f8bd2a8ca19f592c8b807c5f297adde501ea209beca0b15604e30efa7a234e",
+      "material": "plaza",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/plaza_color_2048.webp",
+      "bytes": 435572,
+      "sha256": "b13167ad3809122597387a495c51325cec0c10a7b34690b0c99392e099e70bdd",
+      "material": "plaza",
+      "map": "color",
+      "size": 2048
+    },
+    {
+      "file": "/assets/materials/plaza_normal_512.webp",
+      "bytes": 508798,
+      "sha256": "9f7b28af32b2f4e450028484f6f726266e2996c00272bbdcba9635d6f063a85e",
+      "material": "plaza",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/plaza_arm_512.webp",
+      "bytes": 136138,
+      "sha256": "5695c5e32ecd7166a3ff62561138cfabe5ece36250182c78552801e84cc8b7af",
+      "material": "plaza",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/plaza_normal_1024.webp",
+      "bytes": 1946814,
+      "sha256": "ba11ddcef2896656529ef0a7ae5e58ba59ff8b91b2377de359ba7f2bf0916c54",
+      "material": "plaza",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/plaza_arm_1024.webp",
+      "bytes": 503922,
+      "sha256": "f35aa92bf1c35f01c18189fca2e5034f2001f1d3284b2c45c16c6f7aec055900",
+      "material": "plaza",
+      "map": "arm",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/road_color_1024.webp",
+      "bytes": 256816,
+      "sha256": "470326678a4c7403fa56b6b29f05d5d4fe454bc18f5d78e40b9934d9676f6185",
+      "material": "road",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/road_color_2048.webp",
+      "bytes": 547484,
+      "sha256": "2cb3b0e4b3b8cb50a093209ad9f8e89e6dae7a18d724fca3a934ae50162a606c",
+      "material": "road",
+      "map": "color",
+      "size": 2048
+    },
+    {
+      "file": "/assets/materials/road_normal_512.webp",
+      "bytes": 565140,
+      "sha256": "938641a6994c070fe904a537d9f2f5d4a579f77fd1d7b90308dfb5fdc5455b27",
+      "material": "road",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/road_arm_512.webp",
+      "bytes": 151576,
+      "sha256": "dd8b39d0f53c0bec2c57f3ef53c4538866bb81eac6d85f58ffb9867e1235bf10",
+      "material": "road",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/road_normal_1024.webp",
+      "bytes": 2156568,
+      "sha256": "0a6ea8a322f35af26f1645a317f42f458c985f534d4889acb65587049fead420",
+      "material": "road",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/road_arm_1024.webp",
+      "bytes": 556532,
+      "sha256": "c508f4b143f1c2f7bf2729ec3e024143f9e33e541fc6b909f1f0626f7f9e495e",
+      "material": "road",
+      "map": "arm",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/foundation_color_1024.webp",
+      "bytes": 303514,
+      "sha256": "dc011ffdd58d7651f278d2131a1a5e5cd5d16c19a76ed2e1e8b8bb26d0992100",
+      "material": "foundation",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/foundation_normal_512.webp",
+      "bytes": 571982,
+      "sha256": "e78f8da2e32b65095f7ae76909b5279b7c70b3b5aa1141159d73aeb26dffcd48",
+      "material": "foundation",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/foundation_arm_512.webp",
+      "bytes": 155942,
+      "sha256": "5385e4520f410b3df286f70006db2255f30e550d8c7f1e82c4b5cefa098dea23",
+      "material": "foundation",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/foundation_normal_1024.webp",
+      "bytes": 2199632,
+      "sha256": "9de44189693e1e8a885cab06774af9ea5b7ddbdb5ca20c68230aa8005afd81fa",
+      "material": "foundation",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/foundation_arm_1024.webp",
+      "bytes": 581946,
+      "sha256": "c08601aecc5b8abc965fd5f5ea9b88c6505e9f029ece02083926e228a79ca1d2",
+      "material": "foundation",
+      "map": "arm",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/bronze_color_1024.webp",
+      "bytes": 263732,
+      "sha256": "955767fb7fc7da38aa9d79cf853c2829a0399038ccd10abd7bec10184dcef4db",
+      "material": "bronze",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/bronze_normal_512.webp",
+      "bytes": 249208,
+      "sha256": "cec370838dd4dc182d268ae22712cf8ab9b988016f3ed666e669197d65a26550",
+      "material": "bronze",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/bronze_arm_512.webp",
+      "bytes": 51458,
+      "sha256": "eb925979d90643e5e04aafb47957da0a2473b88458835e8a932abede8a587adc",
+      "material": "bronze",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/bronze_normal_1024.webp",
+      "bytes": 1047048,
+      "sha256": "0f624e4dda2a752e30fcd2a43733f651441a0fb9f762dac948be6ff61d3383d9",
+      "material": "bronze",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/bronze_arm_1024.webp",
+      "bytes": 221398,
+      "sha256": "0aa43bec88c88c10236dc4583059875ceb3e2f7197bee05010847ccc29f3ce52",
+      "material": "bronze",
+      "map": "arm",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/wood_color_1024.webp",
+      "bytes": 257854,
+      "sha256": "37dc422b97050da70dd19434d0a5b295e3b108bf7badb5fd4409bab82a33dc4b",
+      "material": "wood",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/wood_normal_512.webp",
+      "bytes": 247748,
+      "sha256": "0c1191d836611ca5b08234913e211f7435a90e7ab0996c522668c2fcb4a0abd2",
+      "material": "wood",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/wood_arm_512.webp",
+      "bytes": 42210,
+      "sha256": "affca47d060155b910bc39c9e3dc75981326f3a31e2a589cc92fa21dc3cce289",
+      "material": "wood",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/wood_normal_1024.webp",
+      "bytes": 1003494,
+      "sha256": "0b26d1b06ff09892793e51d810bad0479313049d181b782e0065847aeca55e00",
+      "material": "wood",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/wood_arm_1024.webp",
+      "bytes": 175512,
+      "sha256": "b42c98e2226e442c841c3d8ed45bb8b3078c4a3a85874276df44ea5798775bdb",
+      "material": "wood",
+      "map": "arm",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/cloth_color_1024.webp",
+      "bytes": 366634,
+      "sha256": "2ecd751cb8010ea9054c6c5edc5347b4bc378e2aecc48933bfcda8ccc5d40541",
+      "material": "cloth",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/cloth_normal_512.webp",
+      "bytes": 398718,
+      "sha256": "29d8bc58acdc3fd7b1363de88439e661791ed10a20fbebc698c0496239ea0fc5",
+      "material": "cloth",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/cloth_arm_512.webp",
+      "bytes": 83322,
+      "sha256": "558af5cd2a5fdf29eed4ffb73adbbd369e68f1ba1ba882988ff625ad3b55c510",
+      "material": "cloth",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/cloth_normal_1024.webp",
+      "bytes": 1429906,
+      "sha256": "fe169a12c3f63c99ec1a94ff6bcb5e5143eb8b41257bedb5eff69ddf91b4d720",
+      "material": "cloth",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/cloth_arm_1024.webp",
+      "bytes": 317560,
+      "sha256": "a55545809e2775c2df5987b685b8e479be738745a4b539704836e2515399a4f2",
+      "material": "cloth",
+      "map": "arm",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/leather_color_1024.webp",
+      "bytes": 270270,
+      "sha256": "2194271c85ebb261c6dcf8293718d3e79293f3bce8f0c228eebc5e1bc99ab319",
+      "material": "leather",
+      "map": "color",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/leather_normal_512.webp",
+      "bytes": 256872,
+      "sha256": "4c95fd216f660076dedcd116949b4b5e9de8d55aee13815a26d432f2e7bc153a",
+      "material": "leather",
+      "map": "normal",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/leather_arm_512.webp",
+      "bytes": 40186,
+      "sha256": "52d130b59dda8828c624c1016505f2583c1166a46cb2ffd6840142dc6336e60b",
+      "material": "leather",
+      "map": "arm",
+      "size": 512
+    },
+    {
+      "file": "/assets/materials/leather_normal_1024.webp",
+      "bytes": 1126556,
+      "sha256": "b7d3703aca70aec2d7afc328bcbe1e5cb8b91b0241a2f5ab3ca0c95039b77dc0",
+      "material": "leather",
+      "map": "normal",
+      "size": 1024
+    },
+    {
+      "file": "/assets/materials/leather_arm_1024.webp",
+      "bytes": 174570,
+      "sha256": "c9250f17e8f94371cfdaf2658d2338f2ec168486200ef4c3d7ea1bfc5b0b0489",
+      "material": "leather",
+      "map": "arm",
+      "size": 1024
+    }
+  ],
+  "materials": {
+    "plaza": {
+      "source": "design/art/textures/plaza.png",
+      "sourceSha256": "659244c7d46bdcee33e0364f2fb1ff22292c9d97df6dd03624d6bc478ccc63a0",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Create a production game texture, seamless tileable square base-color albedo only, 2048x2048 if possible. Subject: broad worn monastery paving slabs for a stylized low-poly medieval old city. Top-down orthographic flat surface, large irregular stone slabs with clear hand-painted edges, sparse restrained cracks, thin dark joints, subtle patina and a few tiny moss traces. Match chunky KayKit cartoon characters; painterly restrained mid-frequency detail, no photographic grain. Palette: stone gray #777566, warm gray limestone #bab7ab, charcoal #171512, sparse oxidized copper green #9ab7a5, very restrained ancient bronze #b58a58 inspired by Pantone 876 C. Light enough to read against a dark scene; avoid brown muddy noise. Even diffuse unlit colors, no cast shadows, no directional illumination, no perspective, no border, no text, no watermark. All four edges must tile; no recognizable unique central motif. This is the plaza-stone texture in a coherent seven-material game set.",
+      "maps": {
+        "color1024": "/assets/materials/plaza_color_1024.webp",
+        "color2048": "/assets/materials/plaza_color_2048.webp",
+        "normal512": "/assets/materials/plaza_normal_512.webp",
+        "arm512": "/assets/materials/plaza_arm_512.webp",
+        "normal1024": "/assets/materials/plaza_normal_1024.webp",
+        "arm1024": "/assets/materials/plaza_arm_1024.webp"
+      }
+    },
+    "road": {
+      "source": "design/art/textures/road.png",
+      "sourceSha256": "0f6026e6f4a111d82a4ae179a4723863b84f891b7e993c35a5cd72e3a2c1928e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Broad irregular cobblestone road with slightly rounded large stone blocks, thin joints, gray limestone and a little olive patina. Less busy than photogrammetry; readable stone shapes.",
+      "maps": {
+        "color1024": "/assets/materials/road_color_1024.webp",
+        "color2048": "/assets/materials/road_color_2048.webp",
+        "normal512": "/assets/materials/road_normal_512.webp",
+        "arm512": "/assets/materials/road_arm_512.webp",
+        "normal1024": "/assets/materials/road_normal_1024.webp",
+        "arm1024": "/assets/materials/road_arm_1024.webp"
+      }
+    },
+    "foundation": {
+      "source": "design/art/textures/foundation.png",
+      "sourceSha256": "dda1829dfe35c6ebef2f1a418b9b8cfafe8555d498024f8a52adc48e385af0ba",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Old city foundation masonry side-wall texture: horizontal staggered courses of thick hewn limestone blocks, occasional chipped edges and thin cracks, restrained moss in joints. No visible top surface or perspective.",
+      "maps": {
+        "color1024": "/assets/materials/foundation_color_1024.webp",
+        "normal512": "/assets/materials/foundation_normal_512.webp",
+        "arm512": "/assets/materials/foundation_arm_512.webp",
+        "normal1024": "/assets/materials/foundation_normal_1024.webp",
+        "arm1024": "/assets/materials/foundation_arm_1024.webp"
+      }
+    },
+    "bronze": {
+      "source": "design/art/textures/bronze.png",
+      "sourceSha256": "dc4abee2346c4f90692750c820b17a2ebf399cedb5fd5eec053d0cb5117287e5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Ancient bronze and oxidized copper sheet. Warm #b58a58 metal dominates, delicate hand-painted brushed marks, restrained broad #9ab7a5 verdigris patches at 15 percent coverage, no large cracks, no rivets, no reflections or baked specular highlights.",
+      "maps": {
+        "color1024": "/assets/materials/bronze_color_1024.webp",
+        "normal512": "/assets/materials/bronze_normal_512.webp",
+        "arm512": "/assets/materials/bronze_arm_512.webp",
+        "normal1024": "/assets/materials/bronze_normal_1024.webp",
+        "arm1024": "/assets/materials/bronze_arm_1024.webp"
+      }
+    },
+    "wood": {
+      "source": "design/art/textures/wood.png",
+      "sourceSha256": "f2886fd66cce487477808fe064db5383fe98eb7a13f38207e163ea44406fe654",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Weathered medieval oak boards, long broad subtle wood grain, restrained warm brown and bronze hues, dark soft joints between wide parallel planks. No nails, no excessive knots, no directional shadows.",
+      "maps": {
+        "color1024": "/assets/materials/wood_color_1024.webp",
+        "normal512": "/assets/materials/wood_normal_512.webp",
+        "arm512": "/assets/materials/wood_arm_512.webp",
+        "normal1024": "/assets/materials/wood_normal_1024.webp",
+        "arm1024": "/assets/materials/wood_arm_1024.webp"
+      }
+    },
+    "cloth": {
+      "source": "design/art/textures/cloth.png",
+      "sourceSha256": "7641e03b69425ad3bcb4f65ab8500050c6efcb48bf0d9cbbdc28e11c88057b85",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Medieval coarse woven linen fabric, old parchment #efe4ce and quiet gray-olive threads, subtle large readable interwoven weave. No folds, no clothing object, no stitching borders. Gentle small-scale fibers, no noise.",
+      "maps": {
+        "color1024": "/assets/materials/cloth_color_1024.webp",
+        "normal512": "/assets/materials/cloth_normal_512.webp",
+        "arm512": "/assets/materials/cloth_arm_512.webp",
+        "normal1024": "/assets/materials/cloth_normal_1024.webp",
+        "arm1024": "/assets/materials/cloth_arm_1024.webp"
+      }
+    },
+    "leather": {
+      "source": "design/art/textures/leather.png",
+      "sourceSha256": "26a8f28eef5bbf0ba96b3ce80ab7851c5cac84c37dcb3fa79b7ce6974eccef5f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "generator": "built-in image_gen",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Worn medieval leather, muted warm bronze-brown #92704b, soft broad subtle natural grain, sparse gentle scuffing, no seams or folds, no leathergoods object. Stylized matte texture.",
+      "maps": {
+        "color1024": "/assets/materials/leather_color_1024.webp",
+        "normal512": "/assets/materials/leather_normal_512.webp",
+        "arm512": "/assets/materials/leather_arm_512.webp",
+        "normal1024": "/assets/materials/leather_normal_1024.webp",
+        "arm1024": "/assets/materials/leather_arm_1024.webp"
+      }
+    }
+  }
+}

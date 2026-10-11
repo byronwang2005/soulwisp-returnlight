@@ -1,0 +1,41 @@
+{
+  "generator": "built-in image_gen",
+  "paletteReference": "PANTONE 876 C",
+  "palette": [
+    "#b58a58",
+    "#9ab7a5",
+    "#efe4ce",
+    "#171512",
+    "#777566"
+  ],
+  "textures": [
+    {
+      "id": "plaza",
+      "prompt": "Create a production game texture, seamless tileable square base-color albedo only, 2048x2048 if possible. Subject: broad worn monastery paving slabs for a stylized low-poly medieval old city. Top-down orthographic flat surface, large irregular stone slabs with clear hand-painted edges, sparse restrained cracks, thin dark joints, subtle patina and a few tiny moss traces. Match chunky KayKit cartoon characters; painterly restrained mid-frequency detail, no photographic grain. Palette: stone gray #777566, warm gray limestone #bab7ab, charcoal #171512, sparse oxidized copper green #9ab7a5, very restrained ancient bronze #b58a58 inspired by Pantone 876 C. Light enough to read against a dark scene; avoid brown muddy noise. Even diffuse unlit colors, no cast shadows, no directional illumination, no perspective, no border, no text, no watermark. All four edges must tile; no recognizable unique central motif. This is the plaza-stone texture in a coherent seven-material game set."
+    },
+    {
+      "id": "road",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Broad irregular cobblestone road with slightly rounded large stone blocks, thin joints, gray limestone and a little olive patina. Less busy than photogrammetry; readable stone shapes."
+    },
+    {
+      "id": "foundation",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Old city foundation masonry side-wall texture: horizontal staggered courses of thick hewn limestone blocks, occasional chipped edges and thin cracks, restrained moss in joints. No visible top surface or perspective."
+    },
+    {
+      "id": "bronze",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Ancient bronze and oxidized copper sheet. Warm #b58a58 metal dominates, delicate hand-painted brushed marks, restrained broad #9ab7a5 verdigris patches at 15 percent coverage, no large cracks, no rivets, no reflections or baked specular highlights."
+    },
+    {
+      "id": "wood",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Weathered medieval oak boards, long broad subtle wood grain, restrained warm brown and bronze hues, dark soft joints between wide parallel planks. No nails, no excessive knots, no directional shadows."
+    },
+    {
+      "id": "cloth",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Medieval coarse woven linen fabric, old parchment #efe4ce and quiet gray-olive threads, subtle large readable interwoven weave. No folds, no clothing object, no stitching borders. Gentle small-scale fibers, no noise."
+    },
+    {
+      "id": "leather",
+      "prompt": "Production game texture: seamless tileable square base-color ALBEDO ONLY, 2048x2048 if possible. Stylized hand-painted medieval old-city material matching chunky low-poly KayKit characters. Restrained medium-scale detail, subtle weathering, no photographic grain, no baked directional lighting or shadows, no perspective, no object or scenery, no border, no text or watermark. Flat orthographic material surface; all four edges must repeat seamlessly. Cohesive Pantone 876 C inspired ancient bronze palette: #b58a58 bronze, #9ab7a5 oxidized copper green, #efe4ce old parchment, #171512 charcoal, #777566 stone gray. Keep value variation readable and gentle, no dominant unique motif. Subject: Worn medieval leather, muted warm bronze-brown #92704b, soft broad subtle natural grain, sparse gentle scuffing, no seams or folds, no leathergoods object. Stylized matte texture."
+    }
+  ]
+}

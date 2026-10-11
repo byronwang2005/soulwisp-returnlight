@@ -1,0 +1,183 @@
+{
+  "node": "v24.21.0",
+  "mode": "static / offline CPU",
+  "modelFiles": 10,
+  "materialFiles": 37,
+  "profiles": [
+    {
+      "level": 0,
+      "files": 14,
+      "normalRequests": 0,
+      "transferBytes": 2573458,
+      "estimatedRgba8WithMipmapsBytes": 48933547
+    },
+    {
+      "level": 1,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 5371924,
+      "estimatedRgba8WithMipmapsBytes": 58720257
+    },
+    {
+      "level": 2,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 15886518,
+      "estimatedRgba8WithMipmapsBytes": 150994944
+    },
+    {
+      "level": 3,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 15886518,
+      "estimatedRgba8WithMipmapsBytes": 150994944
+    },
+    {
+      "level": 4,
+      "files": 21,
+      "normalRequests": 7,
+      "transferBytes": 15886518,
+      "estimatedRgba8WithMipmapsBytes": 150994944
+    }
+  ],
+  "estimate": "Cold cache, all seven material families; RGBA8 full mip chains. This is an allocation estimate, not GPU measurement; quality transitions may retain cached maps.",
+  "modelMetrics": {
+    "tool": "glTF Transform 4.4.0",
+    "source": "fixed CC0 KayKit sources",
+    "metrics": [
+      {
+        "file": "/assets/characters/Knight.glb",
+        "sourceBytes": 3659532,
+        "runtimeBytes": 626764,
+        "sourceTriangles": 6952,
+        "runtimeTriangles": 5274,
+        "sourceAnimations": 76,
+        "runtimeAnimations": 10,
+        "sourcePrimitives": 15,
+        "runtimePrimitives": 10
+      },
+      {
+        "file": "/assets/characters/Rogue.glb",
+        "sourceBytes": 3616284,
+        "runtimeBytes": 586568,
+        "sourceTriangles": 6377,
+        "runtimeTriangles": 4519,
+        "sourceAnimations": 76,
+        "runtimeAnimations": 10,
+        "sourcePrimitives": 12,
+        "runtimePrimitives": 8
+      },
+      {
+        "file": "/assets/characters/Rogue_Hooded.glb",
+        "sourceBytes": 3597652,
+        "runtimeBytes": 568144,
+        "sourceTriangles": 6035,
+        "runtimeTriangles": 4177,
+        "sourceAnimations": 76,
+        "runtimeAnimations": 10,
+        "sourcePrimitives": 12,
+        "runtimePrimitives": 8
+      },
+      {
+        "file": "/assets/characters/Mage.glb",
+        "sourceBytes": 3589240,
+        "runtimeBytes": 607428,
+        "sourceTriangles": 5683,
+        "runtimeTriangles": 4951,
+        "sourceAnimations": 76,
+        "runtimeAnimations": 10,
+        "sourcePrimitives": 12,
+        "runtimePrimitives": 10
+      },
+      {
+        "file": "/assets/characters/Barbarian.glb",
+        "sourceBytes": 3613268,
+        "runtimeBytes": 611076,
+        "sourceTriangles": 6543,
+        "runtimeTriangles": 5335,
+        "sourceAnimations": 76,
+        "runtimeAnimations": 10,
+        "sourcePrimitives": 13,
+        "runtimePrimitives": 10
+      },
+      {
+        "file": "/assets/dungeon/chest.glb",
+        "sourceBytes": 81412,
+        "runtimeBytes": 72832,
+        "sourceTriangles": 728,
+        "runtimeTriangles": 728,
+        "sourceAnimations": 0,
+        "runtimeAnimations": 0,
+        "sourcePrimitives": 2,
+        "runtimePrimitives": 2
+      },
+      {
+        "file": "/assets/dungeon/chest_gold.glb",
+        "sourceBytes": 140140,
+        "runtimeBytes": 113664,
+        "sourceTriangles": 1568,
+        "runtimeTriangles": 1568,
+        "sourceAnimations": 0,
+        "runtimeAnimations": 0,
+        "sourcePrimitives": 2,
+        "runtimePrimitives": 2
+      },
+      {
+        "file": "/assets/dungeon/column.gltf.glb",
+        "sourceBytes": 20260,
+        "runtimeBytes": 31240,
+        "sourceTriangles": 44,
+        "runtimeTriangles": 44,
+        "sourceAnimations": 0,
+        "runtimeAnimations": 0,
+        "sourcePrimitives": 1,
+        "runtimePrimitives": 1
+      },
+      {
+        "file": "/assets/dungeon/wall.gltf.glb",
+        "sourceBytes": 53132,
+        "runtimeBytes": 64112,
+        "sourceTriangles": 494,
+        "runtimeTriangles": 494,
+        "sourceAnimations": 0,
+        "runtimeAnimations": 0,
+        "sourcePrimitives": 1,
+        "runtimePrimitives": 1
+      },
+      {
+        "file": "/assets/dungeon/wall_broken.gltf.glb",
+        "sourceBytes": 69276,
+        "runtimeBytes": 80256,
+        "sourceTriangles": 784,
+        "runtimeTriangles": 784,
+        "sourceAnimations": 0,
+        "runtimeAnimations": 0,
+        "sourcePrimitives": 1,
+        "runtimePrimitives": 1
+      }
+    ],
+    "sourceBytes": 18440196,
+    "runtimeBytes": 3362084
+  },
+  "generatedSourceResolution": [
+    1254,
+    1254
+  ],
+  "color2k": "Resampled export from generated source; does not add source detail.",
+  "previews": "art-preview/*.png; CPU triangles, initial Idle pose, approximate palette tint; no GPU shader/lighting validation.",
+  "integratedOriginMain": "8c6f125c6c5d497ff6cf8d68d383b100f879bc56",
+  "verifiedAt": "2026-10-11T10:46:54.573103+00:00",
+  "validation": {
+    "install": "npm ci, Node.js 24.21.0, committed lockfile",
+    "types": "npm run check: passed",
+    "build": "npm run build: web and server passed",
+    "assets": "npm run assets:check: passed",
+    "tests": "91 passed in 7 static suites: art-assets, scene-interaction, attack-audio, footsteps, lobby-sounds, music, navigation",
+    "previews": "npm run art:preview: generated and inspected",
+    "notRun": [
+      "browser",
+      "live multiplayer",
+      "device/GPU"
+    ]
+  }
+}

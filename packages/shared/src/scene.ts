@@ -1,7 +1,7 @@
 import type { MapNode, Vec2, WorldObject } from './index.js';
 
 export const SCENE = Object.freeze({unitsPerMeter:20, playerRadius:14, corridorRadius:35, bodyHeight:2.2});
-export const SCENE_MATERIALS=Object.freeze({floor:{id:'monastery_stone_floor',meters:1.8},road:{id:'cobblestone_floor_09',meters:2.2}});
+export const SCENE_MATERIALS=Object.freeze({floor:{id:'plaza',meters:2.7},road:{id:'road',meters:3.3}});
 export const OBJECT_FOOTPRINT:Record<WorldObject['kind'],number> = {
   resource:10, beacon:14, altar:18, core:12, cleanse:20,
   elite:22, chest:20, deposit:22, exit:65, bridge:12,

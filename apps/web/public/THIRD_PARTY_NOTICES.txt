@@ -3,7 +3,7 @@ THIRD-PARTY SOFTWARE NOTICES
 Generated from the installed @wangxu/web runtime dependency graph, including transitive dependencies and required installed peers. Optional peers that are direct runtime dependencies are included through those direct dependencies.
 Regenerate: node scripts/generate-notices.mjs
 
-KayKit models retain their original CC0 notices in /assets/characters/LICENSE.txt and /assets/dungeon/LICENSE.txt. Their file provenance is recorded in /assets/manifest.json. Poly Haven ground textures are CC0, with source URLs and SHA256 in /assets/ground/manifest.json.
+KayKit models retain their original CC0 notices in /assets/characters/LICENSE.txt and /assets/dungeon/LICENSE.txt. Their file provenance is recorded in /assets/manifest.json. Generated bronze materials are distributed as CC0, with source prompts and SHA256 in /assets/materials/manifest.json.
 
 ==============================================================================
 @babel/runtime@7.29.10 (MIT)

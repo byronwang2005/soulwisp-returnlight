@@ -1,0 +1,5 @@
+Original Soulwisp: Returnlight texture artwork generated with built-in OpenAI image_gen.
+The project distributes these texture assets under CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+Source images and exact prompts: design/art/textures and design/art/texture-prompts.json.
+Pantone 876 C is a palette direction reference. Runtime RGB values are recorded in the manifest.

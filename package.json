@@ -1,13 +1,40 @@
 {
-  "name": "wangxu-returnlight", "version": "0.1.0", "private": true, "type": "module",
-  "workspaces": ["apps/*", "packages/*"],
-  "engines": {"node": ">=24 <25"},
-  "scripts": {
-    "dev": "node scripts/dev.mjs", "setup": "node scripts/setup.mjs", "check": "tsc --noEmit",
-    "build": "npm run build --workspace @wangxu/web && npm run build --workspace @wangxu/server",
-    "test": "vitest run", "test:e2e": "playwright test", "health": "node scripts/health.mjs",
-    "backup": "node scripts/backup.mjs", "restore": "node scripts/restore.mjs", "preview": "node scripts/dev.mjs --production",
-    "package": "node scripts/package.mjs", "measure": "node --import tsx scripts/measure-simulation.ts"
+  "name": "wangxu-returnlight",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24 <25"
   },
-  "devDependencies": {"@playwright/test": "^1.56.0", "@types/node": "^24.0.0", "typescript": "^5.9.0", "vitest": "^5.0.3", "tsx": "^4.20.0"}
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "setup": "node scripts/setup.mjs",
+    "check": "tsc --noEmit",
+    "build": "npm run build --workspace @wangxu/web && npm run build --workspace @wangxu/server",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "health": "node scripts/health.mjs",
+    "backup": "node scripts/backup.mjs",
+    "restore": "node scripts/restore.mjs",
+    "preview": "node scripts/dev.mjs --production",
+    "package": "node scripts/package.mjs",
+    "measure": "node --import tsx scripts/measure-simulation.ts",
+    "assets:build": "node scripts/art-models.mjs && node scripts/art-textures.mjs",
+    "assets:check": "node scripts/art-check.mjs && node scripts/ground-assets.mjs && node scripts/scene-assets.mjs && node scripts/generate-notices.mjs --check",
+    "art:preview": "node --import tsx scripts/art-preview.ts"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "4.4.0",
+    "@gltf-transform/functions": "4.4.0",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.0.0",
+    "sharp": "0.35.5",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.3"
+  }
 }
