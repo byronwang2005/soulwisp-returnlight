@@ -6,7 +6,7 @@ const client = () => new Client(import.meta.env.VITE_GAME_URL || `${location.pro
 export function useExpedition(onError: (message: string) => void) {
   const [view, setView] = useState<GameView | null>(null);
   const [lobby, setLobby] = useState<LobbyView | null>(null);
-  const [summary,setSummary]=useState<{waiting:number;game:LobbyView['game']}>({waiting:0,game:null});
+  const [summary,setSummary]=useState<{waiting:number;game:LobbyView['game'];available?:boolean}>({waiting:0,game:null});
   const [connecting, setConnecting] = useState(false);
   const [connected, setConnected] = useState(false);
   const [settlementVersion,setSettlementVersion] = useState(0);
@@ -73,7 +73,7 @@ export function useExpedition(onError: (message: string) => void) {
     setConnecting(true);
     try{bind(await client().reconnect(token));}catch{sessionStorage.removeItem('wangxu-reconnect');}finally{setConnecting(false);}
   }, [bind,bindWaiting]);
-  useEffect(()=>{let alive=true;const refresh=()=>void request<{waiting:number;game:LobbyView['game']}>('/lobby').then(value=>{if(alive)setSummary(value);}).catch(()=>{});refresh();const timer=setInterval(refresh,10000);return()=>{alive=false;clearInterval(timer);};},[]);
+  useEffect(()=>{let alive=true;const refresh=()=>void request<{waiting:number;game:LobbyView['game']}>('/lobby').then(value=>{if(alive)setSummary({...value,available:true});}).catch(()=>{if(alive)setSummary(previous=>({...previous,available:false}));});refresh();const timer=setInterval(refresh,10000);return()=>{alive=false;clearInterval(timer);};},[]);
   useEffect(() => () => { generation.current++;void room.current?.leave();void waiting.current?.leave(); }, []);
   return {view,lobby,summary,connecting,connected,joinWaiting,leaveWaiting,sendLobby,send,leave,reconnect,settlementVersion};
 }
