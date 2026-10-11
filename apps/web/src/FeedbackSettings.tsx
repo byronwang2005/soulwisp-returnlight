@@ -4,7 +4,7 @@ import {useFeedbackSettings} from './settings';
 export function FeedbackSettings({onClose,global=false,embedded=false}:{onClose:()=>void;global?:boolean;embedded?:boolean}){
   const {settings,updateSettings}=useFeedbackSettings();
   return <section className={`effects-settings panel scroll-region ${global?'global-settings':''} ${embedded?'embedded-settings':''}`} role={embedded?undefined:"dialog"} aria-label="打击与交互反馈设置">
-    {!embedded&&<div className="section-head"><h3>声音与交互反馈</h3><ActionButton iconKind="close"  aria-label="关闭反馈设置" onClick={onClose}>×</ActionButton></div>}
+    {!embedded&&<div className="section-head"><h3>交互反馈</h3><ActionButton iconKind="close"  aria-label="关闭反馈设置" onClick={onClose}>×</ActionButton></div>}
     <label>背景音乐 · {Math.round(settings.musicVolume*100)}%<input aria-label="背景音乐音量" type="range" min="0" max="1" step="0.05" value={settings.musicVolume} onChange={e=>updateSettings({musicVolume:Number(e.target.value)})}/></label>
     <label className="check-label"><input type="checkbox" checked={settings.musicEnabled} onChange={e=>updateSettings({musicEnabled:e.target.checked})}/>开启场景背景音乐</label>
     <label>音效音量 · {Math.round(settings.volume*100)}%<input aria-label="音效音量" type="range" min="0" max="1" step="0.05" value={settings.volume} onChange={e=>updateSettings({volume:Number(e.target.value)})}/></label>

@@ -6,7 +6,7 @@ import {FeedbackSettings} from './FeedbackSettings';
 import {usePreferences,updatePreferences} from './preferences';
 import {outputSelectionSupported,selectAudioDevice} from './audio-devices';
 import './settings-dialog.css';
-const sections=['用户设置','画面设置','音频设置','声音和交互反馈'] as const;
+const sections=['用户设置','画面设置','音频设置','交互反馈'] as const;
 export function SettingsDialog({user,quality,onQuality,onUser,onLogin,onClose}:{user:User|null;quality:QualityMode;onQuality:(quality:QualityMode)=>void;onUser:(user:User)=>Promise<void>;onLogin:()=>void;onClose:()=>void}){
   const dialog=useRef<HTMLDialogElement>(null);
   const [section,setSection]=useState<number>(0),[name,setName]=useState(user?.name??''),[image,setImage]=useState(user?.image??null);
