@@ -24,7 +24,7 @@ it('connects optional voice without reserving another waiting seat',async()=>{
   renderToStaticMarkup(createElement(VoiceLobby,{...props,lobby}));await fake.buttons.get('连接语音')!();expect(fake.join).toHaveBeenCalledOnce();expect(props.onJoin).not.toHaveBeenCalled();
 });
 it('joins the game waiting queue even if optional voice fails',async()=>{
-  fake.join.mockRejectedValueOnce(new Error('语音离线'));renderToStaticMarkup(createElement(VoiceLobby,props));await fake.buttons.get('加入等待区')!();expect(props.onJoin).toHaveBeenCalledOnce();await vi.waitFor(()=>expect(props.onError).toHaveBeenCalledWith('语音离线')); 
+  fake.join.mockRejectedValueOnce(new Error('语音离线'));renderToStaticMarkup(createElement(VoiceLobby,props));await fake.buttons.get('加入等待区')!();expect(props.onJoin).toHaveBeenCalledOnce();await vi.waitFor(()=>expect(props.onError).toHaveBeenCalledWith('语音离线'));
 });
 it('reports unavailable lobby state instead of displaying an idle game',()=>{
   const html=renderToStaticMarkup(createElement(VoiceLobby,{...props,summary:{waiting:0,game:null,available:false}}));expect(html).toContain('等待区服务暂未连接');expect(html).toContain('等待连接');expect(html).not.toContain('等待出发');
