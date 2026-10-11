@@ -12,7 +12,7 @@ docker compose --env-file /opt/minecraft/.env -f /opt/minecraft/compose.yaml con
 docker compose --env-file /opt/minecraft/.env -f /opt/minecraft/compose.yaml up -d minecraft
 ```
 
-The renderer preserves the RCON password and configured whitelist. The container can use both CPU cores, has a 1–5 GiB Java heap and a 6.5 GiB total limit, and cannot use swap. Only TCP 25565 is published, bound to the public IPv4; RCON remains on the private Docker network. Allow TCP 25565 through the host and provider firewalls. Do not publish 25575.
+The public address is `gaming.byron.wang:25565`, using the existing DNS-only A record. The renderer preserves the private IPv4 binding, RCON password and configured whitelist; on first setup it resolves the public domain to IPv4. The container can use both CPU cores, has a 1–5 GiB Java heap and a 6.5 GiB total limit, and cannot use swap. Only TCP 25565 is published, bound to the public IPv4; RCON remains on the private Docker network. Allow TCP 25565 through the host and provider firewalls. Do not publish 25575.
 
 Use the following commands from `/opt/minecraft`:
 
@@ -61,7 +61,7 @@ To restore, stop only the Minecraft project, preserve the current `data` directo
 Use Prism's existing `Minecraft-26.3-Fabric` instance and the authorized `ByronNomad` profile:
 
 ```sh
-"/Applications/Prism Launcher.app/Contents/MacOS/prismlauncher" --launch Minecraft-26.3-Fabric --profile ByronNomad --server 5.231.45.40:25565
+"/Applications/Prism Launcher.app/Contents/MacOS/prismlauncher" --launch Minecraft-26.3-Fabric --profile ByronNomad --server gaming.byron.wang:25565
 ```
 
 Confirm the game window and server join log, movement, chunk loading, block interactions, chat, reconnect, persistence after graceful server restart, and rejection when the account is temporarily removed from the whitelist. Restore the whitelist after that check. Save evidence privately without session tokens. One connected client is not a ten-player load test.
