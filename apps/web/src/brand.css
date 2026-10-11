@@ -1,0 +1,53 @@
+/* One emblem across the game, browser chrome and repository. */
+.site-header .brand{gap:10px}
+.site-header .brand>.button-svg{display:none}
+.brand-logo{display:block;width:42px;height:42px;object-fit:contain;flex:none}
+
+.app main .returnlight-hero{isolation:isolate;background:#100f0d;container-type:size}
+.returnlight-hero::after{content:none}
+.hero-art,.hero-art img,.hero-atmosphere{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-art{z-index:-2}
+.hero-art img{object-fit:cover;object-position:50% 63%}
+.hero-atmosphere{z-index:-1;background:linear-gradient(180deg,#100f0d40,transparent 20%,#100f0d1a 58%,#100f0de8),radial-gradient(ellipse at 50% 38%,#100f0d70,transparent 62%)}
+.hero-content{position:relative;display:flex;flex-direction:column;align-items:center;width:100%;height:100%;padding:clamp(16px,4cqh,38px) clamp(20px,5vw,80px);gap:20px;scrollbar-gutter:auto}
+.hero-edition{align-self:stretch;display:flex;justify-content:space-between;gap:16px;color:#c4c3b2;font-size:10px;letter-spacing:.18em}
+.hero-identity{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:280px;padding-bottom:clamp(8px,8cqh,80px);text-shadow:0 2px 24px #000b}
+.hero-mark{width:clamp(48px,12cqh,94px);height:auto;object-fit:contain;margin-bottom:clamp(8px,2cqh,18px)}
+.hero-identity h1{display:flex;align-items:center;gap:.18em;margin:0;color:#efe4ce;font-family:var(--display);font-weight:500;font-size:clamp(46px,min(8.5vw,14cqh),112px);line-height:1.25;letter-spacing:.14em;padding-left:.14em;white-space:nowrap}
+.hero-identity h1 i{font-style:normal;font-size:.38em;color:#dfbc87;letter-spacing:0}
+.hero-english{margin:12px 0 0;color:#dfbc87;font-family:var(--readout);font-size:clamp(9px,1.6cqh,13px);letter-spacing:.34em;line-height:1.8}
+.hero-english span{margin:0 .35em;color:#b58a58}
+.hero-story{margin:clamp(16px,4cqh,32px) 0 0;color:#efe4ce;font-family:var(--serif);font-size:clamp(14px,2.6cqh,19px);letter-spacing:.22em;line-height:1.8}
+.hero-description{margin:12px 0 0;color:#d4c7af;font-family:var(--serif);font-size:clamp(11px,2cqh,14px);line-height:1.95;letter-spacing:.06em}
+.hero-bottom{align-self:stretch;display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid #b58a5842;padding-top:14px}
+.hero-note{margin:0;color:#d4c7af;font-size:11px;letter-spacing:.1em}
+.hero-note span{color:#b58a58;margin:0 8px}
+.hero-entries{display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+.hero-entries .hero-entry{min-height:44px;padding:8px 0;border:0;border-radius:0;background:none;box-shadow:none;color:#efe4ce;font-size:13px;font-weight:500;letter-spacing:.08em;gap:10px}
+.hero-entries .hero-entry-secondary{color:#d4c7af}
+.hero-entries .hero-entry:hover:not(:disabled){background:none;box-shadow:none;color:#dfbc87;text-decoration:underline;text-underline-offset:6px}
+.hero-entry>.button-svg{order:1;width:16px;height:16px;min-width:16px;color:#dfbc87}
+.hero-entry:focus-visible{outline-offset:5px}
+
+@media(max-width:700px){
+  .site-header .brand{gap:6px}.brand-logo{width:31px;height:31px}
+  .hero-content{padding:18px 22px;gap:14px}
+  .hero-edition{justify-content:center;font-size:9px}.hero-edition>span:last-child{display:none}
+  .hero-identity{padding-bottom:6cqh}
+  .hero-identity h1{font-size:clamp(42px,min(12vw,12cqh),76px);gap:.1em;letter-spacing:.1em;padding-left:.1em}
+  .hero-english{letter-spacing:.2em;font-size:10px}
+  .hero-story{letter-spacing:.12em}.hero-description{font-size:12px}
+  .hero-bottom{flex-direction:column;gap:5px;padding-top:12px}
+  .hero-note{font-size:10px}.hero-note span{margin:0 3px}
+  .hero-entries{gap:20px}.hero-entries .hero-entry{font-size:11px;gap:6px}
+  .hero-art img{object-position:49% 65%}
+}
+@media(max-height:520px){
+  .brand-logo{width:28px;height:28px}
+  .hero-content{padding:10px 24px;gap:8px}.hero-edition{display:none}
+  .hero-identity{min-height:170px;padding-bottom:0}
+  .hero-mark{width:38px;margin-bottom:4px}.hero-identity h1{font-size:42px}
+  .hero-english{font-size:8px;margin-top:5px}.hero-story{font-size:12px;margin-top:8px}
+  .hero-description{display:none}.hero-bottom{padding-top:4px;flex-direction:row}
+  .hero-note{font-size:9px}.hero-entries{gap:18px}.hero-entries .hero-entry{font-size:10px}
+}

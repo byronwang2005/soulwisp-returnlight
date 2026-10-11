@@ -8,4 +8,5 @@ import './styles.css';
 import './viewport.css';
 import './bronze-theme.css';
 import './scene-ui.css';
+import './brand.css';
 createRoot(document.getElementById('root')!).render(<App />);

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="apps/web/public/brand/returnlight-mark.png" width="112" height="112" alt="亡絮：归灯 Logo：青铜归灯中的银白亡絮" />
+</p>
+
 # 亡絮：归灯 / Soulwisp: Returnlight
 
 4–10 人的实时探索与社会推理游戏：公开职业、秘密阵营、证据议会、归灯护送与营地收藏。
