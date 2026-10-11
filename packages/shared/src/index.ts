@@ -15,8 +15,9 @@ export interface FeedbackEvent { id:number;kind:'hit'|'hurt'|'block'|'push'|'col
 export interface ActionCandidate {targetId:string;action:'interact'|'skill'|'corrupt'|'finish'|'offer';label:string;name:string;distance:number;alignment:number;enabled:boolean;reason?:string}
 export interface SelfView { id:string; faction:Faction|null; wolfAllies:string[]; resources:number; supplies:number; loot:RelicItem[]; relics:string[]; boons:string[]; evidence:Evidence[]; ghostVote:boolean; skillCooldown:number; wolfBudget:number; draftOptions:string[]; voted:boolean; offers?:{from:string;itemId:string;name:string;expiresIn:number;escrow:boolean}[]; interaction?:{targetId:string;progress:number}; feedback?:FeedbackEvent[]; footsteps?:import('./footsteps.js').FootstepEvent[]; inputSeq?:number; actions?:ActionCandidate[]; }
 export interface GameResult { winner:Faction|'invalid'; reason:string; factions:Record<string,Faction>; rewards:Record<string,{fragments:number;secrets:number}>; }
-export interface GameView { roomId:string; invite:string; config:GameConfig; phase:Phase; chapter:number; remaining:number; elapsed:number; moon:number; sharedResources:number; beaconsLit:number; eliteDefeated:boolean; corePurified:boolean; holdProgress:number; eligibleVoters:number; removalCount:number; players:PlayerView[]; self:SelfView; nodes:MapNode[]; edges?:[string,string][]; objects:WorldObject[]; evidence:Evidence[]; messages:{id:string;author:string;text:string;at:number}[]; result:GameResult|null; voice:{enabled:boolean;epoch:string|null;speakerId:string|null;open:boolean}; }
+export interface GameView { roomId:string; invite:string; config:GameConfig; phase:Phase; chapter:number; remaining:number; elapsed:number; moon:number; sharedResources:number; beaconsLit:number; eliteDefeated:boolean; corePurified:boolean; holdProgress:number; eligibleVoters:number; removalCount:number; players:PlayerView[]; self:SelfView; nodes:MapNode[]; edges?:[string,string][]; objects:WorldObject[]; evidence:Evidence[]; messages:{id:string;author:string;text:string;at:number}[]; result:GameResult|null; returnIn?:number; settlementPending?:boolean; voice:{enabled:boolean;epoch:string|null;speakerId:string|null;open:boolean}; }
 export type GameCommand =
+ | {type:'chooseForm';form:number}
  | {type:'choose';profession:Profession;form:number;cosmetic?:string}
  | {type:'ready';ready:boolean} | {type:'move';x:number;y:number;seq:number}
  | {type:'interact';targetId:string} | {type:'cancel'} | {type:'attack';targetId?:string}
@@ -37,5 +38,9 @@ export const RECIPES:Recipe[]=[
  {id:'camp-lantern',name:'余灯集市·记忆灯',description:'营地中的永久灯饰。',fragments:30,secrets:0,kind:'decoration',grants:'camp-lantern'},
  {id:'first-thread',name:'第一缕·絮灯饰',description:'第一局后即可制作的银白灯饰。',fragments:10,secrets:0,kind:'cosmetic',grants:'first-thread'}
 ];
-export interface VoiceLobbyInfo { available: boolean; online: number; capacity: 10; url: string | null }
+export interface VoiceLobbyInfo { available: boolean; online: number; capacity: number; url: string | null }
 export interface VoiceLobbyTicket { token: string; url: string; epoch: string }
+
+export interface LobbyMemberView { id: string; name: string; ready: boolean; preference: Profession | null; position: number; candidate: boolean }
+export interface LobbyView { selfId: string; selfArea: 'waiting' | 'playing'; members: LobbyMemberView[]; countdown: number | null; draining: boolean; game: { stage: 'transferring' | 'playing' | 'result' | 'closing'; players: number; phase: Phase | null; remaining: number } | null }
+export type LobbyCommand = { type: 'ready'; ready: boolean } | { type: 'preference'; profession: Profession | null };

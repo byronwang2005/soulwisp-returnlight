@@ -13,6 +13,7 @@ export class VoiceLobbyService {
   private readonly instance = randomUUID();
   private name: string | null = null;
   private epoch: string | null = null;
+  private readonly issuedAccounts = new Set<string>();
   private readonly ownedNames = new Set<string>();
   private queue: Promise<unknown> = Promise.resolve();
   private stopping = false;
@@ -20,11 +21,16 @@ export class VoiceLobbyService {
   private statusRequest: Promise<VoiceLobbyInfo> | null = null;
   private reconciled = false;
   private readonly owner: string;
+  private readonly admissionTimer: NodeJS.Timeout;
 
   constructor(private readonly config: VoiceConfig, private readonly inExpedition: (id: string) => boolean = () => false,
-    private readonly options: { cleanupPreviousInstances?: boolean; cleanupLegacy?: boolean } = {}) {
+    private readonly options: { cleanupPreviousInstances?: boolean; cleanupLegacy?: boolean; canJoin?: (id:string)=>boolean } = {}) {
     this.client = new RoomServiceClient(config.serverUrl, config.apiKey, config.apiSecret, { requestTimeout: 2, failover: false });
     this.owner = `soulwisp-returnlight:${config.publicUrl}`;
+    this.admissionTimer=setInterval(()=>{void this.serial(async()=>{
+      if(this.stopping||!this.name)return;
+      for(const participant of await this.client.listParticipants(this.name))if(this.inExpedition(participant.identity)||this.options.canJoin&&!this.options.canJoin(participant.identity))await this.client.removeParticipant(this.name,participant.identity,{revokeTokenTs:BigInt(Math.floor(Date.now()/1000)+1)});
+    }).catch(()=>{});},1000);this.admissionTimer.unref();
   }
 
   private serial<T>(work: () => Promise<T>): Promise<T> {
@@ -56,28 +62,28 @@ export class VoiceLobbyService {
     const epoch = randomUUID();
     const name = `public-lobby-${this.instance}-${epoch}`;
     // Remember the exact name before creation, so a timed-out creation can still be cleaned up.
-    this.name = name;
+    this.name = name;this.issuedAccounts.clear();
     this.epoch = epoch;
     this.ownedNames.add(name);
-    await this.client.createRoom({ name, maxParticipants: 10, emptyTimeout: 600, departureTimeout: 600,
+    await this.client.createRoom({ name, maxParticipants: 0, emptyTimeout: 600, departureTimeout: 600,
       metadata: JSON.stringify({ kind: 'public-lobby', owner: this.owner, serverInstanceId: this.instance, epoch }) });
     if (this.stopping) throw this.unavailable();
     return name;
   }
 
   async status(): Promise<VoiceLobbyInfo> {
-    if (this.stopping) return { available: false, online: 0, capacity: 10, url: null };
+    if (this.stopping) return { available: false, online: 0, capacity: 0, url: null };
     if (this.cached && Date.now() - this.cached.at < 3000) return this.cached.info;
     if (this.statusRequest) return this.statusRequest;
     const request = this.serial(async () => {
       try {
         const name = await this.ensureRoom();
         const participants = await this.client.listParticipants(name);
-        const info: VoiceLobbyInfo = { available: true, online: participants.length, capacity: 10, url: this.config.publicUrl };
+        const info: VoiceLobbyInfo = { available: true, online: participants.length, capacity: 0, url: this.config.publicUrl };
         this.cached = { at: Date.now(), info };
         return info;
       } catch {
-        const info: VoiceLobbyInfo = { available: false, online: 0, capacity: 10, url: null };
+        const info: VoiceLobbyInfo = { available: false, online: 0, capacity: 0, url: null };
         this.cached = { at: Date.now(), info };
         return info;
       }
@@ -89,20 +95,20 @@ export class VoiceLobbyService {
   async issueToken(account: { id: string; name: string }): Promise<VoiceLobbyTicket> {
     return this.serial(async () => {
       if (this.stopping) throw this.unavailable();
+      if(this.options.canJoin&&!this.options.canJoin(account.id))throw new LobbyVoiceError(403,'NOT_WAITING','请先加入等待区');
       if (this.inExpedition(account.id)) throw new LobbyVoiceError(403, 'IN_EXPEDITION', '请先离开远征，再加入语音大厅。');
       try {
         const name = await this.ensureRoom();
-        const participants = await this.client.listParticipants(name);
-        if (participants.length >= 10 && !participants.some(value => value.identity === account.id)) {
-          throw new LobbyVoiceError(409, 'LOBBY_FULL', '语音大厅已满（10 人），请稍后再加入。');
-        }
+        await this.client.listParticipants(name);
+        if(this.options.canJoin&&!this.options.canJoin(account.id))throw new LobbyVoiceError(403,'NOT_WAITING','请先加入等待区');
         if (this.inExpedition(account.id)) throw new LobbyVoiceError(403, 'IN_EXPEDITION', '请先离开远征，再加入语音大厅。');
         const access = new AccessToken(this.config.apiKey, this.config.apiSecret, { identity: account.id, name: account.name, ttl: 20 });
         access.addGrant({ roomJoin: true, room: name, canSubscribe: true, canPublish: true,
           canPublishSources: [TrackSource.MICROPHONE], canPublishData: false, canUpdateOwnMetadata: false });
         const token = await access.toJwt();
         if (this.stopping) throw this.unavailable();
-        this.cached = null;
+        if(this.inExpedition(account.id)||this.options.canJoin&&!this.options.canJoin(account.id))throw new LobbyVoiceError(403,'NOT_WAITING','请先加入等待区');
+        this.issuedAccounts.add(account.id);this.cached = null;
         return { token, url: this.config.publicUrl, epoch: this.epoch! };
       } catch (error) {
         if (error instanceof LobbyVoiceError) throw error;
@@ -113,16 +119,16 @@ export class VoiceLobbyService {
 
   async removeParticipant(id: string): Promise<void> {
     await this.serial(async () => {
-      if (!this.name) return;
-      try { await this.client.removeParticipant(this.name, id); } catch (error) {
-        if (!isNotFound(error)) console.warn('[voice-lobby] participant removal failed');
+      if (!this.name||!this.issuedAccounts.has(id)) return;
+      try { await this.client.removeParticipant(this.name, id, { revokeTokenTs: BigInt(Math.floor(Date.now()/1000)+1) }); } catch (error) {
+        if (!isNotFound(error)) throw this.unavailable();
       }
       this.cached = null;
     });
   }
 
   async dispose(): Promise<void> {
-    this.stopping = true;
+    this.stopping = true;clearInterval(this.admissionTimer);
     await this.queue.catch(() => {});
     for (let attempt = 0; attempt < 3 && this.ownedNames.size; attempt++) {
       for (const name of [...this.ownedNames]) {

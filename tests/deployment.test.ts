@@ -11,7 +11,8 @@ afterEach(() => { for (const path of fixtures.splice(0)) rmSync(path, { recursiv
 
 test('container-only maintenance blocks admissions, reports rooms, and resumes', async () => {
   let count = 2;
-  const server = createDeploymentAdmin(() => count, 0);
+  let pending = 1;
+  const server = createDeploymentAdmin(() => count, 0, () => pending);
   await once(server, 'listening');
   const address = server.address() as { port: number; address: string };
   expect(address.address).toBe('127.0.0.1');
@@ -22,7 +23,9 @@ test('container-only maintenance blocks admissions, reports rooms, and resumes',
     expect(await (await fetch(url + '/drain', { method: 'POST' })).json()).toMatchObject({ draining: true, rooms: 2 });
     expect(() => assertAdmissionOpen()).toThrow('服务正在更新');
     count = 0;
-    expect(await (await fetch(url + '/status')).json()).toMatchObject({ draining: true, rooms: 0 });
+    expect(await (await fetch(url + '/status')).json()).toMatchObject({ draining: true, rooms: 0, pendingSettlements: 1 });
+    pending = 0;
+    expect(await (await fetch(url + '/status')).json()).toMatchObject({pendingSettlements:0});
     await fetch(url + '/resume', { method: 'POST' });
     expect(() => assertAdmissionOpen()).not.toThrow();
   } finally {
@@ -57,7 +60,7 @@ if(args.includes('/scripts/backup.sh'))process.exit(mode==='backup-failure'?1:0)
 if(args.includes('node')){
  const action=args[args.length-1]==='POST'?args[args.length-2]:args[args.length-1];
  if(action==='status' && mode==='legacy')process.exit(1);
- console.log(JSON.stringify({draining:true,rooms:mode==='busy'?1:0}));
+ console.log(JSON.stringify({draining:true,rooms:mode==='busy'?1:0,pendingSettlements:mode==='pending'?1:0}));
 }
 if(args.includes('up') && mode==='switch-failure'){
  const files=args.filter((_,i)=>args[i-1]==='-f');
@@ -106,4 +109,8 @@ for (const mode of ['switch-failure', 'health-failure']) test(`${mode} restores 
   expect(readFileSync(join(root, 'deploy', 'runtime-image.yaml'), 'utf8')).toContain('soulwisp-app:rollback-');
   expect(commands.filter(c => c.args.includes('up'))).toHaveLength(2);
   expect(commands.some(c => c.args.includes('pg_restore'))).toBe(false);
+});
+
+test('release waits for pending settlements even with an empty game slot', () => {
+  const {result,commands}=release('pending');expect(result.status).not.toBe(0);expect(commands.some(command=>command.args.includes('/scripts/backup.sh'))).toBe(false);
 });

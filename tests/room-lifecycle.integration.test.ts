@@ -1,10 +1,11 @@
 import 'dotenv/config';
+import {startLiveMatch,waitForIdle} from './live-lobby';
 import { randomUUID } from 'node:crypto';
 import { spawn, type ChildProcess } from 'node:child_process';
 import pg from 'pg';
 import { Client, type Room } from '@colyseus/sdk';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import type { GameView } from '@wangxu/shared';
+import type { GameView, LobbyView } from '@wangxu/shared';
 
 const base = 'http://127.0.0.1:3022';
 const client = new Client('ws://127.0.0.1:2582');
@@ -36,13 +37,13 @@ function observe(room: Room) {
   return room;
 }
 async function leave(room: Room) { await room.leave(); connections.delete(room); }
-async function lobby() {
-  const host = await account();
-  const room = observe(await client.create('expedition', { capacity: 4, ticket: host.ticket }));
-  await until(() => views.has(room));
-  return { host, room, invite: views.get(room)!.invite };
+const lobbyViews=new Map<Room,LobbyView>();
+async function joinWaiting(account:{cookie:string}){
+  const response=await fetch(`${base}/api/lobby/join`,{method:'POST',headers:{'Content-Type':'application/json',Origin:origin,Cookie:account.cookie},body:'{}'});
+  expect(response.ok,await response.clone().text()).toBe(true);
+  const room=await client.consumeSeatReservation(await response.json());return observeWaiting(room);
 }
-async function join(invite: string, ticket: string) { return observe(await client.joinOrCreate('expedition', { invite, capacity: 4, ticket })); }
+function observeWaiting(room:Room){connections.add(room);room.onMessage('lobbyView',(view:LobbyView)=>lobbyViews.set(room,view));room.onMessage('returned',()=>{});room.onMessage('settlementCommitted',()=>{});room.onMessage('error',()=>{});return room;}
 
 describe('real room lifecycle and account seat ownership', () => {
   beforeAll(async () => {
@@ -65,80 +66,34 @@ describe('real room lifecycle and account seat ownership', () => {
     } finally { await database.end(); }
   }, 15_000);
 
-  it('does not let a rejected simultaneous join disconnect or remove the accepted seat', async () => {
-    const { room, invite } = await lobby();
-    const visitor = await account();
-    const attempts = await Promise.allSettled([join(invite, visitor.ticket), join(invite, visitor.ticket)]);
-    const accepted = attempts.filter(result => result.status === 'fulfilled');
-    expect(accepted).toHaveLength(1);
-    expect(attempts.filter(result => result.status === 'rejected')).toHaveLength(1);
-    const joined = (accepted[0] as PromiseFulfilledResult<Room>).value;
-    await until(() => views.get(room)?.players.length === 2 && views.get(room)?.players.find(player => player.id === visitor.userId)?.connected === true);
-    await expect(client.create('expedition', { capacity: 4, ticket: visitor.ticket })).rejects.toThrow('此账户已有远征席位');
-    expect(views.get(room)!.players.filter(player => player.id === visitor.userId)).toHaveLength(1);
-    await leave(joined); await leave(room);
+  it('rejects duplicate waiting control without removing the accepted member',async()=>{
+    const member=await account();const attempts=await Promise.allSettled([joinWaiting(member),joinWaiting(member)]);
+    const accepted=attempts.filter(result=>result.status==='fulfilled');expect(accepted).toHaveLength(1);expect(attempts.filter(result=>result.status==='rejected')).toHaveLength(1);
+    const room=(accepted[0] as PromiseFulfilledResult<Room>).value;await until(()=>lobbyViews.get(room)?.members.length===1);
+    await expect(client.create('expedition',{capacity:4,ticket:member.ticket})).rejects.toThrow('等待区');expect(lobbyViews.get(room)!.members[0]!.id).toBe(member.userId);await leave(room);
   });
-
-  it('holds the account lock during a dropped connection and restores the original session', async () => {
-    const { room, invite } = await lobby(); const visitor = await account();
-    const joined = await join(invite, visitor.ticket);
-    await until(() => views.get(room)?.players.length === 2);
-    const token = joined.reconnectionToken;
-    const sessionId = joined.sessionId;
-    joined.reconnection.enabled = false;
-    joined.connection.close(4010, 'integration network drop');
-    connections.delete(joined);
-    await until(() => views.get(room)?.players.find(player => player.id === visitor.userId)?.connected === false);
-    await expect(client.create('expedition', { capacity: 4, ticket: visitor.ticket })).rejects.toThrow('此账户已有远征席位');
-    const recovered = observe(await client.reconnect(token));
-    expect(recovered.sessionId).toBe(sessionId);
-    await until(() => views.get(room)?.players.find(player => player.id === visitor.userId)?.connected === true);
-    expect(views.get(room)!.players.filter(player => player.id === visitor.userId)).toHaveLength(1);
-    await leave(recovered); await leave(room);
+  it('clears waiting readiness on drop and reconnects at the tail',async()=>{
+    const first=await account(),second=await account(),a=await joinWaiting(first),b=await joinWaiting(second);a.send('lobbyCommand',{type:'ready',ready:true});await until(()=>lobbyViews.get(b)?.members.find(m=>m.id===first.userId)?.ready===true);
+    const token=a.reconnectionToken;a.reconnection.enabled=false;a.connection.close(4010,'integration network drop');connections.delete(a);
+    await until(()=>lobbyViews.get(b)?.members.length===1);const restored=observeWaiting(await client.reconnect(token));await until(()=>lobbyViews.get(restored)?.members.length===2);
+    expect(lobbyViews.get(restored)!.members.at(-1)).toMatchObject({id:first.userId,ready:false});await leave(restored);await leave(b);
   });
-
-  it('releases a lobby seat after a voluntary departure', async () => {
-    const { room, host } = await lobby();
-    await leave(room);
-    const next = observe(await client.create('expedition', { capacity: 4, ticket: host.ticket }));
-    await until(() => views.has(next));
-    expect(views.get(next)!.self.id).toBe(host.userId);
-    await leave(next);
+  it('releases a waiting membership after voluntary departure',async()=>{
+    const member=await account(),room=await joinWaiting(member);await leave(room);const next=await joinWaiting(member);await until(()=>lobbyViews.get(next)?.members.length===1);expect(lobbyViews.get(next)!.members[0]!.ready).toBe(false);await leave(next);
   });
-
-  it('keeps an active departed account out of a second expedition until the old room is disposed', async () => {
-    const { room, host, invite } = await lobby(); const group = [room];
-    for (let index = 0; index < 3; index++) { const member = await account(); group.push(await join(invite, member.ticket)); }
-    await until(() => views.get(room)?.players.length === 4);
-    for (const connection of group) connection.send('command', { type: 'ready', ready: true });
-    await until(() => views.get(room)?.phase === 'EXPLORE');
-    await leave(room);
-    await expect(client.create('expedition', { capacity: 4, ticket: host.ticket })).rejects.toThrow('此账户已有远征席位');
-    expect(views.get(group[1]!)?.result).toBeNull();
-    for (const connection of group.slice(1)) await leave(connection);
-    await new Promise(resolve => setTimeout(resolve, 150));
-    const next = observe(await client.create('expedition', { capacity: 4, ticket: host.ticket }));
-    await until(() => views.has(next));
-    expect(views.get(next)!.self.id).toBe(host.userId);
-    await leave(next);
-  }, 15_000);
-
-  it('reopens a completed expedition with a real empty seat after one participant leaves', async () => {
-    const { room, host, invite } = await lobby(); const group = [room];
-    for (let index = 0; index < 3; index++) { const member = await account(); group.push(await join(invite, member.ticket)); }
-    await until(() => views.get(room)?.players.length === 4);
-    for (const connection of group) connection.send('command', { type: 'ready', ready: true });
-    await until(() => views.get(room)?.phase === 'RESULT' && !!views.get(room)?.result, 35_000);
-    await until(async () => (await fetch(`${base}/api/camp`, { headers: { Cookie: host.cookie } }).then(response => response.json())).matches === 1);
-    await leave(group[3]!);
-    room.send('command', { type: 'restart' });
-    await until(() => views.get(room)?.phase === 'LOBBY' && views.get(room)?.players.length === 3);
-    expect(views.get(room)!.players.every(player => player.connected)).toBe(true);
-    await new Promise(resolve => setTimeout(resolve, 100));
-    const newcomer = await account(); const joined = await join(invite, newcomer.ticket);
-    await until(() => views.get(room)?.players.length === 4);
-    expect(views.get(room)!.players.some(player => player.id === newcomer.userId)).toBe(true);
-    await leave(joined);
-    for (const connection of group.slice(0, 3)) await leave(connection);
-  }, 45_000);
+  it('restores the original game seat and returns everyone through the common waiting queue',async()=>{
+    const members=await Promise.all(Array.from({length:4},()=>account()));
+    const match=await startLiveMatch(members,client,base,origin,room=>{observe(room);room.onMessage('returnToLobby',()=>{});});match.waiting.forEach(observeWaiting);
+    await until(()=>match.games.every(room=>views.get(room)?.phase==='EXPLORE'),15000);
+    const original=match.games[0]!,token=original.reconnectionToken,sessionId=original.sessionId;original.reconnection.enabled=false;original.connection.close(4010,'integration network drop');connections.delete(original);
+    await until(()=>views.get(match.games[1]!)?.players.find(p=>p.id===members[0]!.userId)?.connected===false);
+    await expect(client.joinById(original.roomId,{ticket:members[0]!.ticket})).rejects.toThrow();
+    const restored=observe(await client.reconnect(token));restored.onMessage('returnToLobby',()=>{});expect(restored.sessionId).toBe(sessionId);
+    const extra=await account(),extraWaiting=await joinWaiting(extra);
+    await until(()=>!!views.get(restored)?.result,35000);match.waiting[0]!.send('returnEarly',{});
+    await until(()=>lobbyViews.get(match.waiting[0]!)?.selfArea==='waiting');expect(lobbyViews.get(match.waiting[0]!)!.members.map(m=>m.id)).toEqual([extra.userId,members[0]!.userId]);
+    await waitForIdle(base);await until(()=>lobbyViews.get(extraWaiting)?.members.length===5);
+    expect(lobbyViews.get(extraWaiting)!.members.map(m=>m.id)).toEqual([extra.userId,...members.map(m=>m.userId)]);expect(lobbyViews.get(extraWaiting)!.members.every(m=>!m.ready)).toBe(true);
+    await leave(restored);for(const room of match.games.slice(1))await leave(room);for(const room of match.waiting)await leave(room);await leave(extraWaiting);
+  },65000);
 });

@@ -69,13 +69,13 @@ test('camp, crafting, research, room browser and ten-seat lobby fit; scrollbar v
       });
       expect(gutter.hidden).toEqual(gutter.before);expect(gutter.overflowing).toEqual(gutter.before);
       await page.getByRole('button',{name:'秘闻研究',exact:true}).click();await expect(page.locator('.app')).toHaveAttribute('data-music-scene','research');
-      await page.getByRole('button',{name:'外观与配装',exact:true}).click();await expect(page.locator('.app')).toHaveAttribute('data-music-scene','camp');
+      await page.getByRole('button',{name:'外观与职业偏好',exact:true}).click();await expect(page.locator('.app')).toHaveAttribute('data-music-scene','camp');
     }
     await page.getByRole('button',{name:'开启归灯远征'}).click();await expect(page.locator('.app')).toHaveAttribute('data-music-scene','rooms');
     for(const size of sizes){await page.setViewportSize(size);await assertViewport(page);}
-    await page.locator('.capacity-buttons').getByRole('button',{name:'10',exact:true}).click();await page.getByRole('button',{name:'创建房间，获取邀请码',exact:true}).click();await expect(page.locator('.seat')).toHaveCount(10);await expect(page.locator('.app')).toHaveAttribute('data-music-scene','lobby');
+    await page.locator('.room-page').getByRole('button',{name:'加入等待区',exact:true}).click();await page.getByRole('button',{name:'打开灯下等待区'}).click();await expect(page.getByRole('list',{name:'等待区成员'}).locator('li')).toHaveCount(1);
     for(const size of sizes){await page.setViewportSize(size);await assertViewport(page);await page.getByRole('button',{name:'准备出征',exact:true}).scrollIntoViewIfNeeded();await expect(page.getByRole('button',{name:'准备出征',exact:true})).toBeInViewport();await assertViewport(page);}
-    await page.getByRole('button',{name:'离开房间',exact:true}).click();
+    await page.getByRole('button',{name:'离开等待区',exact:true}).click();
   }finally{const database=new pg.Pool({connectionString:process.env.DATABASE_URL});try{if(id)await database.query('DELETE FROM auth_user WHERE id=$1',[id]);}finally{await database.end();}}
 });
 

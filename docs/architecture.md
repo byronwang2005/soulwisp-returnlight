@@ -9,7 +9,7 @@ React 19、Three.js / R3F / drei 与 Vite 提供三维场景和中文界面；No
 | `apps/web` | 场景、训练、营地、房间、设置与语音界面 |
 | `apps/server/src/api.ts`、`accounts.ts` | 账户 API、入房票据、库存与事务结算 |
 | `apps/server/src/rooms.ts` | Colyseus 房间、授权视图、重连、阶段与结算协调 |
-| `apps/server/src/voice.ts`、`voice-lobby.ts` | 议会权限与独立公共大厅 |
+| `apps/server/src/voice.ts`、`voice-lobby.ts` | 议会权限与等待区语音 |
 | `apps/server/src/db`、`migrations` | PostgreSQL schema 与启动迁移 |
 | `packages/rules` | 人数配置、地图、动作、证据、阶段、终局、奖励与训练 |
 | `packages/shared` | 命令、授权视图、营地协议与场景尺寸 |
@@ -44,6 +44,7 @@ flowchart TB
 | `POST /api/tutorial` | 六课顺序进度与一次性完成奖励 |
 | `POST /api/game-ticket` | 账户绑定的入房票据 |
 | `POST /api/voice/token` | 当前议会成员的 epoch 票据 |
+| `GET /api/lobby`、`POST /api/lobby/join` | 公共状态摘要、唯一等待区账户席位；准备、偏好和本局席位通过授权 Colyseus 连接同步 |
 | `GET /api/voice/lobby`、`POST /api/voice/lobby/token` | [公共大厅](voice-lobby.md) 状态与入场票据 |
 
 制作扣料与解锁原子提交；制作、教程、预设共用 `(userId, requestId)` 幂等空间，同编号不能提交不同内容。`matchId` 唯一，整局奖励同事务写入；相同结算重试返回原结果，内容冲突拒绝。物品 `lootId` 只允许一次兑换。结算保存规则版本、人数和地图种子；地图种子不包含身份随机熵。
@@ -52,11 +53,11 @@ flowchart TB
 
 ## 议会语音与故障处理
 
-远征语音只在 `DISCUSS` 开放，每章使用独立房间与随机 epoch。票据初始禁发，服务端先撤销旧发言权，再授权当前席位；自由讨论允许实体玩家发麦，回响只收听。视频、屏幕分享和数据发布不授权。首页大厅有独立权限与生命周期。
+远征语音只在 `DISCUSS` 开放，每章使用独立房间与随机 epoch。票据初始禁发，服务端先撤销旧发言权，再授权当前席位；自由讨论允许实体玩家发麦，回响只收听。视频、屏幕分享和数据发布不授权。等待区有独立权限与生命周期，成员与准备状态由 Colyseus 调度器记录，语音连接独立。
 
 议会结束删除媒体房；删除失败时暂缓阶段转换，超过五秒判无效并重试。LiveKit 保持 `room.auto_create: false`，旧票据不能重建已关闭房间。
 
-短断线停止输入，按真实时间保留 60 秒；投票分母不因瞬断减少。终局先到时冻结操作和候选结果，等待重连或超时。房间只在单个 Node 进程内保存，重启不恢复进行中对局。数据库故障时结算重试，尚未入库不能重开。
+短断线停止输入，按真实时间保留 60 秒；投票分母不因瞬断减少。终局先到时冻结操作和候选结果，等待重连或超时。房间只在单个 Node 进程内保存，重启不恢复进行中对局。数据库故障时结算独立重试，不阻塞回厅和下一局；发布排空另行等待待写入结算归零。
 
 ## 运行与部署
 

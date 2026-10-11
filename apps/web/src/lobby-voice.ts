@@ -20,7 +20,7 @@ export const LOBBY_ROOM_OPTIONS = {
 /** Owns one media session; every asynchronous action checks the session generation. */
 export class LobbyVoiceConnection {
   room = new Room(LOBBY_ROOM_OPTIONS);
-  private snapshot: LobbySnapshot = { info: { available: false, online: 0, capacity: 10, url: null }, state: 'idle',
+  private snapshot: LobbySnapshot = { info: { available: false, online: 0, capacity: 0, url: null }, state: 'idle',
     members: [], muted: true, listening: true, micBusy: false, playbackBlocked: false, message: '', metrics: [], connectMs: null };
   private listeners = new Set<() => void>();
   private audio = new Map<string, { track: RemoteTrack; element: HTMLMediaElement }>();
@@ -100,7 +100,7 @@ export class LobbyVoiceConnection {
         // A failed prewarm must never prevent an actual connection attempt.
         void this.room.prepareConnection(info.url).catch(() => { this.preparedUrl = null; });
       }
-    } catch { this.update({ info: { available: false, online: 0, capacity: 10, url: null } }); }
+    } catch { this.update({ info: { available: false, online: 0, capacity: 0, url: null } }); }
     finally { this.refreshing = false; }
   }
 
@@ -127,7 +127,7 @@ export class LobbyVoiceConnection {
       const message = error instanceof Error ? error.message : '语音连接失败，请重试。';
       await room.disconnect();
       this.clearMedia();
-      this.update({ state: 'idle', message: /participant|limit|full/i.test(message) ? '语音大厅已满（10 人），请稍后再加入。' : message });
+      this.update({ state: 'idle', message: /participant|limit|full/i.test(message) ? '语音暂时无法连接，请重试。' : message });
       void this.refresh();
     }
   }

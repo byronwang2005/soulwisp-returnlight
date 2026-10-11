@@ -61,8 +61,8 @@ describe('public voice lobby lifecycle failures', () => {
     try {
       const statuses = await Promise.all([service.status(), service.status(), service.status()]);
       expect(fake.create).toHaveBeenCalledTimes(1); expect(fake.members).toHaveBeenCalledTimes(1);
-      expect(statuses).toEqual(Array(3).fill({ available: true, online: 1, capacity: 10, url: config.publicUrl }));
-      expect(fake.create.mock.calls[0]![0]).toMatchObject({ maxParticipants: 10 });
+      expect(statuses).toEqual(Array(3).fill({ available: true, online: 1, capacity: 0, url: config.publicUrl }));
+      expect(fake.create.mock.calls[0]![0]).toMatchObject({ maxParticipants: 0 });
     } finally { await service.dispose(); }
   });
   it('tracks a creation that succeeded upstream but lost its response', async () => {
@@ -97,6 +97,33 @@ describe('public voice lobby lifecycle failures', () => {
       await service.dispose(); expect(fake.rooms).toEqual(new Set(['foreign-lobby']));
       expect(fake.delete.mock.calls.every(([name]) => name === own)).toBe(true);
     } finally { warning.mockRestore(); }
+  });
+  it('admits an eleventh listener and revokes removed listeners tokens', async () => {
+    fake.participants=Array.from({length:11},(_,i)=>({identity:`user-${i}`}));
+    const service=new VoiceLobbyService(config);
+    try { await expect(service.issueToken({id:'extra',name:'候场'})).resolves.toHaveProperty('token');await service.removeParticipant('extra');expect(fake.remove.mock.calls[0][2]).toHaveProperty('revokeTokenTs'); }
+    finally { await service.dispose(); }
+  });
+  it('does not block text-only players when media has never issued them a ticket', async () => {
+    const service=new VoiceLobbyService(config);fake.create.mockRejectedValue(new Error('offline'));
+    try { expect(await service.status()).toMatchObject({available:false});await expect(service.removeParticipant('text-only')).resolves.toBeUndefined();expect(fake.remove).not.toHaveBeenCalled(); }
+    finally { await service.dispose(); }
+  });
+  it('reports failed media removal instead of admitting a player with a live waiting track', async () => {
+    const service=new VoiceLobbyService(config);
+    try { await service.issueToken({id:'user',name:'曾连接语音'});fake.remove.mockRejectedValue(new Error('SFU outage'));await expect(service.removeParticipant('user')).rejects.toMatchObject({status:503}); }
+    finally { await service.dispose(); }
+  });
+  it('removes active expedition users who rejoin with an earlier waiting token', async () => {
+    vi.useFakeTimers();const service=new VoiceLobbyService(config,id=>id==='playing');
+    try { await service.status();fake.participants=[{identity:'playing'},{identity:'waiting'}];await vi.advanceTimersByTimeAsync(1000);expect(fake.remove).toHaveBeenCalledExactlyOnceWith([...fake.rooms][0],'playing',expect.objectContaining({revokeTokenTs:expect.any(BigInt)})); }
+    finally { await service.dispose();vi.useRealTimers(); }
+  });
+  it('checks waiting membership again after the SFU request', async () => {
+    let waiting=true;fake.members.mockImplementationOnce(async()=>{waiting=false;return [];});
+    const service=new VoiceLobbyService(config,()=>false,{canJoin:()=>waiting});
+    try { await expect(service.issueToken({id:'user',name:'离厅者'})).rejects.toMatchObject({status:403,code:'NOT_WAITING'}); }
+    finally { await service.dispose(); }
   });
   it('checks expedition membership again after awaiting the SFU', async () => {
     let active = false;

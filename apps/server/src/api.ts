@@ -3,10 +3,11 @@ import { AccountError, advanceTutorial, auth, craft, getCamp, getSession, issueG
 import { VoiceError, type VoiceService, type VoiceState } from './voice.js';
 import type { CampData, CampPreset } from '@wangxu/shared';
 import { pool } from './db/index.js';
+import { reserveWaiting, type WaitingRoom } from './waiting-room.js';
 import { LobbyVoiceError, type VoiceLobbyService } from './voice-lobby.js';
 
 export interface ApiEngine { getVoiceState(): VoiceState }
-export interface ApiOptions { getRoom: (id: string) => { engine: ApiEngine } | ApiEngine | undefined; voiceService?: VoiceService; voiceLobby?: VoiceLobbyService }
+export interface ApiOptions { getRoom: (id: string) => { engine: ApiEngine } | ApiEngine | undefined; voiceService?: VoiceService; voiceLobby?: VoiceLobbyService; lobby?: () => WaitingRoom | undefined }
 type Variables = { account: { id: string; name: string } };
 const origins = () => [...new Set([process.env.AUTH_BASE_URL ?? process.env.AUTH_URL ?? process.env.BETTER_AUTH_URL ?? process.env.PUBLIC_APP_URL ?? 'http://localhost:5180',
   ...(process.env.ALLOWED_ORIGINS ?? process.env.TRUSTED_ORIGINS ?? '').split(',').map(origin => origin.trim()).filter(Boolean)])];
@@ -28,8 +29,9 @@ export function createApi(options: ApiOptions) {
   });
   app.get('/api/voice/lobby', async c => {
     c.header('Cache-Control', 'no-store');
-    return c.json(options.voiceLobby ? await options.voiceLobby.status() : { available: false, online: 0, capacity: 10, url: null });
+    return c.json(options.voiceLobby ? await options.voiceLobby.status() : { available: false, online: 0, capacity: 0, url: null });
   });
+  app.get('/api/lobby', c => {c.header('Cache-Control','no-store');return c.json(options.lobby?.()?.coordinator.summary()??{waiting:0,game:null,countdown:null,draining:false});});
   app.use('/api/*', async (c, next) => {
     c.header('Cache-Control', 'no-store');
     if (c.req.method === 'POST') {
@@ -53,7 +55,9 @@ export function createApi(options: ApiOptions) {
     return c.json({user:{...current,name:body.name.trim(),image:body.image}});
   });
   app.get('/api/camp', async c => c.json(await getCamp(c.get('account').id)));
+  app.post('/api/lobby/join', async c => c.json(await reserveWaiting(c.get('account'))));
   app.post('/api/voice/lobby/token', async c => {
+    if (!options.lobby?.()?.coordinator.isWaiting(c.get('account').id)) throw new LobbyVoiceError(403,'NOT_WAITING','请先加入等待区');
     if (!options.voiceLobby) throw new LobbyVoiceError(503, 'LOBBY_UNAVAILABLE', '语音大厅暂时离线，请稍后重试。');
     return c.json(await options.voiceLobby.issueToken(c.get('account')));
   });

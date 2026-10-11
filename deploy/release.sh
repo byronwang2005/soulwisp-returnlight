@@ -67,9 +67,9 @@ admin drain POST >/dev/null
 deadline=$((SECONDS + ${DRAIN_TIMEOUT_SECONDS:-2100}))
 while :; do
   status=$(admin status)
-  count=$(python3 -c 'import json,sys; s=json.load(sys.stdin); assert s["draining"] is True; print(s["rooms"])' <<< "$status")
+  count=$(python3 -c 'import json,sys; s=json.load(sys.stdin); assert s["draining"] is True; print(s["rooms"] + s.get("pendingSettlements", 0))' <<< "$status")
   [[ $count == 0 ]] && break
-  (( SECONDS < deadline )) || { echo 'Rooms remain active; deployment cancelled.' >&2; exit 1; }
+  (( SECONDS < deadline )) || { echo 'Rooms or settlement writes remain active; deployment cancelled.' >&2; exit 1; }
   sleep 10
 done
 "${base[@]}" exec -T backup sh /scripts/backup.sh </dev/null

@@ -1,5 +1,6 @@
 import 'dotenv/config';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import {startLiveMatch,waitForIdle} from './live-lobby';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { Client, type Room } from '@colyseus/sdk';
 import { spawn, type ChildProcess } from 'node:child_process';
 import pg from 'pg';
@@ -37,19 +38,18 @@ async function account(index:number):Promise<Account>{
   const ticketResponse=await fetch(`${base}/api/game-ticket`,{method:'POST',headers:{'Content-Type':'application/json',Origin:origin,Cookie:cookie},body:'{}'});
   expect(ticketResponse.ok).toBe(true);const ticket=await ticketResponse.json() as {ticket:string;userId:string};accountIds.push(ticket.userId);return {...ticket,cookie};
 }
+afterEach(async()=>{await Promise.all(connected.splice(0).map(room=>room.leave().catch(()=>{})));await waitForIdle(base);},50000);
 async function expedition(count:number){
+  await waitForIdle(base);
   const accounts=await Promise.all(Array.from({length:count},(_,i)=>account(i))),client=new Client(socket),peers:Peer[]=[];
-  for(let i=0;i<count;i++){
-    const room=i===0?await client.create('expedition',{capacity:count,ticket:accounts[i]!.ticket}):await client.joinOrCreate('expedition',{capacity:count,invite:peers[0]!.view!.invite,ticket:accounts[i]!.ticket});
-    connected.push(room);const peer:Peer={account:accounts[i]!,room,view:null,seq:0,errors:[],committed:null};peers.push(peer);
-    room.onMessage('view',(view:GameView)=>{peer.view=view;});room.onMessage('error',(error:{message:string})=>{peer.errors.push(error.message);});
+  const match=await startLiveMatch(accounts,client,base,origin,(room,index)=>{
+    const peer:Peer={account:accounts[index]!,room,view:null,seq:0,errors:[],committed:null};peers[index]=peer;
+    room.onMessage('view',(view:GameView)=>{peer.view=view;});room.onMessage('error',(error:{message:string})=>peer.errors.push(error.message));
     room.onMessage('settlementCommitted',(message:{matchId:string})=>{peer.committed=message.matchId;matchIds.add(message.matchId);});
-    await until(()=>!!peer.view,10_000,'initial private view');
-  }
-  await until(()=>peers.every(peer=>peer.view?.players.length===count),10_000,'all seats');
-  peers.forEach(peer=>send(peer,{type:'ready',ready:true}));await phase(peers[0]!,'EXPLORE',1);
-  expect(peers.filter(peer=>peer.view?.self.faction==='wolf')).toHaveLength(peers[0]!.view!.config.wolves);
-  return peers;
+  });
+  connected.push(...match.waiting,...match.games);
+  await until(()=>peers.length===count&&peers.every(peer=>!!peer.view),10000,'initial private views');await phase(peers[0]!,'EXPLORE',1);
+  expect(peers.filter(peer=>peer.view?.self.faction==='wolf')).toHaveLength(peers[0]!.view!.config.wolves);return peers;
 }
 function send(peer:Peer,command:GameCommand){peer.room.send('command',command);}
 function self(peer:Peer):PlayerView{const player=peer.view!.players.find(p=>p.id===peer.account.userId)!;if(player.x===null||player.y===null)throw new Error('Own living coordinates missing');return player;}
@@ -140,13 +140,13 @@ async function escortAndVerify(peers:Peer[],carrier:Peer){
 }
 
 describe('live SDK intents, authoritative objectives and PostgreSQL rewards',()=>{
-  it.concurrent('four players recover from a mistaken seal and complete the entire common expedition',async()=>{
+  it('four players recover from a mistaken seal and complete the entire common expedition',async()=>{
     const peers=await expedition(4),humans=peers.filter(peer=>peer.view!.self.faction==='human'),mistaken=humans.pop()!;
     await phase(peers[0]!,'VOTE',2);peers.forEach(peer=>send(peer,{type:'vote',targetId:mistaken.account.userId}));
     await phase(peers[0]!,'EXPLORE',3);expect(mistaken.view!.players.find(p=>p.id===mistaken.account.userId)?.sealed).toBe(true);expect(mistaken.view!.players.every(p=>p.x===null)).toBe(true);
     await defeatGuardian(humans);await engineering(humans[0]!);await escortAndVerify(peers,humans[0]!);
   },200_000);
-  it.concurrent('ten players complete physical objectives with no wolf contribution or profession requirement',async()=>{
+  it('ten players complete physical objectives with no wolf contribution or profession requirement',async()=>{
     const peers=await expedition(10),humans=peers.filter(peer=>peer.view!.self.faction==='human'),carrier=humans[0]!;
     await phase(carrier,'EXPLORE',3);await engineering(carrier);await phase(carrier,'EXPLORE',4);await defeatGuardian(humans);await escortAndVerify(peers,carrier);
   },250_000);
