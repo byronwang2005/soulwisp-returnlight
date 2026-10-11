@@ -22,6 +22,7 @@
     "livekit-client": "^2.15.0",
     "lucide": "1.26.0",
     "morphicons": "1.7.1",
+    "polygon-clipping": "0.15.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "three": "^0.180.0"

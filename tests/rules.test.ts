@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { GameEngine, getConfig, getLayout, RULES } from '../packages/rules/src/index.js';
+import {approachPoint} from '@wangxu/shared';
 import type { GameCommand, Phase, Settlement } from '@wangxu/shared';
 import type { Faction, Profession } from '@wangxu/shared';
 
@@ -31,7 +32,7 @@ function walk(game:GameEngine,player:EnginePlayer,target:{x:number;y:number},com
   const start=nearest(player),goal=nearest(target),parents=new Map<string,string>(),seen=new Set([start.id]),queue=[start.id];
   while(queue.length&&!seen.has(goal.id)){const id=queue.shift()!;for(const [a,b]of game.layout.edges){const next=a===id?b:b===id?a:null;if(next&&!seen.has(next)){seen.add(next);parents.set(next,id);queue.push(next);}}}
   const route=[goal.id];while(route[0]!==start.id)route.unshift(parents.get(route[0]!)!);
-  const waypoints=[...route.map(id=>nodes.find(n=>n.id===id)!),target];
+  const waypoints=[...route.map(id=>nodes.find(n=>n.id===id)!),approachPoint(goal,target)];
   for(const point of waypoints){for(let ticks=0;ticks<5000;ticks++){
     if(companions.every(p=>Math.hypot(point.x-p.x,point.y-p.y)<4))break;
     expect(['EXPLORE','EXTRACT']).toContain(game.phase);
@@ -59,9 +60,9 @@ function commandExpedition(n:number,wrongSeal:boolean) {
   const humans=[...game.players.values()].filter(p=>p.faction==='human'&&!p.sealed),carrier=humans[0]!;
   const defeatGuardian=()=>{
     const guardian=game.objects.find(o=>o.id==='guardian')!;expect(guardian.active).toBe(true);
-    walk(game,carrier,{x:guardian.x,y:guardian.y+55},humans);
+    walk(game,carrier,guardian,humans);
     for(let volley=0;guardian.active&&volley<40;volley++){
-      for(const human of humans)if(guardian.active&&!human.down)expect(game.command(human.id,{type:'attack',targetId:guardian.id})).toBe(true);
+      for(const human of humans)if(guardian.active&&!human.down){const dx=guardian.x-human.x,dy=guardian.y-human.y,length=Math.hypot(dx,dy);game.command(human.id,{type:'move',x:dx/length,y:dy/length,seq:human.seq+1});game.command(human.id,{type:'move',x:0,y:0,seq:human.seq+1});expect(game.command(human.id,{type:'attack',targetId:guardian.id})).toBe(true);}
       game.tick(.75);
     }
     expect(game.eliteDefeated).toBe(true);expect(carrier.down).toBe(false);
@@ -110,7 +111,7 @@ describe('versioned configurations and fixed two-loop maps',()=>{
       const supply=map.objects.filter(o=>o.guaranteed);
       expect(supply.reduce((sum,o)=>sum+(o.amount??0),0)).toBe(config.guaranteedSupply);
       if(n===4)for(let chapter=1;chapter<=3;chapter++)expect(supply.filter(o=>o.chapter===chapter).reduce((sum,o)=>sum+(o.amount??0),0)).toBe(4);
-      expect(map.objects.filter(o=>o.kind==='altar')).toHaveLength(config.darkAltars);
+      expect(map.objects.filter(o=>o.kind==='altar'&&o.active)).toHaveLength(config.darkAltars);
     }
   });
 });

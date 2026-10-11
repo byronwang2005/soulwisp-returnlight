@@ -1,6 +1,7 @@
+import {OBJECT_FOOTPRINT,SCENE,segmentDistance} from '@wangxu/shared';
 import type { GameConfig, MapNode, Profession, WorldObject } from '@wangxu/shared';
 
-export const RULE_VERSION = 'wangxu-0.1.0';
+export const RULE_VERSION = 'wangxu-0.2.0';
 const professions: Profession[] = ['warden','scout','scavenger','broker','medic','engineer','forensic','bellkeeper','ranger'];
 const rows: Record<number, number[]> = {
   // humans, wolves, chapters, explore, discuss, beacons, E, shadow, removal, finisher, nodes, supply
@@ -53,5 +54,30 @@ export function getLayout(config:GameConfig, seed:number|string=1):Layout {
     for(let j=0;j<Math.ceil(count/2);j++) add(`resource-${chapter}-${j}`,'resource','亡絮·工程份额',nodes[1+(j+chapter+variant)%(nodes.length-1)]!,j%2 ? -15 : 15,-22,{active:false,chapter,guaranteed:true,amount:Math.min(2,count-j*2)});
     add(`chest-${chapter}`,'chest','遗迹储藏点',nodes[1+(chapter+variant+1)%(nodes.length-1)]!,15,30,{active:false,chapter,amount:2});
   }
+  for(let i=0;i<2;i++)add(`altar-extract-${i}`,'altar',`撤离暗祭坛${i+1}`,exit,0,0,{active:false,chapter:config.chapters+1});
+  // Reserve a separate slot for every chapter, including currently inactive objects.
+  const placements=new Map<string,{x:number;y:number}>();
+  for(const node of nodes) {
+    const list=objects.filter(o=>o.nodeId===node.id);
+    const length=Math.hypot(node.x-500,node.y-350)||1,rx=(node.x-500)/length,ry=(node.y-350)/length;
+    const stationRadius=Math.max(120,(list.length-1)*115/2.1);
+    let homeRotation=0;
+    if(node.id==='sanctuary')for(let attempt=0;attempt<72;attempt++){
+      const angle=attempt*Math.PI/144;
+      const valid=list.every((o,i)=>{const theta=Math.PI/4+i*Math.PI/2+angle,point={x:node.x+Math.cos(theta)*160,y:node.y+Math.sin(theta)*160};return edges.filter(([a,b])=>a===node.id||b===node.id).every(([a,b])=>segmentDistance(point,nodes.find(n=>n.id===a)!,nodes.find(n=>n.id===b)!)>OBJECT_FOOTPRINT[o.kind]+SCENE.playerRadius+12);});
+      if(valid){homeRotation=angle;break;}
+    }
+    for(const [slot,object] of list.entries()) {
+      const angle=list.length>1?-1.05+2.1*slot/(list.length-1):0;
+      const offset=node.id==='sanctuary'?{x:Math.cos(Math.PI/4+slot*Math.PI/2+homeRotation)*160,y:Math.sin(Math.PI/4+slot*Math.PI/2+homeRotation)*160}:{x:Math.sin(angle)*stationRadius,y:Math.cos(angle)*stationRadius};
+      placements.set(object.id,node.id==='sanctuary'?offset:{x:-ry*offset.x+rx*offset.y,y:rx*offset.x+ry*offset.y});
+    }
+    node.radius=Math.max(112,...list.map(o=>{const offset=placements.get(o.id)!;return Math.hypot(offset.x,offset.y)+OBJECT_FOOTPRINT[o.kind]+20;}));
+  }
+  let scale=1;
+  const outer=nodes.slice(1);
+  while(outer.some(n=>Math.hypot((n.x-500)*scale,(n.y-350)*scale)<n.radius+home.radius+100)||outer.some((a,i)=>outer.some((b,j)=>j>i&&Math.hypot((a.x-b.x)*scale,(a.y-b.y)*scale)<a.radius+b.radius+100)))scale*=1.08;
+  for(const node of outer){node.x=500+(node.x-500)*scale;node.y=350+(node.y-350)*scale;}
+  for(const object of objects){const node=nodes.find(n=>n.id===object.nodeId)!;const offset=placements.get(object.id)!;object.x=node.x+offset.x;object.y=node.y+offset.y;}
   return {nodes,objects,edges,variant};
 }

@@ -2136,6 +2136,24 @@
       "version": "5.3.0",
       "license": "OFL-1.1",
       "source": "https://registry.npmmirror.com/@fontsource-variable/source-sans-3/-/source-sans-3-5.3.0.tgz"
+    },
+    {
+      "name": "polygon-clipping",
+      "version": "0.15.7",
+      "license": "MIT",
+      "source": "https://registry.npmmirror.com/polygon-clipping/-/polygon-clipping-0.15.7.tgz"
+    },
+    {
+      "name": "robust-predicates",
+      "version": "3.0.3",
+      "license": "Unlicense",
+      "source": "https://registry.npmmirror.com/robust-predicates/-/robust-predicates-3.0.3.tgz"
+    },
+    {
+      "name": "splaytree",
+      "version": "3.2.3",
+      "license": "MIT",
+      "source": "https://registry.npmmirror.com/splaytree/-/splaytree-3.2.3.tgz"
     }
   ]
 }

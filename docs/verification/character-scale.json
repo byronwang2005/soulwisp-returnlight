@@ -1,0 +1,96 @@
+{
+  "measurement": "Skinned body bind geometry POSITION bounds; excludes hats, cape and held equipment; hooded Rogue uses the bare Rogue head as body reference",
+  "bodyHeight": 2.2,
+  "metrics": [
+    {
+      "profession": "warden",
+      "path": "/assets/characters/Knight.glb",
+      "measurementPath": "/assets/characters/Knight.glb",
+      "rawHeight": 2.314534488319623,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 0.950324,
+      "bodyHeight": 2.1995576730778574,
+      "footHeight": -0.000025209288871250463
+    },
+    {
+      "profession": "scout",
+      "path": "/assets/characters/Rogue_Hooded.glb",
+      "measurementPath": "/assets/characters/Rogue.glb",
+      "rawHeight": 2.1870048671953555,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 1.005944,
+      "bodyHeight": 2.2000044241259644,
+      "footHeight": -0.000026684723193669925
+    },
+    {
+      "profession": "scavenger",
+      "path": "/assets/characters/Barbarian.glb",
+      "measurementPath": "/assets/characters/Barbarian.glb",
+      "rawHeight": 2.1863434940569277,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 1.006404,
+      "bodyHeight": 2.2003448377928683,
+      "footHeight": -0.000026696925635027584
+    },
+    {
+      "profession": "broker",
+      "path": "/assets/characters/Mage.glb",
+      "measurementPath": "/assets/characters/Mage.glb",
+      "rawHeight": 2.2027047306291934,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 0.998638,
+      "bodyHeight": 2.1997046467860764,
+      "footHeight": -0.000026490916592454597
+    },
+    {
+      "profession": "medic",
+      "path": "/assets/characters/Mage.glb",
+      "measurementPath": "/assets/characters/Mage.glb",
+      "rawHeight": 2.2027047306291934,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 0.998638,
+      "bodyHeight": 2.1997046467860764,
+      "footHeight": -0.000026490916592454597
+    },
+    {
+      "profession": "engineer",
+      "path": "/assets/characters/Knight.glb",
+      "measurementPath": "/assets/characters/Knight.glb",
+      "rawHeight": 2.314534488319623,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 0.950324,
+      "bodyHeight": 2.1995576730778574,
+      "footHeight": -0.000025209288871250463
+    },
+    {
+      "profession": "forensic",
+      "path": "/assets/characters/Mage.glb",
+      "measurementPath": "/assets/characters/Mage.glb",
+      "rawHeight": 2.2027047306291934,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 0.998638,
+      "bodyHeight": 2.1997046467860764,
+      "footHeight": -0.000026490916592454597
+    },
+    {
+      "profession": "bellkeeper",
+      "path": "/assets/characters/Barbarian.glb",
+      "measurementPath": "/assets/characters/Barbarian.glb",
+      "rawHeight": 2.1863434940569277,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 1.006404,
+      "bodyHeight": 2.2003448377928683,
+      "footHeight": -0.000026696925635027584
+    },
+    {
+      "profession": "ranger",
+      "path": "/assets/characters/Rogue.glb",
+      "measurementPath": "/assets/characters/Rogue.glb",
+      "rawHeight": 2.1870048671953555,
+      "rawFoot": -0.000026527046429691836,
+      "scale": 1.005944,
+      "bodyHeight": 2.2000044241259644,
+      "footHeight": -0.000026684723193669925
+    }
+  ]
+}

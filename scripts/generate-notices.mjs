@@ -98,6 +98,12 @@ async function collect(directory){
         files.push({path:`${file} (legal header only)`,text:header.replace(/^\/\/ ?/gm,'').trim()});
       }
     }
+    if(!files.length&&manifest.name==='splaytree'){
+      const readme=await readFile(join(directory,'Readme.md'),'utf8');
+      const license=readme.split('## License\n')[1]?.trim();
+      if(!license?.includes('Copyright (c) 2019 Alexander Milevski')||!license.includes('SOFTWARE IS PROVIDED')||!license.includes('OTHER DEALINGS IN THE SOFTWARE.'))throw new Error('Incomplete splaytree README license');
+      files.push({path:'Readme.md (License section)',text:license});
+    }
     if(!files.length)missing.push(`${manifest.name}@${manifest.version}`);
     packages.push({name:manifest.name,version:manifest.version,license:manifest.license,files});
   }
@@ -112,7 +118,7 @@ async function collect(directory){
 await collect(join(root,'apps/web'));
 if(missing.length)throw new Error(`Installed packages without a complete notice file: ${missing.join(', ')}`);
 packages.sort((a,b)=>a.name.localeCompare(b.name)||a.version.localeCompare(b.version));
-const sections=['THIRD-PARTY SOFTWARE NOTICES\n\nGenerated from the installed @wangxu/web runtime dependency graph, including transitive dependencies and required installed peers. Optional peers that are direct runtime dependencies are included through those direct dependencies.\nRegenerate: node scripts/generate-notices.mjs\n\nKayKit models retain their original CC0 notices in /assets/characters/LICENSE.txt and /assets/dungeon/LICENSE.txt. Their file provenance is recorded in /assets/manifest.json.'];
+const sections=['THIRD-PARTY SOFTWARE NOTICES\n\nGenerated from the installed @wangxu/web runtime dependency graph, including transitive dependencies and required installed peers. Optional peers that are direct runtime dependencies are included through those direct dependencies.\nRegenerate: node scripts/generate-notices.mjs\n\nKayKit models retain their original CC0 notices in /assets/characters/LICENSE.txt and /assets/dungeon/LICENSE.txt. Their file provenance is recorded in /assets/manifest.json. Poly Haven ground textures are CC0, with source URLs and SHA256 in /assets/ground/manifest.json.'];
 for(const package_ of packages){
   sections.push(`${'='.repeat(78)}\n${package_.name}@${package_.version}${typeof package_.license==='string'?` (${package_.license})`:''}\n${'='.repeat(78)}`);
   for(const notice of package_.files)sections.push(`${package_.name}/${notice.path}\n${'-'.repeat(78)}\n${notice.text}`);

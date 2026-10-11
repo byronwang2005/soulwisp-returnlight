@@ -1,0 +1,137 @@
+{
+  "license": "CC0-1.0",
+  "source": "https://polyhaven.com/license",
+  "files": [
+    {
+      "file": "/assets/ground/monastery_stone_floor_Diffuse_1k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_diff_1k.jpg",
+      "sha256": "8e52ec982469ce9da312cefe3126c1dff05b7150234971bc6dff6e31c3c584ae",
+      "bytes": 766525,
+      "material": "monastery_stone_floor",
+      "map": "Diffuse",
+      "resolution": "1k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/monastery_stone_floor_Diffuse_2k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/monastery_stone_floor/monastery_stone_floor_diff_2k.jpg",
+      "sha256": "aa12137fff1728bbbfe98b30480e33a34cba3b5c096575702c1d66939214e14a",
+      "bytes": 3021140,
+      "material": "monastery_stone_floor",
+      "map": "Diffuse",
+      "resolution": "2k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/monastery_stone_floor_nor_gl_1k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_nor_gl_1k.jpg",
+      "sha256": "f2f1c3e8d52c1e3a49ef59695743872f2adaa57bc0d3f64b129ce988966162c1",
+      "bytes": 1063115,
+      "material": "monastery_stone_floor",
+      "map": "nor_gl",
+      "resolution": "1k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/monastery_stone_floor_nor_gl_2k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/monastery_stone_floor/monastery_stone_floor_nor_gl_2k.jpg",
+      "sha256": "8f3e131a9d6d9c3a95c872173393830f7c1de389cd60d4878b2211058d706d2c",
+      "bytes": 4248820,
+      "material": "monastery_stone_floor",
+      "map": "nor_gl",
+      "resolution": "2k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/monastery_stone_floor_arm_1k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/monastery_stone_floor/monastery_stone_floor_arm_1k.jpg",
+      "sha256": "66674e9eac9ac60e2124890f63fde95b967f9e1c6f5ee3b07df77cdb9e024457",
+      "bytes": 645382,
+      "material": "monastery_stone_floor",
+      "map": "arm",
+      "resolution": "1k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/monastery_stone_floor_arm_2k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/monastery_stone_floor/monastery_stone_floor_arm_2k.jpg",
+      "sha256": "05b540e571d2c7250bce9763f7ea0b03120d726fdc6e48f1a16fd7f922a5f891",
+      "bytes": 2331525,
+      "material": "monastery_stone_floor",
+      "map": "arm",
+      "resolution": "2k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/cobblestone_floor_09_Diffuse_1k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_floor_09/cobblestone_floor_09_diff_1k.jpg",
+      "sha256": "ca478f43fef82937fa1a574ba59f5ebb10e027c4b89b42504ed0b123f605537c",
+      "bytes": 822019,
+      "material": "cobblestone_floor_09",
+      "map": "Diffuse",
+      "resolution": "1k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/cobblestone_floor_09_Diffuse_2k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_floor_09/cobblestone_floor_09_diff_2k.jpg",
+      "sha256": "368366454a716139bc30fb0e31b0610ff7c278b50ad5f71059efc5359c2eede2",
+      "bytes": 3415936,
+      "material": "cobblestone_floor_09",
+      "map": "Diffuse",
+      "resolution": "2k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/cobblestone_floor_09_nor_gl_1k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_floor_09/cobblestone_floor_09_nor_gl_1k.jpg",
+      "sha256": "eeff12105609efac089885797de09e3a249ce2e5ddef4a63d77fcfa40bfb33f7",
+      "bytes": 1058703,
+      "material": "cobblestone_floor_09",
+      "map": "nor_gl",
+      "resolution": "1k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/cobblestone_floor_09_nor_gl_2k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_floor_09/cobblestone_floor_09_nor_gl_2k.jpg",
+      "sha256": "a92372fa369340fdf2b60c1e06f3616d034476e9c018853a10c3dfbd894a4e23",
+      "bytes": 4137726,
+      "material": "cobblestone_floor_09",
+      "map": "nor_gl",
+      "resolution": "2k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/cobblestone_floor_09_arm_1k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_floor_09/cobblestone_floor_09_arm_1k.jpg",
+      "sha256": "5e4da99e59b1b03ed3016810099c96f4f9e373175d14608434fcd63ae8eae5b4",
+      "bytes": 541557,
+      "material": "cobblestone_floor_09",
+      "map": "arm",
+      "resolution": "1k",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "/assets/ground/cobblestone_floor_09_arm_2k.jpg",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/cobblestone_floor_09/cobblestone_floor_09_arm_2k.jpg",
+      "sha256": "880021b081612f43b5ac35f17c5d170f91e3290cc3bf328ce5ffedc2c296b87b",
+      "bytes": 2229764,
+      "material": "cobblestone_floor_09",
+      "map": "arm",
+      "resolution": "2k",
+      "license": "CC0-1.0"
+    }
+  ],
+  "revision": "2026-10-11-sha256-pinned",
+  "materials": [
+    {
+      "id": "monastery_stone_floor",
+      "source": "https://polyhaven.com/a/monastery_stone_floor"
+    },
+    {
+      "id": "cobblestone_floor_09",
+      "source": "https://polyhaven.com/a/cobblestone_floor_09"
+    }
+  ]
+}

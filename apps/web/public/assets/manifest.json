@@ -4,15 +4,61 @@
   "source": "https://kaylousberg.itch.io/",
   "downloadedAt": "2026-10-10T20:44:40.259Z",
   "characters": {
-    "warden": "/assets/characters/Knight.glb",
-    "scout": "/assets/characters/Rogue_Hooded.glb",
-    "scavenger": "/assets/characters/Barbarian.glb",
-    "broker": "/assets/characters/Mage.glb",
-    "medic": "/assets/characters/Mage.glb",
-    "engineer": "/assets/characters/Knight.glb",
-    "forensic": "/assets/characters/Mage.glb",
-    "bellkeeper": "/assets/characters/Barbarian.glb",
-    "ranger": "/assets/characters/Rogue.glb"
+    "warden": {
+      "path": "/assets/characters/Knight.glb",
+      "scale": 0.950324,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "scout": {
+      "path": "/assets/characters/Rogue_Hooded.glb",
+      "scale": 1.005944,
+      "bodyHeight": 2.2,
+      "footOffset": 0,
+      "bodyReference": "/assets/characters/Rogue.glb"
+    },
+    "scavenger": {
+      "path": "/assets/characters/Barbarian.glb",
+      "scale": 1.006404,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "broker": {
+      "path": "/assets/characters/Mage.glb",
+      "scale": 0.998638,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "medic": {
+      "path": "/assets/characters/Mage.glb",
+      "scale": 0.998638,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "engineer": {
+      "path": "/assets/characters/Knight.glb",
+      "scale": 0.950324,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "forensic": {
+      "path": "/assets/characters/Mage.glb",
+      "scale": 0.998638,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "bellkeeper": {
+      "path": "/assets/characters/Barbarian.glb",
+      "scale": 1.006404,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    },
+    "ranger": {
+      "path": "/assets/characters/Rogue.glb",
+      "scale": 1.005944,
+      "bodyHeight": 2.2,
+      "footOffset": 0
+    }
   },
   "files": [
     {
@@ -512,5 +558,50 @@
       "bytes": 829,
       "animations": []
     }
-  ]
+  ],
+  "dungeon": {
+    "chest": {
+      "path": "/assets/dungeon/chest.glb",
+      "scale": 0.76,
+      "footOffset": 0.1254
+    },
+    "warehouse": {
+      "path": "/assets/dungeon/chest_gold.glb",
+      "scale": 0.76,
+      "footOffset": 0.1254
+    },
+    "stash": {
+      "path": "/assets/dungeon/chest.glb",
+      "scale": 0.68,
+      "footOffset": 0.1122
+    }
+  },
+  "scene": {
+    "unitsPerMeter": 20,
+    "playerRadius": 14,
+    "bodyHeight": 2.2,
+    "footprints": {
+      "resource": 10,
+      "beacon": 14,
+      "altar": 18,
+      "core": 12,
+      "cleanse": 20,
+      "elite": 22,
+      "chest": 20,
+      "deposit": 22,
+      "exit": 65,
+      "bridge": 12
+    },
+    "materials": {
+      "floor": {
+        "id": "monastery_stone_floor",
+        "meters": 1.8
+      },
+      "road": {
+        "id": "cobblestone_floor_09",
+        "meters": 2.2
+      }
+    },
+    "groundManifest": "/assets/ground/manifest.json"
+  }
 }

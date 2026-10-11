@@ -7,4 +7,5 @@ import '@fontsource-variable/source-sans-3';
 import './styles.css';
 import './viewport.css';
 import './bronze-theme.css';
+import './scene-ui.css';
 createRoot(document.getElementById('root')!).render(<App />);

@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { Client, type Room } from '@colyseus/sdk';
 import { spawn, type ChildProcess } from 'node:child_process';
 import pg from 'pg';
+import {approachPoint} from '@wangxu/shared';
 import type { CampData, GameCommand, GameView, MapNode, PlayerView, WorldObject } from '@wangxu/shared';
 
 const base='http://127.0.0.1:3013',socket='ws://127.0.0.1:2573',scale=8;
@@ -63,7 +64,7 @@ function edges(nodes:MapNode[]):[string,string][]{
 function path(peer:Peer,target:{x:number;y:number}){
   const nodes=peer.view!.nodes,nearest=(point:{x:number;y:number})=>nodes.reduce((a,b)=>distances(a,point)<distances(b,point)?a:b),start=nearest(self(peer) as {x:number;y:number}),goal=nearest(target);
   const previous=new Map<string,string>(),seen=new Set([start.id]),queue=[start.id];
-  while(queue.length&&!seen.has(goal.id)){const current=queue.shift()!;for(const [a,b]of edges(nodes)){const next=a===current?b:b===current?a:null;if(next&&!seen.has(next)){seen.add(next);previous.set(next,current);queue.push(next);}}}
+  while(queue.length&&!seen.has(goal.id)){const current=queue.shift()!;for(const [a,b]of peer.view!.edges??edges(nodes)){const next=a===current?b:b===current?a:null;if(next&&!seen.has(next)){seen.add(next);previous.set(next,current);queue.push(next);}}}
   const ids=[goal.id];while(ids[0]!==start.id)ids.unshift(previous.get(ids[0]!)!);return [...ids.map(id=>nodes.find(n=>n.id===id)!),target];
 }
 function movingPhase(peer:Peer){return peer.view!.phase==='EXPLORE'||peer.view!.phase==='EXTRACT';}
@@ -88,10 +89,10 @@ async function navigate(peers:Peer[],target:{x:number;y:number}){
   throw new Error('Too many council interruptions in one navigation');
 }
 async function interaction(peer:Peer,target:WorldObject,completed:()=>boolean){
-  await navigate([peer],target);
+  await navigate([peer],approachPoint(peer.view!.nodes.reduce((a,b)=>distances(a,target)<distances(b,target)?a:b),target));
   let deadline=Date.now()+6_000;
   while(Date.now()<deadline&&!completed()){
-    if(!movingPhase(peer)){await until(()=>movingPhase(peer),40_000,'interaction council return');await navigate([peer],target);deadline=Date.now()+6_000;}
+    if(!movingPhase(peer)){await until(()=>movingPhase(peer),40_000,'interaction council return');await navigate([peer],approachPoint(peer.view!.nodes.reduce((a,b)=>distances(a,target)<distances(b,target)?a:b),target));deadline=Date.now()+6_000;}
     if(!peer.view!.self.interaction)send(peer,{type:'interact',targetId:target.id});
     await sleep(80);
   }
@@ -102,13 +103,15 @@ async function findObject(peer:Peer,id:string):Promise<WorldObject>{
   throw new Error(`Visible search did not find ${id}`);
 }
 async function defeatGuardian(humans:Peer[]){
-  const leader=humans[0]!,exit=leader.view!.objects.find(o=>o.id==='exit')!;await navigate(humans,{x:exit.x,y:exit.y-5});
-  const guardian=leader.view!.objects.find(o=>o.id==='guardian');expect(guardian).toBeDefined();const deadline=Date.now()+6000;
+  const leader=humans[0]!,exit=leader.view!.objects.find(o=>o.id==='exit')!,region=leader.view!.nodes.reduce((a,b)=>distances(a,exit)<distances(b,exit)?a:b);await navigate(humans,region);
+  const guardian=leader.view!.objects.find(o=>o.id==='guardian');expect(guardian).toBeDefined();const approach=approachPoint(region,guardian!);await navigate(humans,approach);for(const peer of humans)send(peer,{type:'skill'});const deadline=Date.now()+6000;
   while(!leader.view!.eliteDefeated&&Date.now()<deadline){
-    for(const peer of humans){const body=self(peer);if(!body.down)send(peer,{type:'attack',targetId:'guardian'});}
+    for(const peer of humans){const body=self(peer);if(!body.down){const dx=guardian!.x-body.x!,dy=guardian!.y-body.y!,length=Math.hypot(dx,dy);send(peer,{type:'move',x:dx/length,y:dy/length,seq:++peer.seq});send(peer,{type:'move',x:0,y:0,seq:++peer.seq});send(peer,{type:'attack'});}}
     await sleep(100);
   }
-  expect(leader.view!.eliteDefeated).toBe(true);expect(humans.every(peer=>!self(peer).down)).toBe(true);
+  expect(leader.view!.eliteDefeated).toBe(true);
+  for(const downed of humans.filter(peer=>self(peer).down)){const rescuer=humans.find(peer=>!self(peer).down)!;expect(rescuer).toBeDefined();send(rescuer,{type:'interact',targetId:downed.account.userId});await until(()=>!self(downed).down,4000,'actual guardian-fight rescue');}
+  expect(humans.every(peer=>!self(peer).down)).toBe(true);
 }
 async function engineering(carrier:Peer){
   for(const beacon of carrier.view!.objects.filter(o=>o.kind==='beacon')){
