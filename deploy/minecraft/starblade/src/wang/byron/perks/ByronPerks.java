@@ -22,6 +22,7 @@ public final class ByronPerks {
     public ByronPerks() {
         NeoForge.EVENT_BUS.addListener(ByronPerks::damage);
         Starblade.register();
+        RailOps.register();
         NeoForge.EVENT_BUS.addListener(ByronPerks::login);
         NeoForge.EVENT_BUS.addListener(ByronPerks::selfTest);
         System.out.println("[ByronPerks] Loaded: UUID-scoped PvP immunity and one-time enchanted diamond armor.");

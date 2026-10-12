@@ -2,7 +2,7 @@
 
 Minecraft 1.21.1 / NeoForge 21.1.133 / Java 21. The module extends the existing Byron Server Perks; it adds no client mod. The required resource pack uses vanilla CustomModelData, original procedural textures, animation and vanilla sounds.
 
-Each recipient owns one independent persistent ledger: ByronNomad (`/starblade`) and H3arth (`/hearthblade`). H3arth's item lore says `来自父亲的礼物`. Existing ByronNomad PvP immunity and starter armor remain UUID scoped.
+Each recipient owns one independent persistent ledger: ByronNomad (`/starblade`) and H3arth (`/hearthblade`). H3arth's item lore says `来自父亲的礼物`. Existing ByronNomad PvP immunity and starter armor remain UUID scoped. The module also supplies console/OP 4 native Create railway commissioning commands; see `../railway/README.md`.
 
 ## Operations
 
@@ -25,7 +25,7 @@ Compile these Java sources against the exact deployed server libraries with Java
 
 ```sh
 java -jar ecj.jar -21 -proc:none -warn:none \
-  -cp "$(find /data/libraries -name '*.jar' | paste -sd :)" \
+  -cp "$(find /data/libraries /data/mods /data/starblade-build/deps -name '*.jar' | paste -sd :)" \
   -d classes $(find src -name '*.java')
 python3 package.py . classes dist
 python3 build_pack.py /private/build/resourcepack
