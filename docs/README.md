@@ -12,6 +12,7 @@
 | 修改服务、账户、权限或结算 | [架构](architecture.md) |
 | 修改场景、动作、界面、画质或音乐 | [场景与界面](presentation.md) |
 | 维护首页公共语音大厅 | [语音大厅](voice-lobby.md) |
+| 录制文案配音、确定音色和后续接入 | [真人配音录音说明](voiceover.md) |
 | 核对资源来源与许可 | [资产许可](asset-licenses.md) |
 | 查看实现范围与待验收事项 | [开发状态](development-status.md) |
 | 部署、发布或恢复 VPS | [部署手册](../deploy/README.md) · [自动发布](../deploy/AUTOMATION.md) |

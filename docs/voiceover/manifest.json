@@ -1,0 +1,1551 @@
+{
+  "version": 1,
+  "language": "zh-CN",
+  "game": "亡絮：归灯",
+  "style": "温暖引路人＋庄重报幕",
+  "implementationStatus": "recording-plan-only",
+  "speakers": {
+    "erin": "艾琳：温暖引路人（自然男声录制）；同一真人录音，后期轻量音色塑形",
+    "herald": "庄重报幕；沉稳清晰，长混响只用于不影响行动的尾声",
+    "guide": "清晰操作提示；保留自然音色，弱化空间效果"
+  },
+  "sources": [
+    {
+      "path": "apps/web/src/App.tsx",
+      "sha256": "cb79edb7cc44eba294ca483e94623f5a926af34bb6934a5f501cae6f9376d0f1"
+    },
+    {
+      "path": "apps/web/src/GameUI.tsx",
+      "sha256": "176df08f8d18e2980989df6fae3a23633baef4bceb025db8977739a9fa4ccd85"
+    },
+    {
+      "path": "apps/web/src/Tutorial.tsx",
+      "sha256": "f9334ad91c2aa2c27805c98316438286dffe321d98feab70cc4a5405c061e991"
+    },
+    {
+      "path": "docs/story.md",
+      "sha256": "cb0417a6d4e86b6e26ee3ea044af0efb2f155b987e281f8b975cc3c38b4db950"
+    },
+    {
+      "path": "packages/rules/src/content.ts",
+      "sha256": "86dafa609c5c238cbfe8f1fc31607fb88a1aa87f8a2c2fce093c63da4b89d10e"
+    },
+    {
+      "path": "packages/rules/src/engine.ts",
+      "sha256": "2fe017db8959ed456c8027784c7cb2859f56bd81ceb87392975e7eeaad3eff4d"
+    },
+    {
+      "path": "packages/rules/src/training.ts",
+      "sha256": "98967f6079ccb10c5ee61c1a883baa27823a5651979b3f33020a5889def9061c"
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "f0b885ac5d24c3959f273d788b43cccc9b60789faea3817aefcf15a4477a42be"
+    },
+    {
+      "path": "apps/web/src/Welcome.tsx",
+      "sha256": "7aaa1152291b1a3141ca0b01922389f48b96389398d1b833d8e0b6d2a4212cff"
+    },
+    {
+      "path": "apps/server/src/api.ts",
+      "sha256": "a99bc0e982a203c519d1d98c1ca126bc4547bdae144a94f23da29b849c0c0fe1"
+    }
+  ],
+  "clips": [
+    {
+      "id": "erin-lesson-01",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "我叫艾琳，曾是归灯行会的引路人。先沿旧城通路走到矿庭，替我接住散失的记忆。",
+      "delivery": "温暖、亲近，像在身旁引路；句间稍停",
+      "audience": "self",
+      "trigger": "进入第1课；本课首次播放，允许手动重听",
+      "adaptation": "verbatim",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "我叫艾琳，曾是归灯行会的引路人。先沿旧城通路走到矿庭，替我接住散失的记忆。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-lesson-01_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-lesson-02",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "珍藏可以寄存，亡絮则交给共同的灯火。看清每种装置的用途，再走向钟楼。",
+      "delivery": "温暖、亲近，像在身旁引路；句间稍停",
+      "audience": "self",
+      "trigger": "进入第2课；本课首次播放，允许手动重听",
+      "adaptation": "verbatim",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "珍藏可以寄存，亡絮则交给共同的灯火。看清每种装置的用途，再走向钟楼。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-lesson-02_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-lesson-03",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "守卫忘了它保护过谁，阿芙却还在等我们。完成救援，再让城门灯柱与降蚀台恢复旧城的秩序。",
+      "delivery": "温暖、亲近，像在身旁引路；句间稍停",
+      "audience": "self",
+      "trigger": "进入第3课；本课首次播放，允许手动重听",
+      "adaptation": "verbatim",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "守卫忘了它保护过谁，阿芙却还在等我们。完成救援，再让城门灯柱与降蚀台恢复旧城的秩序。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-lesson-03_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-lesson-04",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "刚才的点灯、救援和降蚀都留下了痕迹。让亲历记录与陈述相互核对，再作判断。",
+      "delivery": "温暖、亲近，像在身旁引路；句间稍停",
+      "audience": "self",
+      "trigger": "进入第4课；本课首次播放，允许手动重听",
+      "adaptation": "verbatim",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "刚才的点灯、救援和降蚀都留下了痕迹。让亲历记录与陈述相互核对，再作判断。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-lesson-04_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-lesson-05",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "把刚才的记忆织成祝福，让下一段护送走得更稳。",
+      "delivery": "温暖、亲近，像在身旁引路；句间稍停",
+      "audience": "self",
+      "trigger": "进入第5课；本课首次播放，允许手动重听",
+      "adaptation": "verbatim",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "把刚才的记忆织成祝福，让下一段护送走得更稳。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-lesson-05_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-lesson-06",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "最后一盏灯仍在矿庭。带它回到净化台，再沿通路护送到真正的归灯门。",
+      "delivery": "温暖、亲近，像在身旁引路；句间稍停",
+      "audience": "self",
+      "trigger": "进入第6课；本课首次播放，允许手动重听",
+      "adaptation": "verbatim",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "最后一盏灯仍在矿庭。带它回到净化台，再沿通路护送到真正的归灯门。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-lesson-06_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-phase-prep",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "准备穿过旧城。选择你的技能形态。",
+      "delivery": "庄重、平稳，收尾明确；避免拖长尾音",
+      "audience": "public",
+      "trigger": "授权 view.phase 进入 PREP 时一次；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "PREP"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-phase-prep_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-phase-explore",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "探索开始。新的工程亡絮已释放。",
+      "delivery": "庄重、平稳，收尾明确；避免拖长尾音",
+      "audience": "public",
+      "trigger": "授权 view.phase 进入 EXPLORE 时一次；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "EXPLORE"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-phase-explore_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-phase-discuss",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "议会开始。让证据先于判断。",
+      "delivery": "庄重、平稳，收尾明确；避免拖长尾音",
+      "audience": "public",
+      "trigger": "授权 view.phase 进入 DISCUSS 时一次；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "DISCUSS"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-phase-discuss_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-phase-vote",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "表决开始。投票提交后不能更改。",
+      "delivery": "庄重、平稳，收尾明确；避免拖长尾音",
+      "audience": "public",
+      "trigger": "授权 view.phase 进入 VOTE 时一次；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "VOTE"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-phase-vote_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-phase-draft",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "选择一份祝福，继续前行。",
+      "delivery": "庄重、平稳，收尾明确；避免拖长尾音",
+      "audience": "public",
+      "trigger": "授权 view.phase 进入 DRAFT 时一次；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "DRAFT"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-phase-draft_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-phase-extract",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "终钟已启。护送归灯芯，前往归灯门。",
+      "delivery": "庄重、平稳，收尾明确；避免拖长尾音",
+      "audience": "public",
+      "trigger": "授权 view.phase 进入 EXTRACT 时一次；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "EXTRACT"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-phase-extract_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-last-eight",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "最后八秒，守住归灯圈。",
+      "delivery": "短促、有紧迫感；目标录到两秒左右",
+      "audience": "public",
+      "trigger": "EXTRACT 中 remaining 首次跨过八秒；重连或恢复前台不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "最后 8 秒 · 守住归灯圈"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-last-eight_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-result-human",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "灯火抵达归途。守灯者获胜。",
+      "delivery": "人类胜温暖舒展；蚀月胜低沉克制；无效局平实",
+      "audience": "public",
+      "trigger": "有效结算对象到达且 result.winner === 'human'；按对局去重",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "灯火抵达归途"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-result-human_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-result-wolf",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "月蚀吞没旧城。蚀月者获胜。",
+      "delivery": "人类胜温暖舒展；蚀月胜低沉克制；无效局平实",
+      "audience": "public",
+      "trigger": "有效结算对象到达且 result.winner === 'wolf'；按对局去重",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "月蚀吞没旧城"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-result-wolf_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "herald-result-invalid",
+      "priority": "P0",
+      "speaker": "herald",
+      "group": "报幕 · 阶段与终局",
+      "text": "本次远征无效。返回等待区，重新集结。",
+      "delivery": "人类胜温暖舒展；蚀月胜低沉克制；无效局平实",
+      "audience": "public",
+      "trigger": "有效结算对象到达且 result.winner === 'invalid'；按对局去重",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "超过60秒未恢复连接"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "herald-result-invalid_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-training-complete",
+      "priority": "P0",
+      "speaker": "erin",
+      "group": "艾琳 · 六课故事",
+      "text": "你的第一束归灯，已点亮。现在，回到余灯集市，准备下一段归途。",
+      "delivery": "欣慰、轻柔，最后一句带一点期待",
+      "audience": "self",
+      "trigger": "训练保存成功并显示完成页；一次",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "你的第一束归灯，已点亮。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-training-complete_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-01-move",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "沿旧城通路前往矿庭。靠近亡絮，停下采集。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "前往矿庭，采集 4 份亡絮"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-01-move_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-02-chest",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "前往书库，打开珍藏储藏点。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "前往书库，打开珍藏储藏点"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-02-chest_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-02-deposit",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "返回归灯堂，把亡絮交给公共仓库。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "返回归灯堂，向公共仓库交付亡絮"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-02-deposit_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-02-stash",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "把刚取得的珍藏，放进寄存箱。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "将刚取得的珍藏放入寄存箱"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-02-stash_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-02-beacon",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "前往钟楼，点亮第一根灯柱。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "前往钟楼，点亮第一根灯柱"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-02-beacon_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-skill",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "使用一次灯卫技能。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "按 Q 使用灯卫技能"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-skill_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-dodge",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "先离开灯柱，再沿移动方向闪避。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "先走离灯柱，再沿移动方向按 Shift 或触屏闪避"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-dodge_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-guardian",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "前往城门，面对守卫发起攻击。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "前往城门，面对守卫按空格攻击"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-guardian_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-rescue",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "靠近倒地的阿芙，救她起来。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "靠近倒地的阿芙，按 E 救援"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-rescue_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-resource",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "采集城门旁的降蚀工程亡絮。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "采集城门旁的降蚀工程亡絮"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-resource_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-beacon",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "点亮城门灯柱。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "点亮城门灯柱"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-beacon_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-wolf",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "前往钟楼。显形，腐化祭坛，再使用灰雾。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "前往钟楼：显形、腐化祭坛，并使用灰雾"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-wolf_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-03-cleanse",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "返回归灯堂，用降蚀台消除蚀月。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "返回归灯堂，用降蚀台消除蚀月"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-03-cleanse_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-04-evidence",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "发布亲历证据，留下陈述，再完成表决。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "发布亲历证据、发言并完成表决"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-04-evidence_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-05-boon",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "选择一份本局祝福。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "选择一份本局祝福"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-05-boon_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-06-resource",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "前往矿庭，采集两份净化亡絮。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "前往矿庭，采集 2 份净化亡絮"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-06-resource_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-06-core",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "取得矿庭中的唯一归灯芯。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "取得矿庭中的唯一归灯芯"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-06-core_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-06-purify",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "返回归灯堂，使用净化台。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "返回归灯堂，使用净化台"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-06-purify_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-task-06-escort",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 实际操作",
+      "text": "护送灯芯到归灯门，守住终钟最后八秒。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练 objective 首次变为对应任务；故事播完后播放；回退和重连不重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/training.ts",
+        "anchor": "护送到归灯门，守住终钟最后八秒"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-task-06-escort_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-rule-01",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 六课规则",
+      "text": "跟随画面方向移动。靠近目标后，使用交互动作。移动或受击，会打断操作。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练第1课手动点击规则朗读；与故事、任务互斥",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "WASD 与触屏方向键跟随画面方向；连接道路会轻轻导向，转向即可离开。进入物件交互范围后自动锁定，停下按 E 或动作按钮采集。移动或受击会打断读条。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-rule-01_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-rule-02",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 六课规则",
+      "text": "亡絮用于公共工程，珍藏放入寄存箱。公共仓库与寄存箱，用途不同。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练第2课手动点击规则朗读；与故事、任务互斥",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "在书库开箱，回归灯堂向公共仓库交付亡絮，并把珍藏存入寄存箱。最后前往钟楼点灯；两种箱子承担不同用途。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-rule-02_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-rule-03",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 六课规则",
+      "text": "心灯显示你的生命。用职业技能保护自己，闪避危险，救起倒地的同行者。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练第3课手动点击规则朗读；与故事、任务互斥",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "头顶五瓣心灯每瓣代表 20 点生命，危险时闪动。Q 使用职业技能，Shift 闪避。面对守卫按空格攻击，靠近倒地者按 E 救援。采集补给、点亮城门灯柱，然后返回归灯堂降蚀。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-rule-03_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-rule-04",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 六课规则",
+      "text": "表决需要严格过半。弃权仍计入有权者人数。首章只会监视，后续才可能封印。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练第4课手动点击规则朗读；与故事、任务互斥",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "票数必须严格超过所有有权者的一半"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-rule-04_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-rule-05",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 六课规则",
+      "text": "祝福只影响本次远征，不会增加票权。下一局，可以尝试新的构筑。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练第5课手动点击规则朗读；与故事、任务互斥",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "选择一个本局祝福。它影响移动、救援或工程，不会增加票权；下一局仍可选择新的构筑。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-rule-05_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-rule-06",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 六课规则",
+      "text": "归灯芯占两格背包。先净化，再护送；守灯者需要由同一人连续守住最后八秒。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "训练第6课手动点击规则朗读；与故事、任务互斥",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Tutorial.tsx",
+        "anchor": "先采集净化工程亡絮，再取得灯芯；灯芯占两格。回归灯堂净化，然后前往城门，在终钟最后八秒持续守圈。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-rule-06_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-down",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "你已倒地。等待救援。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "me.down 由 false 变为 true；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "down"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-down_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-revived",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "你已恢复行动。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "自己的授权救援反馈到达；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "rescue"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-revived_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-ghost",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "你已成为回响。在下一次议会，留下你的线索。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "自己的 sealed 由 false 变为 true；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "你已成为回响"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-ghost_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-bag-full",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "背包已满。整理物品，再继续采集。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "本人主动操作收到背包已满原因；同一原因限频；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "背包已满"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-bag-full_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-need-resources",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "需要两份亡絮。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "本人主动操作收到对应原因；同一原因限频；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "需要 2 份亡絮"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-need-resources_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-need-slots",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "需要两格空位，才能携带归灯芯。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "本人主动取芯收到对应原因；限频；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "需要 2 格空位"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-need-slots_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-offer",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "有人提出物品交接。确认后，物品才会转移。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "本人收到新的 offer；不朗读玩家昵称；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "有人提出物品交接"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-offer_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-core-acquired",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "你已取得归灯芯。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "自己的 carryingCore 由 false 变为 true；交接得到也适用；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "p.carryingCore=true"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-core-acquired_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-purified",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "归灯芯已完成净化。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "public",
+      "trigger": "corePurified 由 false 变为 true；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "归灯芯已完成净化。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-purified_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-beacons-ready",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "所有灯柱已点亮。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "public",
+      "trigger": "beaconsLit 首次达到本局目标；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "view.beaconsLit>=view.config.beacons"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-beacons-ready_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-elite-defeated",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "守门精英已被击败。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "public",
+      "trigger": "eliteDefeated 由 false 变为 true；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "守门精英已被击败。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-elite-defeated_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-moon-reduced",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "本章已完成一次降蚀。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "public",
+      "trigger": "授权公共降蚀记录到达；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "归灯厅完成一次降蚀。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-moon-reduced_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-vote-submitted",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "表决已提交。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "自己的 voted 由 false 变为 true；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "表决已提交"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-vote-submitted_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-event-vote-no-seal",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 关键反馈",
+      "text": "无人获得严格过半票。本轮没有封印。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "public",
+      "trigger": "对应公开表决结果到达；与祝福报幕错开；首次同步和重连不补播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/engine.ts",
+        "anchor": "无人获得严格过半票，本轮没有封印。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-event-vote-no-seal_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-identity-human",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 秘密身份",
+      "text": "你的秘密阵营是守灯者。",
+      "delivery": "贴近、克制，避免响亮报幕",
+      "audience": "private-opt-in",
+      "trigger": "身份分配后仅显示朗读入口，默认不自动播放；用户确认自己戴耳机后点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "归灯人类"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-identity-human_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-identity-wolf",
+      "priority": "P1",
+      "speaker": "guide",
+      "group": "引路提示 · 秘密身份",
+      "text": "你的秘密阵营是蚀月者。",
+      "delivery": "贴近、克制，避免响亮报幕",
+      "audience": "private-opt-in",
+      "trigger": "身份分配后仅显示朗读入口，默认不自动播放；用户确认自己戴耳机后点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/GameUI.tsx",
+        "anchor": "蚀月者"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-identity-wolf_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-camp-welcome",
+      "priority": "P1",
+      "speaker": "erin",
+      "group": "艾琳 · 欢迎与营地",
+      "text": "灯火之下，谁与你同行。搜寻旧城的珍藏，拼合行动的证据，把唯一的归灯芯带回灯火。",
+      "delivery": "温暖、放松，像回到熟悉的地方",
+      "audience": "self",
+      "trigger": "欢迎和营地首次进入或手动重听；保存、制作仅在接口成功后；研究说明手动点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/Welcome.tsx",
+        "anchor": "搜寻旧城遗物，拼合行动的证据。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-camp-welcome_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-camp-camp",
+      "priority": "P1",
+      "speaker": "erin",
+      "group": "艾琳 · 欢迎与营地",
+      "text": "欢迎归来。整理珍藏，换上礼装。下一次归途，会留下新的故事。",
+      "delivery": "温暖、放松，像回到熟悉的地方",
+      "audience": "self",
+      "trigger": "欢迎和营地首次进入或手动重听；保存、制作仅在接口成功后；研究说明手动点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/web/src/App.tsx",
+        "anchor": "灯火为你留着。召集同行者，再走一程归途。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-camp-camp_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-camp-loadout",
+      "priority": "P1",
+      "speaker": "erin",
+      "group": "艾琳 · 欢迎与营地",
+      "text": "配装已保存。下一次远征，将穿戴这套外观。",
+      "delivery": "温暖、放松，像回到熟悉的地方",
+      "audience": "self",
+      "trigger": "欢迎和营地首次进入或手动重听；保存、制作仅在接口成功后；研究说明手动点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/server/src/api.ts",
+        "anchor": "saveLoadout"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-camp-loadout_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-camp-crafted",
+      "priority": "P1",
+      "speaker": "erin",
+      "group": "艾琳 · 欢迎与营地",
+      "text": "新的收藏，已收入营地。",
+      "delivery": "温暖、放松，像回到熟悉的地方",
+      "audience": "self",
+      "trigger": "欢迎和营地首次进入或手动重听；保存、制作仅在接口成功后；研究说明手动点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "apps/server/src/api.ts",
+        "anchor": "app.post('/api/craft'"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-camp-crafted_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-camp-research",
+      "priority": "P1",
+      "speaker": "erin",
+      "group": "艾琳 · 欢迎与营地",
+      "text": "收藏新的技能形态，换上银絮配色。标准技能形态，所有玩家都能免费使用。",
+      "delivery": "温暖、放松，像回到熟悉的地方",
+      "audience": "self",
+      "trigger": "欢迎和营地首次进入或手动重听；保存、制作仅在接口成功后；研究说明手动点播",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "收藏第二技能形态，并获得银絮配色。标准局所有玩家均可免费试用该形态。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-camp-research_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-story-city",
+      "priority": "P2",
+      "speaker": "erin",
+      "group": "艾琳 · 可选背景",
+      "text": "暮钟城的死者，留下银白亡絮。人们把记忆织入灯芯，希望故人的光，照亮归途。",
+      "delivery": "娓娓道来，轻微惆怅；保留自然呼吸",
+      "audience": "self",
+      "trigger": "背景故事页或营地手动点播；不在每局重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "docs/story.md",
+        "anchor": "人们称它为**亡絮**"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-story-city_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-story-erin",
+      "priority": "P2",
+      "speaker": "erin",
+      "group": "艾琳 · 可选背景",
+      "text": "我叫艾琳。在最后一场仪式中，我敲断了钟绳。城没有燃尽，却留在了同一个终夜。",
+      "delivery": "娓娓道来，轻微惆怅；保留自然呼吸",
+      "audience": "self",
+      "trigger": "背景故事页或营地手动点播；不在每局重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "docs/story.md",
+        "anchor": "敲断钟绳"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-story-erin_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "erin-story-factions",
+      "priority": "P2",
+      "speaker": "erin",
+      "group": "艾琳 · 可选背景",
+      "text": "有人希望记忆得到安息，也有人害怕灯火熄灭。同样的职业，同样的善意，未必通向同一个结局。",
+      "delivery": "娓娓道来，轻微惆怅；保留自然呼吸",
+      "audience": "self",
+      "trigger": "背景故事页或营地手动点播；不在每局重复",
+      "adaptation": "adapted",
+      "source": {
+        "path": "docs/story.md",
+        "anchor": "这些行为不能证明最终立场。"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "erin-story-factions_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-warden",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，灯卫。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "灯卫"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-warden_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-scout",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，斥候。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "斥候"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-scout_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-scavenger",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，拾荒者。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "拾荒者"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-scavenger_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-broker",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，行商。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "行商"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-broker_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-medic",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，药师。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "药师"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-medic_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-engineer",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，机关师。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "机关师"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-engineer_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-forensic",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，验痕师。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "验痕师"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-forensic_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-bellkeeper",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，守钟人。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "守钟人"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-bellkeeper_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-profession-ranger",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 职业名称",
+      "text": "本局职责，巡林客。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "PREP 中职业已确定；每局一次，只读本人的职业",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/shared/src/index.ts",
+        "anchor": "巡林客"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-profession-ranger_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-fleet",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "轻絮。移动速度提高百分之十。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "移动速度提高10%"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-fleet_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-guardian",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "余灯。获得护盾的数值提高百分之十五。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "获得护盾的数值提高15%"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-guardian_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-rescuer",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "援手。救援读条缩短百分之十五。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "救援读条缩短15%"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-rescuer_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-engineer",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "巧工。公共工程读条缩短百分之十五。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "公共工程读条缩短15%"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-engineer_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-watcher",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "回望。观察范围增加百分之十五。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "观察范围增加15%"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-watcher_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-carrier",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "稳灯。携灯芯的移动减速减轻。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "携灯芯的移动减速减轻"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-carrier_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-steadfast",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "定心。受到推挤的距离减少百分之十五。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "受到推挤的距离减少15%"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-steadfast_take01.wav",
+      "asset": null
+    },
+    {
+      "id": "guide-boon-vigor",
+      "priority": "P2",
+      "speaker": "guide",
+      "group": "引路提示 · 祝福说明",
+      "text": "回春。章节开始恢复十五点生命。",
+      "delivery": "清楚、自然，一句话一个意图",
+      "audience": "self",
+      "trigger": "玩家点击该祝福的朗读入口；选择按钮仍只提交选择，不边选边自动读",
+      "adaptation": "adapted",
+      "source": {
+        "path": "packages/rules/src/content.ts",
+        "anchor": "章节开始恢复15点生命"
+      },
+      "status": "awaiting-recording",
+      "recordingFile": "guide-boon-vigor_take01.wav",
+      "asset": null
+    }
+  ],
+  "performer": "用户本人，男性，使用自然原声录制"
+}
