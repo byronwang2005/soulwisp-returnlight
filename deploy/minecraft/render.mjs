@@ -11,7 +11,10 @@ const connectionPath=process.argv[3]||path.resolve(source,'../../apps/web/src/mi
 const connection=JSON.parse(await fs.readFile(connectionPath,'utf8'));
 const host=connection.address.split(':')[0];
 if(host.length>253||! /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(host)||connection.address!==`${host}:25565`)throw new Error('The public connection must be a domain on TCP 25565.');
-if(connection.version!=='1.21.1'||connection.maxPlayers!==6||connection.loader!=='NeoForge'||connection.loaderVersion!=='21.1.133'||connection.modpackVersion!=='1.0.5'||!connection.onlineMode||!connection.whitelist||connection.difficulty!=='normal')throw new Error('Unexpected connection configuration.');
+if(connection.version!=='1.21.1'||connection.maxPlayers!==6||connection.loader!=='NeoForge'||connection.loaderVersion!=='21.1.133'||connection.modpackVersion!=='1.0.5'||!connection.onlineMode||!connection.whitelist||!['normal','hard'].includes(connection.difficulty))throw new Error('Unexpected connection configuration.');
+const blade=JSON.parse(await fs.readFile(path.join(source,'starblade/resourcepack.json'),'utf8'));
+if(!blade||!/^https:\/\/gaming\.byron\.wang\/minecraft\/starblade-[a-f0-9]{40}\.zip$/.test(blade.url)||! /^[a-f0-9]{40}$/.test(blade.sha1)||!blade.url.includes(blade.sha1))throw new Error('Invalid required weapon resource pack.');
+const release=JSON.parse(await fs.readFile(path.join(source,'starblade/release.json'),'utf8'));
 const lock=JSON.parse(await fs.readFile(path.join(source,'mods.lock.json'),'utf8'));
 await fs.mkdir(path.join(output,'data/mods'),{recursive:true});
 await fs.mkdir(path.join(output,'data/logs'),{recursive:true});
@@ -23,7 +26,7 @@ const password=previous.match(/^RCON_PASSWORD=([a-f0-9]{64})$/m)?.[1]||randomByt
 const whitelist=previous.match(/^MINECRAFT_WHITELIST=([A-Za-z0-9_,]*)$/m)?.[1]||'';
 const previousBind=previous.match(/^MINECRAFT_BIND_IP=(.*)$/m)?.[1];
 const bindIp=isIP(previousBind||'')===4?previousBind:(await lookup(host,{family:4})).address;
-await fs.writeFile(path.join(output,'.env'),`MINECRAFT_VERSION=${connection.version}\nMINECRAFT_LOADER_VERSION=${connection.loaderVersion}\nMINECRAFT_MAX_PLAYERS=${connection.maxPlayers}\nMINECRAFT_DIFFICULTY=${connection.difficulty}\nMINECRAFT_BIND_IP=${bindIp}\nMINECRAFT_WHITELIST=${whitelist}\nRCON_PASSWORD=${password}\n`,{mode:0o600});
+await fs.writeFile(path.join(output,'.env'),`MINECRAFT_VERSION=${connection.version}\nMINECRAFT_LOADER_VERSION=${connection.loaderVersion}\nMINECRAFT_MAX_PLAYERS=${connection.maxPlayers}\nMINECRAFT_DIFFICULTY=${connection.difficulty}\nMINECRAFT_BIND_IP=${bindIp}\nMINECRAFT_WHITELIST=${whitelist}\nMINECRAFT_RESOURCE_PACK=${blade.url}\nMINECRAFT_RESOURCE_PACK_SHA1=${blade.sha1}\nMINECRAFT_RESOURCE_PACK_ENFORCE=TRUE\nRCON_PASSWORD=${password}\n`,{mode:0o600});
 await fs.chmod(path.join(output,'.env'),0o600);
 if(output!==source)await fs.copyFile(path.join(source,'compose.yaml'),path.join(output,'compose.yaml'));
 for(const mod of lock.mods){
@@ -41,7 +44,13 @@ for(const mod of lock.mods){
   }
   console.log(`Verified ${mod.project} ${mod.version||lock.version}`);
 }
-const expected=new Set(lock.mods.map(mod=>mod.filename));
+if(path.basename(release.filename)!==release.filename||! /^[a-f0-9]{64}$/.test(release.sha256))throw new Error('Invalid server module release.');
+const addon=await fs.readFile(path.join(source,'starblade/dist',release.filename));
+if(createHash('sha256').update(addon).digest('hex')!==release.sha256)throw new Error('Server module checksum mismatch.');
+await fs.writeFile(path.join(output,'data/mods',release.filename),addon);
+const legacy=path.join(output,'data/mods','byron-perks-1.0.0.jar');
+await fs.rm(legacy,{force:true});
+const expected=new Set([...lock.mods.map(mod=>mod.filename),release.filename]);
 const extra=(await fs.readdir(path.join(output,'data/mods'))).filter(name=>name.endsWith('.jar')&&!expected.has(name));
 if(extra.length)throw new Error(`Unmanaged mods require review: ${extra.join(', ')}`);
 console.log('Rendered Create configuration; private binding, management credentials and whitelist were preserved.');

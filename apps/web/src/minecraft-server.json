@@ -5,7 +5,7 @@
   "maxPlayers": 6,
   "onlineMode": true,
   "whitelist": true,
-  "difficulty": "normal",
+  "difficulty": "hard",
   "loader": "NeoForge",
   "loaderVersion": "21.1.133",
   "modpack": "Create6.0",

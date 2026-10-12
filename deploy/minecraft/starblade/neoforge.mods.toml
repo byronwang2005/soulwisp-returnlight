@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+[[mods]]
+modId="byron_perks"
+version="1.1.0"
+displayName="Byron Server Perks"
+description="Server-side UUID-bound unique starblade, virtual enchanted diamond gear, PvP immunity and first-login armor."
+[[dependencies.byron_perks]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.133,21.2)"
+ordering="NONE"
+side="SERVER"
+[[dependencies.byron_perks]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+ordering="NONE"
+side="SERVER"
+
+[[mixins]]
+config="byron-perks.mixins.json"

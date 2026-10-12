@@ -1,0 +1,1 @@
+{"required":true,"minVersion":"0.8","package":"wang.byron.perks.mixin","compatibilityLevel":"JAVA_21","mixins":["MenuMixin","CompoundAccess","InventoryGuardMixin","RemoveGuardMixin","EnchantmentEquipmentMixin"],"injectors":{"defaultRequire":1}}
