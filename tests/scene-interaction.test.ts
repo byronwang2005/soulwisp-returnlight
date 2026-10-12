@@ -83,6 +83,17 @@ describe('cross-region training',()=>{
     expect(s.engine.objects.find(o=>o.id==='guardian')!.active).toBe(true);
     expect(gate.active).toBe(true);
   });
+  it('exposes authoritative dodge cooldown and rejects repeated dodges until ready',()=>{
+    const s=new TrainingSession(false);
+    expect(s.view.self.dodgeCooldown).toBe(0);
+    expect(s.command({type:'dodge',x:0,y:1})).toBe(true);
+    expect(s.view.self.dodgeCooldown).toBe(6);
+    expect(s.engine.viewFor('guide-1').self.dodgeCooldown).toBe(0);
+    expect(s.command({type:'dodge',x:0,y:1})).toBe(false);
+    s.tick(1.5);expect(s.view.self.dodgeCooldown).toBeCloseTo(4.5);
+    s.tick(4.55);expect(s.view.self.dodgeCooldown).toBe(0);
+    expect(s.command({type:'dodge',x:0,y:1})).toBe(true);
+  });
   for(const wolf of [false,true])it(`${wolf?'wolf':'human'} completes all physical stations using movement and context actions`,()=>{
     const s=new TrainingSession(wolf);use(s,'resource-training-start');expect(s.step).toBe(1);
     use(s,'chest-training');use(s,'warehouse');use(s,'stash');use(s,'beacon-0');expect(s.step).toBe(2);
