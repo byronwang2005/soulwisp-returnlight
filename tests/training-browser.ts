@@ -32,7 +32,7 @@ export async function interactAt(page:Page,id:string,nodeId:string,touch=false){
 }
 export async function completeTraining(page:Page,{touch=false,wolf=false,screenshots=false}:{touch?:boolean;wolf?:boolean;screenshots?:boolean}={}){
   const act=async(id:string,node:string)=>interactAt(page,id,node,touch);
-  const next=async()=>{await expect(page.getByRole('button',{name:'下一课 →',exact:true})).toBeEnabled();await page.getByRole('button',{name:'下一课 →',exact:true}).click();await page.waitForTimeout(150);};
+  let lesson=1;const next=async()=>{lesson++;await expect(page.locator('.tutorial-guide .eyebrow')).toContainText(`/ ${lesson} / 6`);};
   await act('resource-training-start','node-2');await next();
   await act('chest-training','node-3');await act('warehouse','sanctuary');await act('stash','sanctuary');await act('beacon-0','node-1');await next();
   await walkPoint(page,(await browserView(page)).nodes.find(node=>node.id==='node-1')!,touch);

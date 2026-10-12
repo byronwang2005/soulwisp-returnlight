@@ -25,17 +25,17 @@ export function Tutorial({onMusicScene,assets,quality,initialStep,wolf,authentic
   const session=sessionRef.current;
   const [view,setView]=useState(()=>session.view);const [done,setDone]=useState(false);const [complete,setComplete]=useState(false);const [busy,setBusy]=useState(false);
   const [compact,setCompact]=useState(()=>matchMedia('(max-width:600px)').matches);
-  useEffect(()=>{if(session.step!==step)session.enter(step);setDone(false);setView(session.view);},[step,session]);
-  useEffect(()=>{let previous=performance.now();const timer=setInterval(()=>{const now=performance.now();let budget=Math.min(1,(now-previous)/1000);previous=now;while(budget>0){const dt=Math.min(.05,budget);session.tick(dt);budget-=dt;}setDone(session.done);setView(session.view);},50);return()=>clearInterval(timer);},[session]);
+  useEffect(()=>{localStorage.setItem(wolf?'wangxu-wolf-tutorial':'wangxu-tutorial-step',String(step));},[step,wolf]);
+  useEffect(()=>{let previous=performance.now();const timer=setInterval(()=>{const now=performance.now();let budget=Math.min(1,(now-previous)/1000);previous=now;while(budget>0){const dt=Math.min(.05,budget);session.tick(dt);budget-=dt;}setStep(session.step);setDone(session.done);setView(session.view);},50);return()=>clearInterval(timer);},[session]);
   useEffect(()=>{onMusicScene(complete?'victory':step===3&&view.phase==='VOTE'?'vote':tutorialMusic[step]);},[step,view.phase,complete,onMusicScene]);
-  function send(command:GameCommand){session.command(command);setView(session.view);}
+  function send(command:GameCommand){session.command(command);setStep(session.step);setDone(session.done);setView(session.view);}
   function beginVote(){session.beginVote();setView(session.view);}
   async function save(completed:boolean){
     const next=completed?6:step;localStorage.setItem(wolf?'wangxu-wolf-tutorial':'wangxu-tutorial-step',String(next));
     if(authenticated&&!wolf){const last=completed?6:step;for(let stage=Math.min(6,initialStep+1);stage<=last;stage++)await request('/tutorial',{step:stage,complete:completed&&stage===6,requestId:requestId()});}
   }
   async function exit(){setBusy(true);try{await save(false);}catch(error){onError((error as Error).message);}finally{setBusy(false);onExit();}}
-  async function next(){if(!done)return;if(step<5){localStorage.setItem(wolf?'wangxu-wolf-tutorial':'wangxu-tutorial-step',String(step+1));setStep(step+1);}else{setBusy(true);try{await save(true);setComplete(true);}catch(error){onError((error as Error).message);}finally{setBusy(false);}}}
+  async function next(){if(!done||step!==5||busy)return;setBusy(true);try{await save(true);setComplete(true);}catch(error){onError((error as Error).message);}finally{setBusy(false);}}
   const objective=session.objective();const destination=view.nodes.find(node=>node.id===objective.nodeId);
   return <div className="tutorial"><GameScreen view={view} send={send} assets={assets} quality={quality} training onLeave={()=>void exit()} trainingDestination={done?undefined:objective.nodeId} trainingTarget={done?undefined:objective.targetId} guide={<div className={`tutorial-guide panel ${compact?'compact':''}`}>
     <div className="section-head"><span className="eyebrow">{wolf?'蚀月者练习':'初行者训练'} / {step+1} / 6</span><div className="guide-tools"><ActionButton iconKind="expand" iconState={compact?'default':'expanded'} aria-expanded={!compact} aria-label="展开或收起训练指引" onClick={()=>setCompact(!compact)}>{compact?'展开':'收起'}</ActionButton><ActionButton iconKind="save" iconState={busy?'busy':'default'} disabled={busy} onClick={()=>void exit()} aria-label="保存并离开">离开</ActionButton></div></div>
@@ -44,7 +44,7 @@ export function Tutorial({onMusicScene,assets,quality,initialStep,wolf,authentic
     {!compact&&<div className="lesson-progress">{LESSONS.map((_,index)=><i key={index} className={index<=step?'active':''}/>)}</div>}
     <div className="lesson-task"><span data-training-target={objective.targetId} data-training-node={objective.nodeId}>{done?'✓':'◇'} {done?'本课实际操作已完成':objective.text}</span>{destination&&!done&&<small>循地面金色虚线前往{destination.name}，靠近目标后按提示操作。</small>}
     {step===3&&view.phase==='DISCUSS'&&<ActionButton iconKind="vote" className="primary" disabled={!session.flags.published||!session.flags.said} onClick={beginVote}>进入表决</ActionButton>}
-    <ActionButton iconKind="next" iconState={busy?'busy':'default'} className="primary" disabled={!done||busy} onClick={()=>void next()}>{busy?'保存中…':step===5?'完成归灯训练':'下一课 →'}</ActionButton></div>
+    {step===5?<ActionButton iconKind="next" iconState={busy?'busy':'default'} className="primary" disabled={!done||busy} onClick={()=>void next()}>{busy?'保存中…':'完成归灯训练'}</ActionButton>:<small>完成本课操作后自动进入下一课</small>}</div>
     {!compact&&<small>训练物品独立保存 · 可保存离开并继续本课</small>}
   </div>}/>{complete&&<div className="modal-overlay"><section className="panel training-complete"><span className="eyebrow">YOU KNOW THE WAY HOME</span><h1>你的第一束归灯，已点亮。</h1><p>{authenticated&&!wolf?'初行者灯饰已收入营地。现在可以与真正的同行者出征。':'你已完成独立训练。登录后可以保存营地收藏与真实远征记录。'}</p><ActionButton iconKind="camp" className="primary large" onClick={onExit}>返回余灯集市</ActionButton></section></div>}</div>;
 }

@@ -12,7 +12,7 @@ export function trainingLayout():Layout {
   add('cleanse','cleanse','降蚀台','sanctuary',-84,-84);
   add('purify','cleanse','归灯芯净化台','sanctuary',84,-84);
   add('beacon-0','beacon','钟楼灯柱','node-1',60,-60);
-  add('beacon-1','beacon','城门灯柱','node-4',130,-15);
+  add('beacon-1','beacon','城门灯柱','node-4',130,-15,{active:false});
   add('resource-training-start','resource','矿庭亡絮','node-2',52,-40,{amount:4});
   add('resource-training-repair','resource','降蚀工程亡絮','node-4',-100,-72,{amount:2,active:false});
   add('resource-training-core','resource','净化工程亡絮','node-2',64,64,{amount:2,active:false});
@@ -51,6 +51,7 @@ export class TrainingSession {
   }
   enter(step:number){
     this.step=step;const engine=this.engine;
+    if(step>=2)this.object('beacon-1').active=true;
     if(step===2&&!engine.eliteDefeated){
       this.object('guardian').active=true;this.object('resource-training-repair').active=true;this.object('altar-training').active=true;
       const ally=engine.players.get('guide-1')!;ally.down=true;ally.hp=0;ally.downUntil=Number.MAX_SAFE_INTEGER;
@@ -71,6 +72,7 @@ export class TrainingSession {
       if(command.type==='vote')this.flags.voted=true;if(command.type==='transform')this.flags.transformed=true;
       if(command.type==='fog')this.flags.fog=true;
     }
+    this.advanceLesson();
     return accepted;
   }
   tick(dt:number){
@@ -85,7 +87,9 @@ export class TrainingSession {
     if(this.step===1&&this.me.resources===0&&this.engine.sharedResources>=2)this.flags.deposited=true;
     if(this.step===2&&this.wolf&&this.engine.moon>0)this.flags.corrupted=true;
     if(this.step===5&&this.me.carryingCore&&this.engine.corePurified&&this.engine.phase==='EXPLORE'){this.engine.phase='EXTRACT';this.engine.remaining=25;}
+    this.advanceLesson();
   }
+  private advanceLesson(){if(this.step<5&&this.done)this.enter(this.step+1);}
   get done(){
     if(this.step===0)return this.me.resources>=4&&Math.hypot(this.me.x-500,this.me.y-350)>70;
     if(this.step===1)return !this.object('chest-training').active&&this.me.stashUsed&&this.flags.deposited&&this.engine.beaconsLit>=1;

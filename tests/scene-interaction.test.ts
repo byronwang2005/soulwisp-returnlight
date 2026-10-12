@@ -71,16 +71,28 @@ function walk(session:TrainingSession,target:{x:number;y:number}){
 }
 function use(session:TrainingSession,id:string){const target=session.engine.objects.find(o=>o.id===id)??session.engine.players.get(id)!;const node=session.engine.layout.nodes.reduce((a,b)=>Math.hypot(target.x-a.x,target.y-a.y)<Math.hypot(target.x-b.x,target.y-b.y)?a:b);walk(session,node);walk(session,approachPoint(session.me,target));const action=pickAction(session.view,'interact');expect(action?.targetId).toBe(id);expect(action?.enabled).toBe(true);expect(session.command({type:'interact',targetId:action!.targetId})).toBe(true);for(let i=0;i<110;i++)session.tick(.05);}
 describe('cross-region training',()=>{
+  it('advances before early lighting can invalidate the collection lesson',()=>{
+    const s=new TrainingSession(false);
+    use(s,'resource-training-start');expect(s.step).toBe(1);
+    const gate=s.engine.objects.find(o=>o.id==='beacon-1')!;
+    walk(s,s.engine.layout.nodes.find(n=>n.id==='node-4')!);walk(s,approachPoint(s.me,gate));
+    expect(s.view.self.actions!.some(a=>a.targetId===gate.id&&a.action==='interact'&&a.enabled)).toBe(false);
+    expect(s.command({type:'interact',targetId:gate.id})).toBe(false);expect(s.me.resources).toBe(4);
+    use(s,'beacon-0');expect(s.me.resources).toBe(2);expect(s.step).toBe(1);
+    use(s,'chest-training');use(s,'warehouse');use(s,'stash');expect(s.step).toBe(2);
+    expect(s.engine.objects.find(o=>o.id==='guardian')!.active).toBe(true);
+    expect(gate.active).toBe(true);
+  });
   for(const wolf of [false,true])it(`${wolf?'wolf':'human'} completes all physical stations using movement and context actions`,()=>{
-    const s=new TrainingSession(wolf);use(s,'resource-training-start');expect(s.done).toBe(true);s.enter(1);
-    use(s,'chest-training');use(s,'warehouse');use(s,'stash');use(s,'beacon-0');expect(s.done).toBe(true);s.enter(2);
+    const s=new TrainingSession(wolf);use(s,'resource-training-start');expect(s.step).toBe(1);
+    use(s,'chest-training');use(s,'warehouse');use(s,'stash');use(s,'beacon-0');expect(s.step).toBe(2);
     walk(s,s.engine.layout.nodes.find(n=>n.id==='node-1')!);s.command({type:'skill'});s.command({type:'dodge',x:1,y:0});walk(s,s.engine.layout.nodes.find(n=>n.id==='node-4')!);walk(s,approachPoint(s.me,s.engine.objects.find(o=>o.id==='guardian')!));
     s.command({type:'skill'});for(let i=0;i<3;i++){expect(s.command({type:'attack'})).toBe(true);s.tick(.8);}
     use(s,'guide-1');use(s,'resource-training-repair');use(s,'beacon-1');
     if(wolf){walk(s,s.engine.layout.nodes.find(n=>n.id==='node-1')!);walk(s,approachPoint(s.me,s.engine.objects.find(o=>o.id==='altar-training')!));expect(s.command({type:'transform'}),'transform').toBe(true);expect(s.command({type:'corrupt',targetId:pickAction(s.view,'corrupt')!.targetId}),JSON.stringify(s.view.self.actions)).toBe(true);expect(s.command({type:'fog',x:s.me.x,y:s.me.y})).toBe(true);for(let i=0;i<90;i++)s.tick(.05);}
-    use(s,'cleanse');expect(s.done).toBe(true);s.enter(3);expect(s.me.x).toBe(500);expect(s.me.evidence.length).toBeGreaterThan(0);
-    expect(s.command({type:'publish',evidenceId:s.me.evidence[0].id})).toBe(true);expect(s.command({type:'say',text:'I witnessed the rescue and public engineering.'})).toBe(true);s.beginVote();expect(s.command({type:'vote',targetId:null})).toBe(true);expect(s.done).toBe(true);
-    s.enter(4);s.command({type:'draft',boonId:s.me.draftOptions[0]});expect(s.done).toBe(true);s.enter(5);use(s,'resource-training-core');use(s,'core');use(s,'purify');walk(s,s.engine.objects.find(o=>o.id==='exit')!);for(let i=0;i<520&&!s.done;i++)s.tick(.05);expect(s.done,JSON.stringify({phase:s.engine.phase,result:s.engine.result,hold:s.engine.holdProgress,players:[...s.engine.players.values()].map(p=>({id:p.id,x:p.x,y:p.y,down:p.down,faction:p.faction}))})).toBe(true);
+    use(s,'cleanse');expect(s.step).toBe(3);expect(s.me.x).toBe(500);expect(s.me.evidence.length).toBeGreaterThan(0);
+    expect(s.command({type:'publish',evidenceId:s.me.evidence[0].id})).toBe(true);expect(s.command({type:'say',text:'I witnessed the rescue and public engineering.'})).toBe(true);s.beginVote();expect(s.command({type:'vote',targetId:null})).toBe(true);expect(s.step).toBe(4);
+    s.command({type:'draft',boonId:s.me.draftOptions[0]});expect(s.step).toBe(5);use(s,'resource-training-core');use(s,'core');use(s,'purify');walk(s,s.engine.objects.find(o=>o.id==='exit')!);for(let i=0;i<520&&!s.done;i++)s.tick(.05);expect(s.done,JSON.stringify({phase:s.engine.phase,result:s.engine.result,hold:s.engine.holdProgress,players:[...s.engine.players.values()].map(p=>({id:p.id,x:p.x,y:p.y,down:p.down,faction:p.faction}))})).toBe(true);
   });
   it('restores every lesson with an achievable objective and independent inventory',()=>{for(let step=0;step<6;step++){const session=new TrainingSession(false,step);expect(session.step).toBe(step);expect(session.me.hp).toBe(100);expect(session.objective().text).toBeTruthy();expect(session.me.resources).toBeLessThanOrEqual(4);}});
 });
