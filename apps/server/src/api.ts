@@ -4,7 +4,7 @@ import {ProfileError,presetAvatar,saveProfile} from './profiles.js';
 import {profileRepository} from './profile-store.js';
 import { AccountError, advanceTutorial, auth, craft, getCamp, getSession, issueGameTicket, saveLoadout, savePresets } from './accounts.js';
 import { VoiceError, type VoiceService, type VoiceState } from './voice.js';
-import type { CampData, CampPreset } from '@wangxu/shared';
+import type { CampData, CampPreset, VoiceLobbyCameraCommand } from '@wangxu/shared';
 import { pool } from './db/index.js';
 import { reserveWaiting, type WaitingRoom } from './waiting-room.js';
 import { LobbyVoiceError, type VoiceLobbyService } from './voice-lobby.js';
@@ -87,6 +87,16 @@ export function createApi(options: ApiOptions) {
     if (!options.lobby?.()?.coordinator.isWaiting(c.get('account').id)) throw new LobbyVoiceError(403,'NOT_WAITING','请先加入等待区');
     if (!options.voiceLobby) throw new LobbyVoiceError(503, 'LOBBY_UNAVAILABLE', '语音大厅暂时离线，请稍后重试。');
     return c.json(await options.voiceLobby.issueToken(c.get('account')));
+  });
+  app.post('/api/voice/lobby/camera', async c => {
+    const body = await c.req.json<Partial<VoiceLobbyCameraCommand>>();
+    if (!body || !['acquire', 'renew', 'release'].includes(body.action ?? '') || typeof body.epoch !== 'string' || body.epoch.length > 64 ||
+      typeof body.participantSid !== 'string' || !body.participantSid || body.participantSid.length > 64 ||
+      (body.action !== 'acquire' && (!('leaseId' in body) || typeof body.leaseId !== 'string' || !body.leaseId || body.leaseId.length > 64))) {
+      return c.json({ error: 'BAD_CAMERA_COMMAND', message: '摄像头请求无效' }, 400);
+    }
+    if (!options.voiceLobby) throw new LobbyVoiceError(503, 'LOBBY_UNAVAILABLE', '语音大厅暂时离线，请稍后重试。');
+    return c.json({ lease: await options.voiceLobby.cameraCommand(c.get('account'), body as VoiceLobbyCameraCommand) });
   });
   app.post('/api/craft', async c => {
     const body = await c.req.json<{ recipeId: string; requestId: string }>();

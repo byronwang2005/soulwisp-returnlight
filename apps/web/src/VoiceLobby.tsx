@@ -4,9 +4,31 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { PHASE_NAMES } from './GameUI';
 import { PROFESSION_NAMES, type LobbyView, type LobbyCommand, type Profession } from '@wangxu/shared';
 import type { User } from './api';
-import { LobbyVoiceConnection } from './lobby-voice';
+import { LobbyVoiceConnection, type LobbySnapshot } from './lobby-voice';
 import { lobbyNetworkQuality } from './lobby-stats';
 import './voice-lobby.css';
+
+function LobbyCameraVideo({ voice }: { voice: LobbySnapshot }) {
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const element = video.current, track = voice.cameraTrack;
+    if (!element || !track) return;
+    track.attach(element);
+    void element.play().catch(() => {});
+    return () => { track.detach(element); element.srcObject = null; };
+  }, [voice.cameraTrack]);
+  if (!voice.cameraOwner) return <p className="voice-camera-note">可由一位成员共享摄像头，其他同行者一起观看。</p>;
+  const settings = voice.cameraEnabled ? voice.cameraTrack?.mediaStreamTrack.getSettings() : null;
+  return <figure className="voice-camera" aria-label={`${voice.cameraOwner.name}的摄像头共享`}>
+    <div className="voice-camera-frame">
+      <video ref={video} autoPlay playsInline muted controls aria-label="共享摄像头画面" className={voice.cameraEnabled ? 'is-self' : ''} />
+      {!voice.cameraTrack && <p role="status">正在连接画面…</p>}
+    </div>
+    <figcaption><strong>{voice.cameraOwner.name}{voice.cameraEnabled ? ' · 你正在共享' : ' · 摄像头共享'}</strong>
+      {settings?.width && settings.height && <span>{settings.width} × {settings.height}{settings.frameRate ? ` · ${Math.round(settings.frameRate)} fps` : ''}</span>}
+    </figcaption>
+  </figure>;
+}
 
 export function VoiceLobby({ page = false, user, lobby, summary, suspended, onJoin, onLeave, send, onError, onLogin, onConnection, onActivityChange }: {
   page?: boolean; user: User | null; lobby: LobbyView | null; summary: {waiting:number;game:LobbyView['game'];available?:boolean}; suspended: boolean;
@@ -48,8 +70,9 @@ export function VoiceLobby({ page = false, user, lobby, summary, suspended, onJo
   useEffect(() => {
     if (!page && expanded && !dialog.current?.open) dialog.current?.showModal();
   }, [expanded,page]);
-  const hint = voice.playbackBlocked ? '声音待启用' : voice.state === 'reconnecting' ? '正在重连' : voice.state === 'joining' ? '正在连接' : voice.message ? '查看提示' : joined ? (voice.muted ? '已静音' : '麦克风开启') : !voice.info.available ? '暂时离线' : '';
+  const hint = voice.playbackBlocked ? '声音待启用' : voice.state === 'reconnecting' ? '正在重连' : voice.state === 'joining' ? '正在连接' : voice.message ? '查看提示' : voice.cameraEnabled ? '摄像头开启' : joined ? (voice.muted ? '已静音' : '麦克风开启') : !voice.info.available ? '暂时离线' : '';
   const micLabel = voice.micBusy ? '正在打开麦克风…' : voice.muted ? '开启麦克风' : '静音麦克风';
+  const cameraLabel = voice.cameraBusy ? '正在处理摄像头…' : voice.cameraEnabled ? '停止摄像头共享' : voice.cameraOwner ? `${voice.cameraOwner.name}正在共享` : '共享摄像头';
   const entryAction = () => !user
     ? <ActionButton iconKind="enter" className="primary" onClick={login}>登录并加入</ActionButton>
     : <ActionButton iconKind="rooms" className="primary" disabled={joining} onClick={()=>void join()}>{joining?'正在加入…':waiting?'连接语音':'加入等待区'}</ActionButton>;
@@ -62,6 +85,7 @@ export function VoiceLobby({ page = false, user, lobby, summary, suspended, onJo
           <section className="waiting-game-status"><span className="eyebrow">WAITING / 等待区</span><strong>{lobby?lobby.members.length:summary.available?summary.waiting:'—'}<small> 位同行者</small></strong><p>{waiting?'你已入队，浏览营地也会保留席位。':'加入后选择偏好，准备好就能出发。'}</p></section>
           <section className="waiting-game-status" aria-label="游玩区状态"><span className="eyebrow">EXPEDITION / 游玩区</span><strong>{game?game.stage==='transferring'?'正在入场':game.stage==='result'?'本局结算':game.stage==='closing'?'正在回厅':game.phase?PHASE_NAMES[game.phase]:'远征进行中':!lobby&&!summary.available?'等待连接':'等待出发'}</strong><p>{game?`${game.players} 人正在同行 · 本局结束后开放下一局`:'4–10 人 · 全员准备后倒数 10 秒'}</p></section>
         </div>
+        {joined && <LobbyCameraVideo voice={voice} />}
         {waiting&&<>
           <p role="status">{lobby.draining?'服务正在更新，暂停开局。':lobby.countdown!==null?`${lobby.countdown} 秒后进入游玩区`:(lobby.members.length<4?'至少 4 人才能出发。':'候选成员全部准备后倒数 10 秒。')}{self&&!self.candidate&&` 本局席位已满，你在候场队列第 ${lobby.members.filter(m=>!m.candidate).findIndex(m=>m.id===self.id)+1} 位，仍可自由聊天。`}</p>
           <label>职业偏好<select aria-label="职业偏好" value={self?.preference??''} disabled={lobby.countdown!==null&&self?.candidate} onChange={event=>send({type:'preference',profession:event.target.value?event.target.value as Profession:null})}><option value="">随意</option>{Object.entries(PROFESSION_NAMES).map(([id,name])=><option key={id} value={id}>{name}</option>)}</select></label>
@@ -80,6 +104,8 @@ export function VoiceLobby({ page = false, user, lobby, summary, suspended, onJo
       <div className="voice-lobby-controls">{waiting?<>
         <ActionButton iconKind="play" className="primary" disabled={lobby.draining} onClick={()=>send({type:'ready',ready:!self?.ready})}>{self?.ready?'取消准备':'准备出征'}</ActionButton>
         {joined?<><ActionButton iconKind="mic" iconState={voice.muted?'off':'on'} disabled={voice.state!=='connected'||voice.micBusy} aria-pressed={!voice.muted} onClick={()=>void connection.toggleMic()}>{micLabel}</ActionButton><ActionButton iconKind="listen" aria-pressed={voice.listening} onClick={()=>connection.toggleListening()}>{voice.listening?'关闭收听':'开启收听'}</ActionButton></>:entryAction()}
+        {joined && <ActionButton iconKind="camera" iconState={voice.cameraBusy ? 'busy' : voice.cameraEnabled ? 'on' : 'off'}
+          disabled={voice.state !== 'connected' || voice.cameraBusy || Boolean(voice.cameraOwner && !voice.cameraEnabled)} aria-pressed={voice.cameraEnabled} onClick={() => void connection.toggleCamera()}>{cameraLabel}</ActionButton>}
         <ActionButton iconKind="leave" onClick={leave}>离开等待区</ActionButton>
         {voice.playbackBlocked&&<ActionButton iconKind="listen" onClick={()=>void connection.startAudio()}>点击启用声音</ActionButton>}
       </>:entryAction()}</div>
@@ -92,6 +118,7 @@ export function VoiceLobby({ page = false, user, lobby, summary, suspended, onJo
       </ActionButton>
       <span className="voice-lobby-count" aria-label={`${lobby?.members.length??summary.waiting}人在等待区`}><span className={voice.info.available ? 'signal-dot' : 'signal-dot offline'} aria-hidden="true"/><strong>{lobby?lobby.members.length:summary.available?summary.waiting:'—'}<small> 人等待</small></strong></span>
       <div className="voice-strip-actions">{waiting ? <ActionButton iconKind="play" className="primary" disabled={lobby.draining} onClick={()=>send({type:'ready',ready:!self?.ready})}>{self?.ready?'取消准备':'准备'}</ActionButton> : entryAction()}{joined && <ActionButton iconKind="mic" iconState={voice.micBusy ? 'busy' : voice.muted ? 'off' : 'on'} className={`voice-quick-mic ${!voice.muted ? 'primary' : ''}`} aria-label={`快捷${micLabel}`} title={micLabel} disabled={voice.state !== 'connected' || voice.micBusy} aria-pressed={!voice.muted} onClick={() => void connection.toggleMic()}><span>{micLabel}</span></ActionButton>}</div>
+      {voice.cameraEnabled && <ActionButton iconKind="camera" iconState="on" className="voice-quick-camera" aria-label="停止摄像头共享" title="停止摄像头共享" onClick={() => void connection.stopCamera()} />}
       <span className="voice-announcement" role="status">{voice.message || (voice.playbackBlocked ? '声音播放受阻，请打开语音大厅启用声音。' : '')}</span>
     </section>
     <dialog ref={dialog} id="voice-lobby-dialog" className="voice-lobby-dialog panel" aria-labelledby="voice-lobby-title" onClose={() => {

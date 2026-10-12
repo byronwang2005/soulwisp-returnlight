@@ -42,6 +42,11 @@ export const RECIPES:Recipe[]=[
 ];
 export interface VoiceLobbyInfo { available: boolean; online: number; capacity: number; url: string | null }
 export interface VoiceLobbyTicket { token: string; url: string; epoch: string }
+export interface VoiceLobbyCameraOwner { id: string; name: string; participantSid: string }
+export interface VoiceLobbyCameraLease { id: string; epoch: string; participantSid: string }
+export type VoiceLobbyCameraCommand =
+ | { action: 'acquire'; epoch: string; participantSid: string }
+ | { action: 'renew' | 'release'; epoch: string; participantSid: string; leaseId: string };
 
 export interface LobbyMemberView { id: string; name: string; image?: string | null; ready: boolean; preference: Profession | null; position: number; candidate: boolean }
 export interface LobbyView { selfId: string; selfArea: 'waiting' | 'playing'; members: LobbyMemberView[]; countdown: number | null; draining: boolean; game: { stage: 'transferring' | 'playing' | 'result' | 'closing'; players: number; phase: Phase | null; remaining: number } | null }

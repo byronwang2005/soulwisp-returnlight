@@ -1,13 +1,16 @@
 import { randomUUID } from 'node:crypto';
-import { AccessToken, RoomServiceClient, TrackSource } from 'livekit-server-sdk';
-import type { VoiceLobbyInfo, VoiceLobbyTicket } from '@wangxu/shared';
+import { AccessToken, RoomServiceClient, TrackSource, type ParticipantInfo } from 'livekit-server-sdk';
+import type { VoiceLobbyInfo, VoiceLobbyTicket, VoiceLobbyCameraOwner, VoiceLobbyCameraLease, VoiceLobbyCameraCommand } from '@wangxu/shared';
 import type { VoiceConfig } from './voice.js';
 
 export class LobbyVoiceError extends Error {
   constructor(public readonly status: 403 | 409 | 503, public readonly code: string, message: string) { super(message); }
 }
 
-/** One public audio room per application instance, independent of council epochs. */
+const CAMERA_LEASE_MS = 15_000;
+interface CameraSlot extends VoiceLobbyCameraOwner { leaseId: string; expiresAt: number }
+
+/** One public media room per application instance, independent of council epochs. */
 export class VoiceLobbyService {
   private readonly client: RoomServiceClient;
   private readonly instance = randomUUID();
@@ -22,6 +25,8 @@ export class VoiceLobbyService {
   private reconciled = false;
   private readonly owner: string;
   private readonly admissionTimer: NodeJS.Timeout;
+  private camera: CameraSlot | null = null;
+  private metadataDirty = false;
 
   constructor(private readonly config: VoiceConfig, private readonly inExpedition: (id: string) => boolean = () => false,
     private readonly options: { cleanupPreviousInstances?: boolean; cleanupLegacy?: boolean; canJoin?: (id:string)=>boolean } = {}) {
@@ -29,7 +34,7 @@ export class VoiceLobbyService {
     this.owner = `soulwisp-returnlight:${config.publicUrl}`;
     this.admissionTimer=setInterval(()=>{void this.serial(async()=>{
       if(this.stopping||!this.name)return;
-      for(const participant of await this.client.listParticipants(this.name))if(this.inExpedition(participant.identity)||this.options.canJoin&&!this.options.canJoin(participant.identity))await this.client.removeParticipant(this.name,participant.identity,{revokeTokenTs:BigInt(Math.floor(Date.now()/1000)+1)});
+      await this.reconcileParticipants();
     }).catch(()=>{});},1000);this.admissionTimer.unref();
   }
 
@@ -40,6 +45,92 @@ export class VoiceLobbyService {
   }
 
   private unavailable(): LobbyVoiceError { return new LobbyVoiceError(503, 'LOBBY_UNAVAILABLE', '语音大厅暂时离线，请稍后重试。'); }
+
+  private canJoin(id: string): boolean { return !this.inExpedition(id) && (!this.options.canJoin || this.options.canJoin(id)); }
+
+  private roomMetadata(): string {
+    const camera: VoiceLobbyCameraOwner | null = this.camera && { id: this.camera.id, name: this.camera.name, participantSid: this.camera.participantSid };
+    return JSON.stringify({ kind: 'public-lobby', owner: this.owner, serverInstanceId: this.instance, epoch: this.epoch, camera });
+  }
+
+  private async flushMetadata(): Promise<void> {
+    if (!this.metadataDirty || !this.name) return;
+    await this.client.updateRoomMetadata(this.name, this.roomMetadata());
+    this.metadataDirty = false;
+  }
+
+  private async setCameraPermission(participant: ParticipantInfo, enabled: boolean): Promise<ParticipantInfo> {
+    return this.client.updateParticipant(this.name!, participant.identity, { permission: {
+      canPublish: true, canSubscribe: true, canPublishSources: enabled ? [TrackSource.MICROPHONE, TrackSource.CAMERA] : [TrackSource.MICROPHONE],
+      canPublishData: false, canUpdateMetadata: false,
+    } });
+  }
+
+  private async clearCamera(participants: ParticipantInfo[]): Promise<void> {
+    // Revocation removes existing camera tracks at the SFU before the next grant.
+    // Keep the slot occupied if any revocation fails or its response is lost.
+    for (const participant of participants) {
+      if (participant.identity === this.camera?.id || this.hasCameraPermission(participant) || participant.tracks?.some(track => track.source === TrackSource.CAMERA)) {
+        await this.setCameraPermission(participant, false);
+      }
+    }
+    this.camera = null; this.metadataDirty = true;
+    await this.flushMetadata();
+  }
+
+  private hasCameraPermission(participant: ParticipantInfo): boolean {
+    const permission = participant.permission;
+    return Boolean(permission?.canPublish && (!permission.canPublishSources.length || permission.canPublishSources.includes(TrackSource.CAMERA)));
+  }
+
+  private async reconcileParticipants(): Promise<ParticipantInfo[]> {
+    if (!this.name) return [];
+    const participants = await this.client.listParticipants(this.name);
+    const admitted: ParticipantInfo[] = [];
+    for (const participant of participants) {
+      if (!this.canJoin(participant.identity)) await this.client.removeParticipant(this.name, participant.identity, { revokeTokenTs: BigInt(Math.floor(Date.now()/1000)+1) });
+      else admitted.push(participant);
+    }
+    if (this.camera && (this.camera.expiresAt <= Date.now() || !admitted.some(participant => participant.identity === this.camera!.id && participant.sid === this.camera!.participantSid))) {
+      await this.clearCamera(admitted);
+    }
+    // Refreshed self-hosted tokens can carry old grants. Never adopt their camera rights.
+    for (const participant of admitted) {
+      const ownsSlot = participant.identity === this.camera?.id && participant.sid === this.camera.participantSid;
+      if (!ownsSlot && (this.hasCameraPermission(participant) || participant.tracks?.some(track => track.source === TrackSource.CAMERA))) await this.setCameraPermission(participant, false);
+    }
+    await this.flushMetadata();
+    return admitted;
+  }
+
+  async cameraCommand(account: { id: string; name: string }, command: VoiceLobbyCameraCommand): Promise<VoiceLobbyCameraLease | null> {
+    return this.serial(async () => {
+      if (this.stopping || !this.name) throw this.unavailable();
+      // Delayed requests from an old room/page must never release a new owner's slot.
+      if (command.action === 'release' && (command.epoch !== this.epoch || this.camera?.leaseId !== command.leaseId || this.camera.id !== account.id || this.camera.participantSid !== command.participantSid)) return null;
+      if (command.epoch !== this.epoch) throw new LobbyVoiceError(409, 'CAMERA_SESSION_CHANGED', '大厅已重启，请重新连接语音。');
+      const participants = await this.reconcileParticipants();
+      if (command.action === 'release') { await this.clearCamera(participants); return null; }
+      const participant = participants.find(value => value.identity === account.id && value.sid === command.participantSid);
+      if (!participant || !this.canJoin(account.id)) throw new LobbyVoiceError(403, 'NOT_WAITING', '请先连接等待区语音。');
+      if (command.action === 'renew') {
+        if (!this.camera || this.camera.id !== account.id || this.camera.participantSid !== command.participantSid || this.camera.leaseId !== command.leaseId) throw new LobbyVoiceError(409, 'CAMERA_LEASE_LOST', '摄像头共享已结束，请重新开启。');
+        this.camera.expiresAt = Date.now() + CAMERA_LEASE_MS;
+      } else {
+        if (this.camera) throw new LobbyVoiceError(409, 'CAMERA_BUSY', `${this.camera.name}正在共享摄像头。`);
+        this.camera = { id: account.id, name: account.name, participantSid: participant.sid, leaseId: randomUUID(), expiresAt: Date.now() + CAMERA_LEASE_MS };
+        this.metadataDirty = true;
+      }
+      // Always grant via the server; admission tickets remain microphone-only.
+      const updated = await this.setCameraPermission(participant, true);
+      if (updated.sid !== command.participantSid || !this.canJoin(account.id)) {
+        await this.clearCamera(await this.client.listParticipants(this.name));
+        throw new LobbyVoiceError(409, 'CAMERA_SESSION_CHANGED', '语音连接已变化，请重新开启摄像头。');
+      }
+      await this.flushMetadata();
+      return { id: this.camera!.leaseId, epoch: this.epoch!, participantSid: command.participantSid };
+    });
+  }
 
   private async ensureRoom(): Promise<string> {
     if (this.stopping) throw this.unavailable();
@@ -62,11 +153,11 @@ export class VoiceLobbyService {
     const epoch = randomUUID();
     const name = `public-lobby-${this.instance}-${epoch}`;
     // Remember the exact name before creation, so a timed-out creation can still be cleaned up.
-    this.name = name;this.issuedAccounts.clear();
+    this.name = name;this.issuedAccounts.clear();this.camera = null;this.metadataDirty = false;
     this.epoch = epoch;
     this.ownedNames.add(name);
     await this.client.createRoom({ name, maxParticipants: 0, emptyTimeout: 600, departureTimeout: 600,
-      metadata: JSON.stringify({ kind: 'public-lobby', owner: this.owner, serverInstanceId: this.instance, epoch }) });
+      metadata: this.roomMetadata() });
     if (this.stopping) throw this.unavailable();
     return name;
   }
@@ -123,6 +214,7 @@ export class VoiceLobbyService {
       try { await this.client.removeParticipant(this.name, id, { revokeTokenTs: BigInt(Math.floor(Date.now()/1000)+1) }); } catch (error) {
         if (!isNotFound(error)) throw this.unavailable();
       }
+      if (this.camera?.id === id) await this.clearCamera(await this.client.listParticipants(this.name));
       this.cached = null;
     });
   }

@@ -20,6 +20,16 @@
 
 等待连接断开立即清除准备和排队位置，恢复后排到队尾。同账户只允许一个大厅控制连接；恢复对局仍使用原游戏席位及现有 60 秒恢复窗口，超时整局无效。服务重启重新建立大厅、清空准备和倒数；仅清理本部署准确标记的旧媒体房。
 
+## 单人摄像头共享
+
+连接等待语音后点击“共享摄像头”。整个等待区同时由一位成员共享，其他成员观看同一个画面；有人正在共享时，按钮显示共享者名称。摄像头默认关闭，开启摄像头不改变麦克风或收听开关。共享者可点击“停止摄像头共享”；营地顶部也保留停止入口。画面提供浏览器播放与全屏控件。
+
+采集目标为 1920 × 1080、60 fps，使用 H.264、单层编码、最高 3 Mbps。设备或浏览器无法达到目标时，使用其可提供的规格；本地预览下显示实际采集尺寸和帧率。实际发送帧率及码率还受编码器和网络影响。收起面板、浏览营地或进入训练继续共享；离开等待区、退出账户、进入正式远征或设备被移除时停止摄像头。回厅只恢复收听，摄像头需要手动重新开启。
+
+摄像头名额由应用服务端串行分配，绑定大厅 epoch、媒体连接 SID 和私有租约。客户端每 5 秒续约，15 秒未续约回收；浏览器授权弹窗在申请名额之前打开。停止共享先关闭设备，服务端确认撤销旧发布权限后再允许下一位申请；撤销失败时保留原名额并重试。共享者信息通过仅已加入媒体房可读取的房间 metadata 同步，公开人数接口不增加身份信息。
+
+每张入场票据仍只允许麦克风；摄像头权限由 `UpdateParticipant` 单独授予。服务端每秒检查等待资格、租约和媒体 SID，回收离厅及换页连接，并撤销旧刷新票据带回的摄像头权限。客户端仅显示 metadata 指定的账户及 SID 的摄像头轨道。
+
 ## 接口与媒体
 
 | 接口／消息 | 权限 | 行为 |
@@ -33,8 +43,9 @@
 | `returned`／`returnToLobby` | 本局成员 | 服务端回厅通知及游戏连接释放 |
 | `GET /api/voice/lobby` | 公开 | `available`、语音人数、`capacity: 0`、`url`；0 表示无固定人数上限 |
 | `POST /api/voice/lobby/token` | 等待中的账户 | 20 秒媒体票据、`url`、`epoch` |
+| `POST /api/voice/lobby/camera` | 账户会话；开启／续约还须已连接等待语音 | `action: acquire / renew / release`、`epoch`、`participantSid`；续约／释放带 `leaseId`，返回 `{ lease }` |
 
-媒体票据仅允许麦克风和订阅，禁止视频、屏幕和数据发布。不在等待区返回 `403 NOT_WAITING`，对局成员不能拿等待语音票据；语音离线返回 `503 LOBBY_UNAVAILABLE`。
+媒体票据仅允许麦克风和订阅，摄像头需单独申请；屏幕与数据发布仍关闭。不在等待区返回 `403 NOT_WAITING`，对局成员不能拿等待语音票据；语音离线返回 `503 LOBBY_UNAVAILABLE`。摄像头占用返回 `409 CAMERA_BUSY`，旧大厅／连接返回 `409 CAMERA_SESSION_CHANGED`，租约失效返回 `409 CAMERA_LEASE_LOST`；释放旧租约幂等，不影响新共享者。
 
 复用现有 Colyseus（MIT）和 LiveKit SDK（Apache-2.0），不新增依赖。语音沿用 Opus 单声道、DTX、RED、回声消除、降噪、自动增益及原连接诊断。`room.auto_create: false` 保持关闭；旧票据不能创建新房。
 
@@ -44,6 +55,7 @@
 
 ```sh
 npm exec vitest run tests/client-lobby.test.ts tests/lobby-coordinator.test.ts tests/waiting-room.test.ts tests/voice-lobby-service.test.ts tests/room-voice-gate.test.ts tests/rules.test.ts
+npm exec vitest run tests/lobby-camera.test.ts tests/lobby-camera-client.test.ts tests/lobby-camera-api.test.ts tests/lobby-panel.test.ts
 npm run check
 npm run build
 ```
@@ -51,5 +63,6 @@ npm run build
 发布排空只把转场和对局计为游玩区占用，另行报告待写入结算数；自动发布等待两者归零再备份和切换进程，避免中断奖励重试。
 
 模拟覆盖 4–10 人开局、超员候场、名单冻结、倒数取消、重复账户、授权席位、转场失败、职业冲突、私密身份、15 秒回厅、结算待写入、语音撤权及维护排空。真实 PostgreSQL／LiveKit 联机与浏览器测试需明确要求后执行。
+摄像头模拟覆盖并发占用、撤权失败、租约过期、连接 SID 更换、旧请求延迟返回、权限拒绝、设备移除、信令授权延迟、发布失败和 HTTP 身份／格式检查；不替代实际设备的 1080p60 采集及传输验收。
 
 旧的 `verification/voice-lobby-local.json` 是邀请码时期的历史语音报告，不代表本次大厅流程的联机或设备验收。

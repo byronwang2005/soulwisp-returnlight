@@ -59,3 +59,11 @@
 .voice-lobby-dialog .expedition-overview{gap:8px}.voice-lobby-dialog .waiting-game-status{padding:12px}.voice-lobby-dialog .waiting-game-status>strong{font-size:20px}.voice-lobby-dialog .expedition-seats{grid-template-columns:1fr}.voice-lobby-dialog .expedition-seats .vacant{display:none}
 @media(max-width:700px){.expedition-lobby-page{padding:12px;}.expedition-lobby .voice-lobby-heading{padding:18px}.expedition-lobby .voice-lobby-heading h2{font-size:26px}.expedition-lobby .voice-lobby-body{padding:16px}.expedition-overview{gap:8px;margin-bottom:16px}.waiting-game-status{padding:12px}.waiting-game-status>strong{font-size:20px}.expedition-seats{grid-template-columns:1fr;gap:8px}.expedition-seats li{padding:12px}.expedition-lobby .voice-lobby-controls{padding:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.expedition-lobby .voice-lobby-controls>.primary{min-width:0;margin:0;grid-column:1/-1}.expedition-lobby .voice-lobby-controls button{padding:10px;font-size:12px}}
 .expedition-lobby-page[hidden],.voice-lobby-shell[hidden]{display:none}
+.voice-camera{max-width:960px;width:100%;margin:0 auto 24px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#080c0a}
+.voice-camera-frame{position:relative;aspect-ratio:16/9;display:grid;place-items:center}
+.voice-camera video{display:block;width:100%;height:100%;position:absolute;inset:0;object-fit:contain}
+.voice-camera-frame>p{position:relative;color:var(--muted);font-size:13px;pointer-events:none}
+.voice-camera figcaption{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:12px 16px;font-size:12px;border-top:1px solid var(--line)}
+.voice-camera figcaption strong{font-weight:500;overflow-wrap:anywhere}.voice-camera figcaption span,.voice-camera-note{color:var(--muted);font-size:11px}
+.voice-camera-note{line-height:1.8;margin:0 0 16px}.voice-quick-camera{flex-shrink:0;color:var(--gold-light)}
+@media(max-width:700px){.voice-camera{margin-bottom:16px}.voice-camera figcaption{padding:10px 12px}}
