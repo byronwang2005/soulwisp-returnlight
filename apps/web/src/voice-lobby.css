@@ -67,3 +67,11 @@
 .voice-camera figcaption strong{font-weight:500;overflow-wrap:anywhere}.voice-camera figcaption span,.voice-camera-note{color:var(--muted);font-size:11px}
 .voice-camera-note{line-height:1.8;margin:0 0 16px}.voice-quick-camera{flex-shrink:0;color:var(--gold-light)}
 @media(max-width:700px){.voice-camera{margin-bottom:16px}.voice-camera figcaption{padding:10px 12px}}
+
+.voice-camera-playback,.voice-camera-diagnostics{padding:.65rem .85rem;font-size:.85rem}
+.voice-camera-playback label{display:flex;align-items:center;gap:.5rem}
+.voice-camera-playback input{width:auto}
+.voice-camera-playback p,.voice-camera-diagnostics p{margin:.45rem 0;color:var(--muted)}
+.voice-camera-diagnostics summary{cursor:pointer}
+.voice-camera-diagnostics dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:.4rem .75rem;margin:.6rem 0}
+.voice-camera-diagnostics dd{margin:0;overflow-wrap:anywhere}

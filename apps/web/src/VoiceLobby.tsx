@@ -8,7 +8,7 @@ import { LobbyVoiceConnection, type LobbySnapshot } from './lobby-voice';
 import { lobbyNetworkQuality } from './lobby-stats';
 import './voice-lobby.css';
 
-function LobbyCameraVideo({ voice }: { voice: LobbySnapshot }) {
+function LobbyCameraVideo({ voice, connection }: { voice: LobbySnapshot; connection: LobbyVoiceConnection }) {
   const video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const element = video.current, track = voice.cameraTrack;
@@ -19,14 +19,32 @@ function LobbyCameraVideo({ voice }: { voice: LobbySnapshot }) {
   }, [voice.cameraTrack]);
   if (!voice.cameraOwner) return <p className="voice-camera-note">可由一位成员共享摄像头，其他同行者一起观看。</p>;
   const settings = voice.cameraEnabled ? voice.cameraTrack?.mediaStreamTrack.getSettings() : null;
+  const metrics = voice.cameraMetrics;
+  const value = (number: number | null | undefined, unit = '') => number == null ? '不可用' : `${number.toFixed(1)}${unit}`;
+  const size = (width: number | null | undefined, height: number | null | undefined) => width && height ? `${width} × ${height}` : '不可用';
+  const limitation = metrics?.limitation ? ({ none: '无', cpu: '编码性能', bandwidth: '带宽', other: '其他' }[metrics.limitation] ?? metrics.limitation) : '不可用';
   return <figure className="voice-camera" aria-label={`${voice.cameraOwner.name}的摄像头共享`}>
     <div className="voice-camera-frame">
       <video ref={video} autoPlay playsInline muted controls aria-label="共享摄像头画面" className={voice.cameraEnabled ? 'is-self' : ''} />
       {!voice.cameraTrack && <p role="status">正在连接画面…</p>}
     </div>
     <figcaption><strong>{voice.cameraOwner.name}{voice.cameraEnabled ? ' · 你正在共享' : ' · 摄像头共享'}</strong>
-      {settings?.width && settings.height && <span>{settings.width} × {settings.height}{settings.frameRate ? ` · ${Math.round(settings.frameRate)} fps` : ''}</span>}
+      {settings?.width && settings.height && <span>采集：{settings.width} × {settings.height}{settings.frameRate ? ` · ${Math.round(settings.frameRate)} fps` : ''}</span>}
     </figcaption>
+    {!voice.cameraEnabled && <div className="voice-camera-playback">
+      <label><input type="checkbox" checked={voice.cameraSmooth} disabled={!voice.cameraTrack || voice.state !== 'connected'} onChange={event => connection.setCameraSmooth(event.target.checked)} />平稳播放</label>
+      {voice.cameraSmooth && <p role="status">{voice.cameraBufferStatus === 'unsupported' ? '当前浏览器不支持视频缓冲设置，继续实时播放。' : voice.cameraBufferStatus === 'smooth' ? '已请求约 300 ms 视频缓冲，实际延迟由浏览器决定。画面可能稍落后于讲话，语音保持实时。' : '等待画面连接后设置视频缓冲。'}</p>}
+    </div>}
+    <details className="voice-camera-diagnostics"><summary>画质诊断</summary>
+      <p>每 3 秒更新；采集规格与实际传输规格分别统计。缓冲等待不代表端到端延迟。</p>
+      <dl>
+        {voice.cameraEnabled && <><dt>摄像头采集</dt><dd>{size(settings?.width, settings?.height)} · {value(settings?.frameRate, ' fps')}</dd></>}
+        <dt>{voice.cameraEnabled ? '编码发送' : '接收画面'}</dt><dd>{size(metrics?.width, metrics?.height)}</dd>
+        <dt>{voice.cameraEnabled ? '编码帧率' : '解码帧率'}</dt><dd>{value(metrics?.fps, ' fps')}</dd>
+        <dt>{voice.cameraEnabled ? '发送码率' : '接收码率'}</dt><dd>{value(metrics?.bitrate == null ? null : metrics.bitrate / 1_000_000, ' Mbps')}</dd>
+        {voice.cameraEnabled ? <><dt>编码限制原因</dt><dd>{limitation}</dd></> : <><dt>区间丢包率</dt><dd>{value(metrics?.lossPercent, '%')}</dd><dt>区间缓冲等待</dt><dd>{value(metrics?.bufferMs, ' ms')}</dd></>}
+      </dl>
+    </details>
   </figure>;
 }
 
@@ -85,7 +103,7 @@ export function VoiceLobby({ page = false, user, lobby, summary, suspended, onJo
           <section className="waiting-game-status"><span className="eyebrow">WAITING / 等待区</span><strong>{lobby?lobby.members.length:summary.available?summary.waiting:'—'}<small> 位同行者</small></strong><p>{waiting?'你已入队，浏览营地也会保留席位。':'加入后选择偏好，准备好就能出发。'}</p></section>
           <section className="waiting-game-status" aria-label="游玩区状态"><span className="eyebrow">EXPEDITION / 游玩区</span><strong>{game?game.stage==='transferring'?'正在入场':game.stage==='result'?'本局结算':game.stage==='closing'?'正在回厅':game.phase?PHASE_NAMES[game.phase]:'远征进行中':!lobby&&!summary.available?'等待连接':'等待出发'}</strong><p>{game?`${game.players} 人正在同行 · 本局结束后开放下一局`:'4–10 人 · 全员准备后倒数 10 秒'}</p></section>
         </div>
-        {joined && <LobbyCameraVideo voice={voice} />}
+        {joined && <LobbyCameraVideo voice={voice} connection={connection} />}
         {waiting&&<>
           <p role="status">{lobby.draining?'服务正在更新，暂停开局。':lobby.countdown!==null?`${lobby.countdown} 秒后进入游玩区`:(lobby.members.length<4?'至少 4 人才能出发。':'候选成员全部准备后倒数 10 秒。')}{self&&!self.candidate&&` 本局席位已满，你在候场队列第 ${lobby.members.filter(m=>!m.candidate).findIndex(m=>m.id===self.id)+1} 位，仍可自由聊天。`}</p>
           <label>职业偏好<select aria-label="职业偏好" value={self?.preference??''} disabled={lobby.countdown!==null&&self?.candidate} onChange={event=>send({type:'preference',profession:event.target.value?event.target.value as Profession:null})}><option value="">随意</option>{Object.entries(PROFESSION_NAMES).map(([id,name])=><option key={id} value={id}>{name}</option>)}</select></label>

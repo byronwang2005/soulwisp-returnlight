@@ -1,8 +1,9 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { beforeEach, expect, it, vi } from 'vitest';
+import type { CameraMetrics } from '../apps/web/src/lobby-camera-quality';
 import type { LobbyView } from '@wangxu/shared';
-const fake=vi.hoisted(()=>({buttons:new Map<string,()=>unknown>(),join:vi.fn(),leave:vi.fn(),camera:vi.fn(),stopCamera:vi.fn(),voice:{state:'idle',metrics:[],members:[],muted:true,info:{available:false},message:'',playbackBlocked:false,micBusy:false,listening:true,cameraOwner:null as {id:string;name:string;participantSid:string}|null,cameraTrack:null,cameraEnabled:false,cameraBusy:false}}));
+const fake=vi.hoisted(()=>({buttons:new Map<string,()=>unknown>(),join:vi.fn(),leave:vi.fn(),camera:vi.fn(),stopCamera:vi.fn(),voice:{state:'idle',metrics:[],members:[],muted:true,info:{available:false},message:'',playbackBlocked:false,micBusy:false,listening:true,cameraOwner:null as {id:string;name:string;participantSid:string}|null,cameraTrack:null,cameraEnabled:false,cameraBusy:false,cameraSmooth:true,cameraBufferStatus:'pending',cameraMetrics:null as CameraMetrics|null}}));
 vi.mock('react',async importOriginal=>({...await importOriginal<typeof import('react')>(),useSyncExternalStore:(_subscribe:unknown,snapshot:()=>unknown)=>snapshot()}));
 vi.mock('../apps/web/src/ActionButton',()=>({ActionButton:({children,onClick,iconKind,iconState,...props}:any)=>{if(typeof children==='string')fake.buttons.set(children,onClick);return createElement('button',{...props,onClick},children);}}));
 vi.mock('../apps/web/src/GameUI',()=>({PHASE_NAMES:{EXPLORE:'探索',PREP:'职业准备'}}));
@@ -10,7 +11,7 @@ vi.mock('../apps/web/src/lobby-voice',()=>({LobbyVoiceConnection:class{subscribe
 import { VoiceLobby } from '../apps/web/src/VoiceLobby';
 const lobby:LobbyView={selfId:'a',selfArea:'waiting',members:[{id:'a',name:'同行者甲',position:1,candidate:true,ready:false,preference:'warden'},{id:'b',name:'同行者乙',position:2,candidate:true,ready:true,preference:null}],countdown:null,game:null,draining:false};
 const props={page:true,user:{id:'a',name:'甲'} as any,lobby:null as LobbyView|null,summary:{waiting:2,game:null,available:true},suspended:false,onJoin:vi.fn(async()=>{}),onLeave:vi.fn(async()=>{}),send:vi.fn(),onError:vi.fn(),onLogin:vi.fn(),onConnection:vi.fn(),onActivityChange:vi.fn()};
-beforeEach(()=>{vi.clearAllMocks();fake.buttons.clear();Object.assign(fake.voice,{state:'idle',cameraOwner:null,cameraTrack:null,cameraEnabled:false,cameraBusy:false});vi.stubGlobal('sessionStorage',{getItem:()=>null,setItem:vi.fn(),removeItem:vi.fn()});});
+beforeEach(()=>{vi.clearAllMocks();fake.buttons.clear();Object.assign(fake.voice,{state:'idle',cameraOwner:null,cameraTrack:null,cameraEnabled:false,cameraBusy:false,cameraSmooth:true,cameraBufferStatus:'pending',cameraMetrics:null});vi.stubGlobal('sessionStorage',{getItem:()=>null,setItem:vi.fn(),removeItem:vi.fn()});});
 it('exposes the roster, preference and ready controls directly on the lobby page',()=>{
   const html=renderToStaticMarkup(createElement(VoiceLobby,{...props,lobby}));
   expect(html).toContain('远征大厅');expect(html).toContain('同行者甲');expect(html).toContain('职业偏好');expect(html).toContain('准备出征');expect(html).toContain('1 / 2 已准备');expect(html).not.toContain('<dialog');
@@ -46,6 +47,7 @@ it('offers camera sharing only after connecting voice and reports another owner 
   fake.voice.cameraOwner={id:'b',name:'同行者乙',participantSid:'sid-b'};
   const occupied=renderToStaticMarkup(createElement(VoiceLobby,{...props,lobby}));
   expect(occupied).toContain('同行者乙的摄像头共享');expect(occupied).toMatch(/<button[^>]*disabled=""[^>]*>同行者乙正在共享<\/button>/);
+  expect(occupied).toMatch(/<input[^>]*type="checkbox"[^>]*checked=""/);
   expect(occupied).toContain('playsInline=""');expect(occupied).toContain('muted=""');expect(occupied).toContain('controls=""');
 });
 
@@ -54,4 +56,14 @@ it('keeps a camera stop control visible in the compact waiting strip',()=>{
   const html=renderToStaticMarkup(createElement(VoiceLobby,{...props,page:false,lobby}));
   expect(html).toContain('摄像头开启');expect(html).toContain('aria-label="停止摄像头共享"');
   expect(html).toContain('你正在共享');
+});
+
+it('labels receive diagnostics separately and explains unsupported smoothing',()=>{
+  Object.assign(fake.voice,{state:'connected',cameraOwner:{id:'b',name:'乙',participantSid:'sid-b'},cameraSmooth:true,cameraBufferStatus:'unsupported'});
+  let html=renderToStaticMarkup(createElement(VoiceLobby,{...props,lobby}));
+  expect(html).toContain('平稳播放');expect(html).toContain('不支持视频缓冲设置');expect(html).toContain('画质诊断');
+  expect(html).toContain('解码帧率');expect(html).toContain('不可用');expect(html).not.toContain('摄像头采集');
+  fake.voice.cameraMetrics={direction:'receive',captureWidth:null,captureHeight:null,captureFps:null,width:1920,height:1080,fps:59.5,bitrate:9_500_000,limitation:null,lossPercent:1,bufferMs:300};
+  html=renderToStaticMarkup(createElement(VoiceLobby,{...props,lobby}));
+  expect(html).toContain('1920 × 1080');expect(html).toContain('59.5 fps');expect(html).toContain('9.5 Mbps');expect(html).toContain('300.0 ms');
 });

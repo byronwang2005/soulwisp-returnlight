@@ -4,6 +4,7 @@ import { AudioPresets, ConnectionState, DisconnectReason, Room, RoomEvent, Track
 import type { VoiceLobbyInfo, VoiceLobbyTicket, VoiceLobbyCameraOwner, VoiceLobbyCameraLease, VoiceLobbyCameraCommand } from '@wangxu/shared';
 import { request } from './api';
 import { LobbyStats, type LobbyTrackMetrics } from './lobby-stats';
+import { cameraBuffer, CameraStats, type CameraMetrics, type CameraBufferStatus } from './lobby-camera-quality';
 import {LobbySoundTracker} from './lobby-sounds';
 import {playLobbySound,unlockEffects,preloadSounds} from './sound-player';
 
@@ -14,10 +15,11 @@ export interface LobbySnapshot {
   metrics: LobbyTrackMetrics[]; connectMs: number | null;
   cameraOwner: VoiceLobbyCameraOwner | null; cameraTrack: LocalVideoTrack | RemoteVideoTrack | null;
   cameraEnabled: boolean; cameraBusy: boolean;
+  cameraMetrics: CameraMetrics | null; cameraSmooth: boolean; cameraBufferStatus: CameraBufferStatus;
 }
 export const LOBBY_CAMERA_CAPTURE: VideoCaptureOptions = { resolution: { width: 1920, height: 1080, frameRate: 60 }, frameRate: { ideal: 60, max: 60 }, facingMode: 'user' };
 export const LOBBY_CAMERA_PUBLISH: TrackPublishOptions = { source: Track.Source.Camera, videoCodec: 'h264',
-  videoEncoding: { maxBitrate: 3_000_000, maxFramerate: 60 }, simulcast: false, degradationPreference: 'maintain-resolution' };
+  videoEncoding: { maxBitrate: 10_000_000, maxFramerate: 60 }, simulcast: false, degradationPreference: 'maintain-resolution' };
 
 export function lobbyCameraOwner(metadata: string | undefined, epoch: string | null): VoiceLobbyCameraOwner | null {
   try {
@@ -38,7 +40,8 @@ export class LobbyVoiceConnection {
   room = new Room(LOBBY_ROOM_OPTIONS);
   private snapshot: LobbySnapshot = { info: { available: false, online: 0, capacity: 0, url: null }, state: 'idle',
     members: [], muted: true, listening: true, micBusy: false, playbackBlocked: false, message: '', metrics: [], connectMs: null,
-    cameraOwner: null, cameraTrack: null, cameraEnabled: false, cameraBusy: false };
+    cameraOwner: null, cameraTrack: null, cameraEnabled: false, cameraBusy: false,
+    cameraMetrics: null, cameraSmooth: true, cameraBufferStatus: 'pending' };
   private listeners = new Set<() => void>();
   private audio = new Map<string, { track: RemoteTrack; element: HTMLMediaElement }>();
   private stats = new LobbyStats();
@@ -57,6 +60,31 @@ export class LobbyVoiceConnection {
   private cameraTimer: ReturnType<typeof setInterval> | null = null;
   private cameraSequence = 0;
   private renewingCamera = false;
+  private cameraStats = new CameraStats();
+  private cameraStatsRevision = 0;
+  private restoreCameraBuffer: (() => void) | null = null;
+
+  private resetCameraQuality(): void {
+    this.cameraStats.clear(); this.cameraStatsRevision++;
+    this.restoreCameraBuffer?.(); this.restoreCameraBuffer = null;
+    this.update({ cameraMetrics: null, cameraBufferStatus: this.snapshot.cameraSmooth ? 'pending' : 'realtime' });
+  }
+
+  setCameraSmooth(smooth: boolean): void {
+    this.update({ cameraSmooth: smooth });
+    this.applyCameraBuffer();
+  }
+
+  private applyCameraBuffer(): void {
+    this.restoreCameraBuffer?.(); this.restoreCameraBuffer = null;
+    const track = this.snapshot.cameraTrack;
+    if (!track || this.snapshot.cameraEnabled || this.snapshot.state !== 'connected') {
+      this.update({ cameraBufferStatus: this.snapshot.cameraSmooth ? 'pending' : 'realtime' }); return;
+    }
+    const result = cameraBuffer(track as RemoteVideoTrack, this.snapshot.cameraSmooth);
+    this.restoreCameraBuffer = result.restore;
+    this.update({ cameraBufferStatus: result.status });
+  }
 
   private sounds=new LobbySoundTracker(playLobbySound);
 
@@ -95,10 +123,10 @@ export class LobbyVoiceConnection {
       if (room === this.room && publication.source === Track.Source.Camera && publication.track === this.localCamera && this.snapshot.cameraEnabled) void this.stopCamera();
     });
     room.on(RoomEvent.AudioPlaybackStatusChanged, () => { this.update({ playbackBlocked: !room.canPlaybackAudio }); });
-    const reconnecting = () => this.update({ state: 'reconnecting', message: '连接暂时中断，正在恢复…', metrics: [] });
+    const reconnecting = () => { this.resetCameraQuality(); this.update({ state: 'reconnecting', message: '连接暂时中断，正在恢复…', metrics: [] }); };
     room.on(RoomEvent.Reconnecting, reconnecting).on(RoomEvent.SignalReconnecting, reconnecting);
     room.on(RoomEvent.Reconnected, () => {
-      this.stats.clear(); this.update({ state: 'connected', message: '' }); this.syncMembers(true);
+      this.stats.clear(); this.resetCameraQuality(); this.update({ state: 'connected', message: '' }); this.syncMembers(true); this.applyCameraBuffer();
       if (this.cameraLease && (room.localParticipant.sid !== this.cameraLease.participantSid || this.snapshot.cameraOwner?.participantSid !== this.cameraLease.participantSid)) void this.stopCamera();
     });
     room.on(RoomEvent.Disconnected, reason => {
@@ -286,6 +314,7 @@ export class LobbyVoiceConnection {
     if (this.cameraTimer) clearInterval(this.cameraTimer);
     this.cameraTimer = null;
     track?.stop();
+    this.resetCameraQuality();
     this.update({ cameraEnabled: false, cameraTrack: null, cameraBusy: Boolean(track || lease) });
     // SFU revocation must not wait for a pending SDK publish/renegotiation.
     if (track) void room.localParticipant.unpublishTrack(track).catch(() => {});
@@ -302,7 +331,10 @@ export class LobbyVoiceConnection {
       const participant = this.room.remoteParticipants.get(owner.id);
       if (participant?.sid === owner.participantSid) track = participant.getTrackPublication(Track.Source.Camera)?.videoTrack ?? null;
     }
+    const changed = track !== this.snapshot.cameraTrack || owner?.participantSid !== this.snapshot.cameraOwner?.participantSid || owner?.id !== this.snapshot.cameraOwner?.id;
+    if (changed) this.resetCameraQuality();
     this.update({ cameraOwner: owner, cameraTrack: track });
+    if (changed) this.applyCameraBuffer();
   }
 
   toggleListening(): void {
@@ -364,16 +396,34 @@ export class LobbyVoiceConnection {
     audio.track.detach(audio.element); audio.element.remove(); this.audio.delete(id);
   }
   private clearMedia(): void {
+    this.resetCameraQuality();
     if (this.statsTimer) clearInterval(this.statsTimer);
     this.statsTimer = null;
     for (const id of this.audio.keys()) this.detach(id);
     this.stats.clear();
+  }
+  private async sampleCameraStats(): Promise<void> {
+    const track = this.snapshot.cameraTrack, revision = this.cameraStatsRevision;
+    if (!track) return;
+    const direction = this.snapshot.cameraEnabled ? 'send' : 'receive';
+    try {
+      const report = await track.getRTCStatsReport();
+      if (this.disposed || revision !== this.cameraStatsRevision || track !== this.snapshot.cameraTrack || this.snapshot.state !== 'connected') return;
+      if (!report) { this.cameraStats.clear(); this.update({ cameraMetrics: null }); return; }
+      const capture = direction === 'send' ? track.mediaStreamTrack.getSettings() : undefined;
+      this.update({ cameraMetrics: this.cameraStats.sample(report, direction, capture) });
+    } catch {
+      if (!this.disposed && revision === this.cameraStatsRevision && this.snapshot.state === 'connected') {
+        this.cameraStats.clear(); this.update({ cameraMetrics: null });
+      }
+    }
   }
   private async sampleStats(): Promise<void> {
     if (this.sampling || this.disposed || this.snapshot.state !== 'connected') return;
     this.sampling = true;
     const generation = this.generation;
     try {
+      await this.sampleCameraStats();
       const tracks = [...this.room.remoteParticipants.values()].flatMap(participant =>
         [...participant.audioTrackPublications.values()].filter(value => value.isSubscribed && value.audioTrack)
           .map(value => ({ track: value.audioTrack!, peer: participant.identity })));

@@ -58,10 +58,10 @@ beforeEach(() => {
 afterEach(() => { connections.splice(0).forEach(connection => connection.dispose()); vi.useRealTimers(); });
 
 describe('camera controller lifecycle without browser media', () => {
-  it('publishes a 1080p60 camera with a 3 Mbps cap independently of microphone and listening', async () => {
+  it('publishes a 1080p60 camera with a 10 Mbps cap independently of microphone and listening', async () => {
     const connection = await join(); await connection.toggleCamera();
     expect(fake.capture).toHaveBeenCalledWith(expect.objectContaining({ resolution: { width: 1920, height: 1080, frameRate: 60 } }));
-    expect(fake.publish).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ source: Track.Source.Camera, videoCodec: 'h264', videoEncoding: { maxBitrate: 3_000_000, maxFramerate: 60 }, simulcast: false }));
+    expect(fake.publish).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ source: Track.Source.Camera, videoCodec: 'h264', videoEncoding: { maxBitrate: 10_000_000, maxFramerate: 60 }, simulcast: false }));
     expect(connection.getSnapshot()).toMatchObject({ cameraEnabled: true, cameraBusy: false, muted: true });
     expect(connection.getSnapshot().cameraTrack).toBe(fake.publish.mock.calls[0][0]);
     expect(fake.mic).not.toHaveBeenCalled(); connection.toggleListening();
@@ -157,4 +157,64 @@ describe('camera controller lifecycle without browser media', () => {
     expect(lobbyCameraOwner('invalid', 'epoch')).toBeNull();
     expect(lobbyCameraOwner(JSON.stringify({ kind: 'public-lobby', epoch: 'old', camera: { id: 'remote', name: '远端', participantSid: 'sid-new' } }), 'epoch')).toBeNull();
   });
+});
+
+function receiveCamera(connection: LobbyVoiceConnection, id = 'other', sid = 'sid-other') {
+  const room = connection.room as any;
+  const receiver = { jitterBufferTarget: null };
+  const track = { kind: Track.Kind.Video, receiver, getRTCStatsReport: vi.fn(async () => new Map([['video', {
+    id: 'video', kind: 'video', type: 'inbound-rtp', timestamp: 1000, bytesReceived: 1000, frameWidth: 1920, frameHeight: 1080, framesPerSecond: 60,
+  }]])), setPlayoutDelay: vi.fn() };
+  room.remoteParticipants.set(id, { identity: id, sid, name: id, audioTrackPublications: new Map(), getTrackPublication: () => ({ videoTrack: track }) });
+  room.metadata = JSON.stringify({ kind: 'public-lobby', epoch: 'epoch', camera: { id, name: id, participantSid: sid } });
+  room.emit(RoomEvent.RoomMetadataChanged);
+  return track;
+}
+
+it('samples remote video every three seconds, applies buffering only to video and resets across owners', async () => {
+  const connection = await join(), first = receiveCamera(connection);
+  const audioReceiver = { jitterBufferTarget: 80, playoutDelayHint: .08 };
+  const peer = connection.room.remoteParticipants.get('other')!;
+  peer.audioTrackPublications.set('audio', { isSubscribed: true, audioTrack: { sid: 'audio', receiver: audioReceiver, getRTCStatsReport: async () => new Map() } } as any);
+  expect(connection.getSnapshot()).toMatchObject({ cameraSmooth: true, cameraBufferStatus: 'smooth', cameraMetrics: null });
+  expect(first.receiver.jitterBufferTarget).toBe(300);
+  await vi.advanceTimersByTimeAsync(3000);
+  expect(connection.getSnapshot().cameraMetrics).toMatchObject({ direction: 'receive', width: 1920, fps: 60, bitrate: null });
+  connection.setCameraSmooth(true); expect(first.receiver.jitterBufferTarget).toBe(300);
+  expect(connection.getSnapshot().cameraBufferStatus).toBe('smooth');
+  expect(fake.mic).not.toHaveBeenCalled(); expect(connection.getSnapshot().listening).toBe(true);
+  const next = receiveCamera(connection, 'next', 'sid-next');
+  expect(first.receiver.jitterBufferTarget).toBeNull(); expect(next.receiver.jitterBufferTarget).toBe(300);
+  expect(audioReceiver).toEqual({ jitterBufferTarget: 80, playoutDelayHint: .08 });
+  expect(connection.getSnapshot().cameraMetrics).toBeNull();
+  connection.setCameraSmooth(false); expect(next.receiver.jitterBufferTarget).toBe(0);
+  connection.leave(); expect(next.receiver.jitterBufferTarget).toBeNull();
+  expect(connection.getSnapshot().cameraMetrics).toBeNull();
+});
+
+it('discards statistics pending across reconnect, reapplies buffering and clears unavailable reports', async () => {
+  const connection = await join(), track = receiveCamera(connection), room = connection.room as any;
+  connection.setCameraSmooth(true);
+  let finish!: (report: any) => void;
+  track.getRTCStatsReport.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await vi.advanceTimersByTimeAsync(3000);
+  room.emit(RoomEvent.Reconnecting); expect(track.receiver.jitterBufferTarget).toBeNull();
+  expect(connection.getSnapshot().cameraMetrics).toBeNull();
+  room.emit(RoomEvent.Reconnected); expect(track.receiver.jitterBufferTarget).toBe(300);
+  finish(new Map([['video', { id: 'stale', type: 'inbound-rtp', kind: 'video', frameWidth: 320 }]]));
+  await vi.advanceTimersByTimeAsync(0); expect(connection.getSnapshot().cameraMetrics).toBeNull();
+  await vi.advanceTimersByTimeAsync(3000); expect(connection.getSnapshot().cameraMetrics?.width).toBe(1920);
+  track.getRTCStatsReport.mockRejectedValueOnce(new Error('stats unavailable'));
+  await vi.advanceTimersByTimeAsync(3000); expect(connection.getSnapshot().cameraMetrics).toBeNull();
+  room.metadata = JSON.stringify({ kind: 'public-lobby', epoch: 'epoch', camera: null }); room.emit(RoomEvent.RoomMetadataChanged);
+  expect(connection.getSnapshot().cameraMetrics).toBeNull(); expect(track.receiver.jitterBufferTarget).toBeNull();
+});
+
+it('samples sender capture separately from encoding and clears it immediately on stop', async () => {
+  const connection = await join();
+  const track = { ...cameraTrack(), getRTCStatsReport: vi.fn(async () => new Map([['video', { id: 'video', kind: 'video', type: 'outbound-rtp', timestamp: 1000, frameWidth: 1280, frameHeight: 720, framesPerSecond: 30, qualityLimitationReason: 'cpu' }]])) };
+  fake.capture.mockResolvedValueOnce(track); await connection.toggleCamera();
+  await vi.advanceTimersByTimeAsync(3000);
+  expect(connection.getSnapshot().cameraMetrics).toMatchObject({ direction: 'send', captureWidth: 1920, captureFps: 60, width: 1280, fps: 30, limitation: 'cpu' });
+  await connection.stopCamera(); expect(connection.getSnapshot().cameraMetrics).toBeNull();
 });
